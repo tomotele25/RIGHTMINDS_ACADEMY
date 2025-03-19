@@ -20,28 +20,32 @@ const Navbar = () => {
                   Home
                 </a>
                 <a
-                  href="#"
+                  href="#about"
                   className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   About
                 </a>
                 <a
-                  href="#"
+                  href="#features"
                   className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Services
+                  Features
                 </a>
                 <a
-                  href="#"
+                  href="#contact"
                   className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Contact
                 </a>
               </span>
               <span className="text-white flex gap-3">
-                <span>login </span>
+                <span>
+                  <Link href="/Login">login </Link>
+                </span>
                 <div className="border-l-2 border-slate-300"></div>
-                <span>Signup </span>
+                <span>
+                  <Link href="/Signup">Sign Up </Link>
+                </span>
               </span>
             </div>
           </div>

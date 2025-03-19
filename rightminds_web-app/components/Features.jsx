@@ -28,7 +28,7 @@ const Features = () => {
     },
   ];
   return (
-    <div className="  px-6 sm:px-8 lg:px-10 grid gap-10 p-10 ">
+    <div id="features" className="  px-6 sm:px-8 lg:px-10 grid gap-10 p-10 ">
       <div className="flex justify-center">
         <h1 className="text-3xl sm:text-4xl">Why Choose Us</h1>
       </div>
