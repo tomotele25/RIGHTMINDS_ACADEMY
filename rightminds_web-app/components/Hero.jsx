@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 const Hero = () => {
   return (
     <div className=" py-12 lg:py-0 px-6 sm:px-8 lg:px-10 pt-16  sm:pt-0 lg:pt-0">
@@ -21,10 +22,10 @@ const Hero = () => {
           </p>
           <span className="flex justify-center sm:justify-normal lg:justify-normal gap-3">
             <button className="bg-slate-800 text-white px-10 py-2 rounded-lg ">
-              Login
+              <Link href="/Login">Login</Link>
             </button>
             <button className="bg-slate-800 text-white px-10 py-2 rounded-lg ">
-              Signup
+              <Link href="/Signup">Signup</Link>
             </button>
           </span>
         </div>
