@@ -43,7 +43,7 @@ export default function Home() {
         <div>
           <Contact />
         </div>
-        <div>
+        <div className="">
           <Lp_Footer />
         </div>
       </main>

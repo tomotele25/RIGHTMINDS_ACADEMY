@@ -4,15 +4,16 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 const Layout = ({ children }) => {
   return (
-    <div className="grid bg-red-200">
-      <div className="h-[15vh]">
-        <Header />
+    <div className="flex h-full">
+      <div className=" ">
+        <Sidebar />
       </div>
-      <div className="flex ">
-        <div className="h-[85vh] bg-green-500 w-[20vw]">
-          <Sidebar />
+
+      <div className="grid h-full  w-full ">
+        <div className="w-full">
+          <Header />
         </div>
-        <div className="h-[85vh] w-[80vw] bg-blue-500">{children}</div>
+        <div className="">{children}</div>
       </div>
     </div>
   );

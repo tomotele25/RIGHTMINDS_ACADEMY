@@ -21,12 +21,18 @@ const Hero = () => {
             labore aliquid
           </p>
           <span className="flex justify-center sm:justify-normal lg:justify-normal gap-3">
-            <button className="bg-slate-800 text-white px-10 py-2 rounded-lg ">
-              <Link href="/Login">Login</Link>
-            </button>
-            <button className="bg-slate-800 text-white px-10 py-2 rounded-lg ">
-              <Link href="/Signup">Signup</Link>
-            </button>
+            <Link
+              href="/Login"
+              className="bg-slate-800 text-white px-10 py-2 rounded-lg "
+            >
+              Login
+            </Link>
+            <Link
+              href="/Signup"
+              className="bg-slate-800 text-white px-10 py-2 rounded-lg "
+            >
+              Signup
+            </Link>
           </span>
         </div>
         <div className=" pt-6 sm:pt-0 lg:pt-0">
