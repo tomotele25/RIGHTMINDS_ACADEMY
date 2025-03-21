@@ -8,8 +8,8 @@ const Card = ({ image, heading, sub_heading }) => {
           <img src={image} width={50} height={50} alt="" />
         </span>
         <span>
-          <h1>{heading}</h1>
-          <p>{sub_heading}</p>
+          <h1 className="text-black">{heading}</h1>
+          <p> {sub_heading}</p>
         </span>
       </div>
     </div>

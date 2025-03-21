@@ -35,7 +35,7 @@ const Features = () => {
   return (
     <div id="features" className="  px-6 sm:px-8 lg:px-10 grid gap-10 p-10 ">
       <div className="flex justify-center">
-        <h1 className="text-3xl sm:text-4xl">Why Choose Us</h1>
+        <h1 className="text-3xl sm:text-4xl text-black">Why Choose Us</h1>
       </div>
       <div className="grid sm:grid sm:grid-cols-2 lg:flex gap-9">
         {cardContent.map((content, index) => {

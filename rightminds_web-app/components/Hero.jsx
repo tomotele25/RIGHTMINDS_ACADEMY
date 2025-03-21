@@ -6,7 +6,7 @@ const Hero = () => {
     <div className=" py-12 lg:py-0 px-6 sm:px-8 lg:px-10 pt-16  sm:pt-0 lg:pt-0">
       <div></div>
       <div className="sm:flex  h-full items-center  sm:justify-between  sm:py-28">
-        <div className="grid gap-6 sm:gap-8  text-slate-700">
+        <div className="grid gap-6 sm:gap-8  text-black">
           {/* <span className="sm:flex gap-2">
             <span>News</span>
             <span>we have updated the terms condition privacy</span>

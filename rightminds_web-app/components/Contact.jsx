@@ -9,9 +9,9 @@ const Contact = () => {
         </h1>
       </div>
 
-      <div className=" grid gap-10 w-full  sm:flex sm:justify-between lg:flex lg:justify-between    p-7 ">
-        <form className="grid w-full lg:w-10/12  gap-5  bg-slate-50 shadow-2xl p-3 py-10">
-          <span className=" grid sm:flex sm:gap-10">
+      <div className=" grid gap-10 w-full  sm:flex sm:justify-between lg:flex lg:justify-between   text-black p-7 ">
+        <form className="grid w-full text-black lg:w-10/12  gap-5  bg-slate-50 shadow-2xl p-3 py-10">
+          <span className=" grid  sm:flex sm:gap-10">
             <span className="grid gap-3">
               <label htmlFor="">Full Name</label>
               <input className="border-2 rounded-md border-black" type="text" />

@@ -6,7 +6,7 @@ const About = () => {
         <h1>About us</h1>
       </div>
       <div className="grid px-6 py-10 lg:gap-16 sm:px-8 lg:px-10 sm:flex sm:justify-between lg:justify-between lg:flex w-full">
-        <div className=" w-full lg:w-8/12 sm:w-8/12">
+        <div className=" text-black w-full lg:w-8/12 sm:w-8/12">
           <p className="leading-relaxed text-lg">
             <span className=" text-2xl sm:text-4xl">
               Welcome to Rightminds academy
