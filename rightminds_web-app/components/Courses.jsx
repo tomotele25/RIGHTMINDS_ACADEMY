@@ -30,7 +30,7 @@ const Courses = () => {
   ];
   return (
     <div className=" px-6 sm:px-8 lg:px-10 grid gap-10 p-10 ">
-      <div className="flex justify-center text-3xl sm:text-4xl">
+      <div className="text-black flex justify-center text-3xl sm:text-4xl">
         <h1>Courses</h1>
       </div>
       <div className="grid sm:grid sm:grid-cols-2 lg:flex gap-9">

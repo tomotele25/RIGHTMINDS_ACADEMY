@@ -1,14 +1,14 @@
 import Image from "next/image";
 const About = () => {
   return (
-    <div id="about" className=" h-auto pt-5 w-full bg-slate-50">
+    <div id="about" className=" h-auto pt-5 w-full  text-black bg-slate-50">
       <div className="flex justify-center text-4xl font-semibold sm:text-4xl ">
-        <h1>About us</h1>
+        <h1 className="text-black">About us</h1>
       </div>
       <div className="grid px-6 py-10 lg:gap-16 sm:px-8 lg:px-10 sm:flex sm:justify-between lg:justify-between lg:flex w-full">
-        <div className=" text-black w-full lg:w-8/12 sm:w-8/12">
-          <p className="leading-relaxed text-lg">
-            <span className=" text-2xl sm:text-4xl">
+        <div className=" w-full lg:w-8/12 sm:w-8/12">
+          <p className="text-black leading-relaxed text-lg">
+            <span className="  text-2xl sm:text-4xl">
               Welcome to Rightminds academy
             </span>
             , where innovation meets excellence. As a team of software

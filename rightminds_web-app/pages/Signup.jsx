@@ -8,12 +8,12 @@ const Signup = () => {
         <div className=" h-full flex flex-col text-nowrap justify-center px-2 sm:px-0 items-center">
           <form className="grid gap-5  bg-white shadow-2xl rounded-lg  sm:w-5/12  p-4 py-10 ">
             <div className="flex justify-center">
-              <h1 className=" text-2xl sm:text-3xl font-semibold">
+              <h1 className=" text-black text-2xl sm:text-3xl font-semibold">
                 Create an account
               </h1>
             </div>
             <span className="grid gap-4">
-              <label htmlFor="" className="text-sm">
+              <label htmlFor="" className="text-black text-sm">
                 Your email
               </label>
               <input
@@ -23,7 +23,7 @@ const Signup = () => {
               />
             </span>
             <span className="grid gap-4">
-              <label htmlFor="" className="text-sm">
+              <label htmlFor="" className="text-black text-sm">
                 Password
               </label>
               <input
@@ -33,7 +33,7 @@ const Signup = () => {
               />
             </span>
             <span className="grid gap-4">
-              <label htmlFor="" className="text-sm">
+              <label htmlFor="" className=" text-black text-sm">
                 Confirm password
               </label>
               <input
@@ -45,7 +45,7 @@ const Signup = () => {
             <span className="flex justify-between  items-baseline ">
               <span className="flex items-baseline gap-3 sm:gap-3">
                 <input type="checkbox" name="" id="" />
-                <label htmlFor="">
+                <label htmlFor="" className="text-black">
                   I accept the{" "}
                   <span className="text-blue-600">Terms and Condition</span>
                 </label>
@@ -56,7 +56,7 @@ const Signup = () => {
                 Create an account
               </button>
             </span>
-            <span className="flex gap-3  justify-center">
+            <span className="flex gap-3 text-black  justify-center">
               <p>Already have an account ? </p>
               <Link href="/Login">Login here</Link>
             </span>

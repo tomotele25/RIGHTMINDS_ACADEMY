@@ -9,7 +9,7 @@ const Card = ({ image, heading, sub_heading }) => {
         </span>
         <span>
           <h1 className="text-black">{heading}</h1>
-          <p> {sub_heading}</p>
+          <p className="text-slate-900"> {sub_heading}</p>
         </span>
       </div>
     </div>

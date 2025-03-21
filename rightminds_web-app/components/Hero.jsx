@@ -3,18 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 const Hero = () => {
   return (
-    <div className=" py-12 lg:py-0 px-6 sm:px-8 lg:px-10 pt-16  sm:pt-0 lg:pt-0">
+    <div className=" py-12 lg:py-0 px-6 sm:px-8 bg-white lg:px-10 pt-16  sm:pt-0 lg:pt-0">
       <div></div>
       <div className="sm:flex  h-full items-center  sm:justify-between  sm:py-28">
-        <div className="grid gap-6 sm:gap-8  text-black">
+        <div className="grid gap-6 sm:gap-8  ">
           {/* <span className="sm:flex gap-2">
             <span>News</span>
             <span>we have updated the terms condition privacy</span>
           </span> */}
-          <h1 className=" text-3xl leading-normal  text-center lg:text-left sm:text-left   sm:text-4xl font-semibold sm:leading-snug ">
+          <h1 className=" text-black text-3xl leading-normal  text-center lg:text-left sm:text-left   sm:text-4xl font-semibold sm:leading-snug ">
             A New Way to Learn, Engage <br /> and Experience Education{" "}
           </h1>
-          <p className=" text-base  text-center lg:text-left sm:text-left ">
+          <p className=" text-base  text-black text-center lg:text-left sm:text-left ">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Earum
             iusto sint <br /> dolore expedita quae sapiente repellat, deleniti
             recusandae ipsam <br />
