@@ -31,13 +31,15 @@ const Contact = () => {
           </span>
         </form>
         <div className="lg:w-10/12 text-white  p-5 grid gap-2  ">
-          <h1>Call Us</h1>
-          <p>09152580773 </p>
-          <p>we are available 24/7 from monday to sunday</p>
-          <p>chat with us</p>
-          <p>whatsapp:send us a message</p>
-          <p>linkedin:send us a message</p>
-          <p>instagram:send us a message</p>
+          <h1 className="text-white">Call Us</h1>
+          <p className="text-white">09152580773 </p>
+          <p className="text-white">
+            we are available 24/7 from monday to sunday
+          </p>
+          <p className="text-white">chat with us</p>
+          <p className="text-white">whatsapp:send us a message</p>
+          <p className="text-white">linkedin:send us a message</p>
+          <p className="text-white">instagram:send us a message</p>
         </div>
       </div>
     </div>
