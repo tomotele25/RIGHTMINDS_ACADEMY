@@ -30,7 +30,7 @@ const Contact = () => {
             <textarea name="" className="bg-white" draggable id=""></textarea>
           </span>
         </form>
-        <div className="lg:w-10/12 text-black  p-5 grid gap-2  ">
+        <div className="lg:w-10/12 text-white  p-5 grid gap-2  ">
           <h1>Call Us</h1>
           <p>09152580773 </p>
           <p>we are available 24/7 from monday to sunday</p>
