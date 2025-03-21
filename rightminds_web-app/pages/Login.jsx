@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Login = () => {
   return (
-    <div className="bg-black">
+    <div className="">
       <div className="h-[100vh] ">
         <div className=" h-full flex flex-col justify-center text-nowrap  px-2 sm:px-0 items-center">
           <form className="grid gap-5  bg-white shadow-2xl rounded-lg sm:w-5/12 pl-5 p-5 py-10 ">
