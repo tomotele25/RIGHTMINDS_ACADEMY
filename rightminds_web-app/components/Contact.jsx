@@ -4,7 +4,7 @@ const Contact = () => {
   return (
     <div id="contact">
       <div>
-        <h1 className="text-3xl bg-white sm:text-4xl pt-10 flex justify-center">
+        <h1 className="text-3xl text-black bg-white sm:text-4xl pt-10 flex justify-center">
           Get In Touch
         </h1>
       </div>
@@ -18,7 +18,10 @@ const Contact = () => {
             </span>
             <span className="grid gap-3">
               <label htmlFor="">Email Address</label>
-              <input className="border-2 rounded-md border-black" type="text" />
+              <input
+                className=" border-2 rounded-md border-black"
+                type="text"
+              />
             </span>
           </span>
           <span className="grid gap-3">
@@ -27,7 +30,12 @@ const Contact = () => {
           </span>
           <span className="grid gap-3">
             <label htmlFor="">Message</label>
-            <textarea name="" className="bg-white" draggable id=""></textarea>
+            <textarea
+              name=""
+              className="bg-white border-2 rounded-md border-black"
+              draggable
+              id=""
+            ></textarea>
           </span>
         </form>
         <div className="lg:w-10/12 text-white  p-5 grid gap-2  ">
