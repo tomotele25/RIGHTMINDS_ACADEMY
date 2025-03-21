@@ -9,7 +9,7 @@ const Contact = () => {
         </h1>
       </div>
 
-      <div className=" grid gap-10 w-full  sm:flex sm:justify-between lg:flex lg:justify-between   text-black p-7 ">
+      <div className=" grid gap-10 w-full bg-white  sm:flex sm:justify-between lg:flex lg:justify-between   text-black p-7 ">
         <form className="grid w-full text-black lg:w-10/12  gap-5  bg-slate-50 shadow-2xl p-3 py-10">
           <span className=" grid  sm:flex sm:gap-10">
             <span className="grid gap-3">
@@ -31,15 +31,15 @@ const Contact = () => {
           </span>
         </form>
         <div className="lg:w-10/12 text-white  p-5 grid gap-2  ">
-          <h1 className="text-white">Call Us</h1>
-          <p className="text-white">09152580773 </p>
-          <p className="text-white">
+          <h1 className="text-black">Call Us</h1>
+          <p className="text-black">09152580773 </p>
+          <p className="text-black">
             we are available 24/7 from monday to sunday
           </p>
-          <p className="text-white">chat with us</p>
-          <p className="text-white">whatsapp:send us a message</p>
-          <p className="text-white">linkedin:send us a message</p>
-          <p className="text-white">instagram:send us a message</p>
+          <p className="text-black">chat with us</p>
+          <p className="text-black">whatsapp:send us a message</p>
+          <p className="text-black">linkedin:send us a message</p>
+          <p className="text-black">instagram:send us a message</p>
         </div>
       </div>
     </div>

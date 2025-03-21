@@ -29,7 +29,7 @@ const Courses = () => {
     },
   ];
   return (
-    <div className=" px-6 sm:px-8 lg:px-10 grid gap-10 p-10 ">
+    <div className=" px-6 bg-white sm:px-8 lg:px-10 grid gap-10 p-10 ">
       <div className="text-black flex justify-center text-3xl sm:text-4xl">
         <h1>Courses</h1>
       </div>
