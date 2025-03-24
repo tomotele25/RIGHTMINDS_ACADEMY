@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
         } transition-transform lg:translate-x-0 lg:relative lg:w-64 shadow-lg`}
       >
         <div className="flex justify-between items-center pb-4 border-b">
-          <h2 className="text-xl font-semibold">Dashboard</h2>
+          <h2 className="text-xl font-semibold text-black">Dashboard</h2>
           <button
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             className="lg:hidden bg-slate-700"
@@ -110,7 +110,7 @@ const Layout = ({ children }) => {
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             className="lg:hidden bg-slate-500"
           >
-            <FiMenu size={30} className="bg-white" />
+            <FiMenu size={30} color="black" className="bg-white" />
           </button>
           <h2 className="text-xl font-semibold text-black">RightMinds</h2>
           <div className="flex items-center space-x-4">
