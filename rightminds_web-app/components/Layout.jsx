@@ -1,7 +1,7 @@
 import { use, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import { Menu, X } from "lucide-react";
+import { FiMenu, FiX } from "react-icons/fi";
 
 const Layout = ({ children }) => {
   const router = useRouter();
@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             className="lg:hidden bg-slate-700"
           >
-            menu
+            <FiX color="black" size={30} className="bg-white" />
           </button>
         </div>
         <nav className="mt-4">
@@ -57,7 +57,7 @@ const Layout = ({ children }) => {
                     <img src={link.icon} key={index} alt="" />
                     <Link
                       href={`/${link.name}`}
-                      className="text-base font-medium"
+                      className="text-base font-medium text-black"
                     >
                       {link.name}
                     </Link>
@@ -110,9 +110,9 @@ const Layout = ({ children }) => {
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             className="lg:hidden bg-slate-500"
           >
-            menu
+            <FiMenu size={30} className="bg-white" />
           </button>
-          <h2 className="text-xl font-semibold">RightMinds</h2>
+          <h2 className="text-xl font-semibold text-black">RightMinds</h2>
           <div className="flex items-center space-x-4">
             <span className="text-gray-700">
               <img src="/ProfilePic.svg" width={30} height={30} alt="" />
