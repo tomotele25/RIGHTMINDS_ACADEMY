@@ -1,46 +1,84 @@
 import React from "react";
-
+import Link from "next/link";
+import { useState } from "react";
 const Header = () => {
+  const [isOpened, setIsOpened] = useState(false);
   return (
-    <div className="flex sm:absolute sm:right-0 bg-slate-600 justify-between items-center pt-1 px-6 sm:px-8 lg:px-10 h-[10vh]  sm:w-[75vw]  ">
-      <div className="flex sm:hidden">
-        <h1>Rightminds</h1>
+    <nav className=" fixed shadow-md bg-white z-50 w-full">
+      <div className="  mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="text-black  font-semibold text-2xl ">RM</div>
+          </div>
+          <div className="hidden md:block ">
+            <div className="ml-10 flex ">
+              <span className="justify-center flex items-center gap-5">
+                <span className="text-black">
+                  Tomotele <br /> Christopher
+                </span>
+                <span>
+                  <img src="users.svg" width={30} height={30} alt="" />
+                </span>
+              </span>
+            </div>
+          </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpened(!isOpened)}
+              className="text-gray-300 hover:text-white focus:outline-none"
+            >
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
-      <div className=" hidden sm:flex   h-10 py-2   px-6 items-center justify-center  gap-3  rounded-lg shadow-md">
-        <button>
-          <img src="/search.svg" alt="" />
-        </button>
-        <input type="text" placeholder="search" className="outline-none " />
-      </div>
-      <div className="hidden sm:flex p-2">
-        <span className="flex gap-4 sm:gap-6">
-          <img height={20} width={20} src="/message-circle.svg" alt="" />
-          <img height={20} width={20} src="/bell.svg" alt="" />
-          <p className="text-nowrap text-right pt-2 text-sm">
-            chris chris <br /> Admin
-          </p>
-          <img src="users.svg" height={20} width={20} alt="" />
-        </span>
-      </div>
-      <div className=" flex sm:hidden  ">
-        <button className="text-gray-800 hover:text-white focus:outline-none">
-          <svg
-            className="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+
+      {/* Mobile Menu */}
+      {isOpened && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <a
+              href="#"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              Home
+            </a>
+            <a
+              href="#"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              About
+            </a>
+            <a
+              href="#"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              Services
+            </a>
+            <a
+              href="#"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              Contact
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 
