@@ -2,27 +2,35 @@ import { use, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FiMenu, FiX } from "react-icons/fi";
-
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 const Layout = ({ children }) => {
-  const router = useRouter();
+  const pathname = usePathname();
   const menuItems = [
     { id: "/", icon: "shield.svg", name: "Dashboard" },
-    { id: "/students", icon: "Users.svg", name: "Students" },
-    { id: "/course", icon: "book-open.svg", name: "Courses" },
-    { id: "/quiz", icon: "brain.svg", name: "quiz" },
-    { id: "/anouncement", icon: "bell.svg", name: "Anouncement" },
+    { id: "/students", icon: "users.svg", name: "Students" },
+    { id: "/Course", icon: "book-open.svg", name: "Courses" },
+    { id: "/Quiz", icon: "brain.svg", name: "quiz" },
+    { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
     {
-      id: "/progress tracker",
-      icon: "chart-line.svg",
+      id: "/Progress_Tracker",
+      icon: "/chart-line.svg",
       name: "Progress Tracker",
     },
     { id: "/settings", icon: "shield.svg", name: "Settings" },
-    { id: "/discussion and forum", icon: "", name: "Discusion and Forum" },
-    { id: "/profile", icon: "circle-user-round.svg", name: "Profile" },
+    {
+      id: "/discussion and forum",
+      icon: "/earth.svg",
+      name: "Discusion and Forum",
+    },
+    { id: "/Profile", icon: "circle-user-round.svg", name: "Profile" },
     { id: "/logout", icon: "log-out.svg", name: "Logout" },
   ];
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [isActive, setIsActive] = useState("/");
+  const [isActive, setIsActive] = useState(pathname);
+  useEffect(() => {
+    setIsActive(pathname); // Update active link when pathname changes
+  }, [pathname]);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -56,7 +64,7 @@ const Layout = ({ children }) => {
                   >
                     <img src={link.icon} key={index} alt="" />
                     <Link
-                      href={`/${link.name}`}
+                      href={`${link.id}`}
                       className="text-base font-medium text-black"
                     >
                       {link.name}
