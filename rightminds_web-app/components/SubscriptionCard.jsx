@@ -1,12 +1,13 @@
 import React from "react";
 
-const CourseCard = ({ image, heading, sub_heading }) => {
+const SubscriptionCard = ({ icon, heading, sub_heading }) => {
   return (
     <div class="max-w-sm  border border-gray-200 rounded-lg shadow-sm  bg-white">
-      <a href="#">
-        <img class="rounded-t-lg" src={image} alt="" />
-      </a>
-
+      {/* <a href="#">
+        <img class=
+        "rounded-t-lg" src={image} alt="" />
+      </a> */}
+      <div className="flex justify-center pt-5">{icon}</div>
       <div class="p-5">
         <a href="#">
           <h5 class="mb-2 text-2xl font-bold tracking-tight text-black ">
@@ -40,4 +41,4 @@ const CourseCard = ({ image, heading, sub_heading }) => {
   );
 };
 
-export default CourseCard;
+export default SubscriptionCard;

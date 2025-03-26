@@ -2,12 +2,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import Reviews from "@/components/Reviews";
+import Reviews from "@/components/Subscription";
 import Features from "@/components/Features";
 import Courses from "@/components/Courses";
 
 import Lp_Footer from "@/components/Lp_Footer";
 import Contact from "@/components/Contact";
+import Subscription from "@/components/Subscription";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,11 +38,9 @@ export default function Home() {
         <div>
           <Courses />
         </div>
-        {/* <div>
-          <Reviews />
-        </div> */}
+
         <div>
-          <Contact />
+          <Subscription />
         </div>
         <div className="">
           <Lp_Footer />

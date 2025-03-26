@@ -51,7 +51,7 @@ const Layout = ({ children }) => {
         </div>
         <nav className="mt-4">
           <ul className="space-y-4">
-            <li className="flex flex-col justify-center h-full  gap-5 pt-5 ">
+            <li className="flex flex-col justify-center h-full  gap-10 pt-12 sm:gap-5 sm:pt-5 ">
               {menuItems.map((link, index) => {
                 return (
                   <span
