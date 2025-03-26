@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubscriptionCard = ({ icon, heading, sub_heading }) => {
+const SubscriptionCard = ({ icon, heading, sub_heading, price }) => {
   return (
     <div class="max-w-sm  border border-gray-200 rounded-lg shadow-sm  bg-white">
       {/* <a href="#">
@@ -14,6 +14,7 @@ const SubscriptionCard = ({ icon, heading, sub_heading }) => {
             {heading}
           </h5>
         </a>
+        <span className="text-lg text-black">{price}</span>
         <p class="mb-3 font-normal text-gray-700 ">{sub_heading}</p>
         <a
           href="#"

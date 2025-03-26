@@ -7,25 +7,28 @@ import SubscriptionCard from "./SubscriptionCard";
 const Subscription = () => {
   const courseContent = [
     {
+      price: "₦300/day ",
       image: "/course_card.png",
       icon: <FaCrown size={40} color="gold" />,
-      heading: "Elite",
+      heading: "Anually",
       sub_heading:
-        " Enjoy VIP access to premium content, mentorship, and advanced learning",
+        " The best value! Get a full year of premium access and exclusive benefits",
     },
     {
+      price: "₦8,000/month ",
       image: "/course_card1.png",
       icon: <FaGraduationCap size={40} color="green" />,
-      heading: " Premium",
+      heading: " Monthly",
       sub_heading:
-        "Dive deeper with exclusive courses, expert insights, and personalized support",
+        "Enjoy unlimited access to all features for an entire month—great for regular learners!",
     },
     {
+      price: "₦45,000/year ",
       image: "course_card2.png",
       icon: <FaBook size={40} color="blue" />,
-      heading: "Basic",
+      heading: "Daily",
       sub_heading:
-        "Get free access to essential learning materials and community updates",
+        "Get full access for a day—perfect for quick learning or short-term needs!",
     },
   ];
   return (
@@ -39,6 +42,7 @@ const Subscription = () => {
             <div className="grid sm:flex gap-5" key={index}>
               <SubscriptionCard
                 icon={content.icon}
+                price={content.price}
                 image={content.image}
                 heading={content.heading}
                 sub_heading={content.sub_heading}
