@@ -8,12 +8,13 @@ const Subscription = () => {
   const courseContent = [
     {
       price: "₦300/day ",
-      image: "/course_card.png",
-      icon: <FaCrown size={40} color="gold" />,
-      heading: "Anually",
+      image: "course_card2.png",
+      icon: <FaBook size={40} color="blue" />,
+      heading: "Daily",
       sub_heading:
-        " The best value! Get a full year of premium access and exclusive benefits",
+        "Get full access for a day—perfect for quick learning or short-term needs!",
     },
+
     {
       price: "₦8,000/month ",
       image: "/course_card1.png",
@@ -24,11 +25,11 @@ const Subscription = () => {
     },
     {
       price: "₦45,000/year ",
-      image: "course_card2.png",
-      icon: <FaBook size={40} color="blue" />,
-      heading: "Daily",
+      image: "/course_card.png",
+      icon: <FaCrown size={40} color="gold" />,
+      heading: "Anually",
       sub_heading:
-        "Get full access for a day—perfect for quick learning or short-term needs!",
+        " The best value! Get a full year of premium access and exclusive benefits",
     },
   ];
   return (
