@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 const Hero = () => {
   return (
-    <div className=" py-12 lg:py-0 px-6 sm:px-8 bg-white lg:px-10 pt-16  sm:pt-0 lg:pt-0">
+    <div className=" py-12 lg:py-0 px-6 sm:px-8 bg-white lg:px-10 pt-20  sm:pt-0 lg:pt-20">
       <div></div>
       <div className="sm:flex  h-full items-center  sm:justify-between  sm:py-28">
         <div className="grid gap-6 sm:gap-8  ">

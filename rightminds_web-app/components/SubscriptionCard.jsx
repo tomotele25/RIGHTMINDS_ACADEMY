@@ -14,13 +14,13 @@ const SubscriptionCard = ({ icon, heading, sub_heading, price }) => {
             {heading}
           </h5>
         </a>
-        <span className="text-lg text-black">{price}</span>
-        <p class="mb-3 font-normal text-gray-700 ">{sub_heading}</p>
+        <span className="text-xl text-black">{price}</span>
+        <p class="mb-3 font-normal text-base text-gray-700 ">{sub_heading}</p>
         <a
           href="#"
           class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-slate-800 hover:bg-slate-600 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Read more
+          Join now
           <svg
             class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
             aria-hidden="true"

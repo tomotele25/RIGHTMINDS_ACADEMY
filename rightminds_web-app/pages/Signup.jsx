@@ -5,45 +5,42 @@ import axios from "axios";
 import { useRouter } from "next/router";
 const Signup = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const payload = { email, password };
   const BACKENDURL = "http://localhost:5000";
   const router = useRouter();
   const submitForm = async (e) => {
     e.preventDefault();
-    router.push("/Student_Dashboard");
+    setLoading(true);
+    // router.push("/Student_Dashboard");
     try {
-      const payload = { email, password };
-      await axios.post(`${BACKENDURL}/signup`, payload);
+      const response = await axios.post(
+        `${BACKENDURL}/api/auth/signup`,
+        payload
+      );
+      response && response?.data?.message && alert(response?.data?.message);
+      // response && toast.success(response?.data?.message);
     } catch (error) {
       console.error(error);
+      alert(error?.response?.data?.message || "something went wrong!");
+      // toast.error(error?.response?.data?.message || "something went wrong!");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // useEffect(() => {
-  //   const loginMessage = async () => {
-  //     try {
-  //       axios.get("http://localhost/5000/login", (res, req) => {
-  //         const { email, password } = res.body;
-  //       });
-  //     } catch (error) {
-  //       console.log("cant get login message");
-  //     }
-  //   };
-  //   loginMessage();
-  // }, []);
+  // console.log({ email, password });
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        await axios.get(`${BACKENDURL}/signup`);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // // axios
+  // //   .post(BACKENDURL, { email, password })
+  // //   .then((response) => {
+  // //     console.log("Success:", response.data);
 
-    loadData();
-  }, []);
+  // //   })
+  // //   .catch((error) => {
+  // //     console.log(error);
+  // //   });
 
   return (
     <div>
@@ -65,7 +62,7 @@ const Signup = () => {
                 Your email
               </label>
               <input
-                className="border-2 h-10 rounded-md pl-5  border-slate-100"
+                className="border-2 text-zinc-800 h-10 rounded-md pl-5  border-slate-100"
                 type="email"
                 value={email}
                 required
@@ -80,7 +77,7 @@ const Signup = () => {
                 Password
               </label>
               <input
-                className="border-2 h-10 rounded-md pl-5  border-slate-100"
+                className="border-2 h-10 rounded-md text-zinc-800 pl-5  border-slate-100"
                 type="password"
                 required
                 value={password}
@@ -95,9 +92,9 @@ const Signup = () => {
                 Confirm password
               </label>
               <input
-                className="border-2 h-10 rounded-md pl-5  border-slate-100"
-                type="text"
-                placeholder="* * * * * *"
+                className="border-2 text-zinc-800 h-10 rounded-md pl-5  border-slate-100"
+                type="password"
+                placeholder="Confirm password"
               />
             </span>
             <span className="flex justify-between  items-baseline ">
@@ -112,9 +109,14 @@ const Signup = () => {
             <span>
               <button
                 type="submit"
-                className="w-full bg-slate-800 text-white h-10 rounded-lg outline-none"
+                disabled={loading}
+                className={`${
+                  loading
+                    ? "bg-slate-400 text-slate-100 cursor-not-allowed text-opacity-70 bg-opacity-70"
+                    : "bg-slate-800 text-white"
+                } w-full h-10 rounded-lg outline-none`}
               >
-                Create an account
+                {loading ? "Loading..." : "Create an account"}
               </button>
             </span>
             <span className="flex gap-3 text-black  justify-center">

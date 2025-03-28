@@ -1,10 +1,30 @@
 import Link from "next/link";
-
+import { useEffect } from "react";
 import { useState } from "react";
 const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if the page is scrolled down
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-gray-800 fixed top-0  w-full ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -85,19 +105,31 @@ const Navbar = () => {
               Home
             </a>
             <a
-              href="#"
+              href="#about"
               className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               About
             </a>
             <a
-              href="#"
+              href="#services"
               className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               Services
             </a>
             <a
-              href="#"
+              href="#contact"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              Contact
+            </a>
+            <a
+              href="#features"
+              className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
+            >
+              Features
+            </a>
+            <a
+              href="#courses"
               className="block text-gray-300 hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               Contact
