@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
-    "firebase": "^11.5.0"
+    "next-auth": "^4.24.11",
+    "react-toastify": "^11.0.5"
   }
 }

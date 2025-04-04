@@ -73,39 +73,6 @@ const Layout = ({ children }) => {
                   </span>
                 );
               })}
-              {/* <Link href="/" className=" gap-2 flex">
-                <img src="/house.svg" alt="" />
-                <p>Home</p>
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/book-open.svg" alt="" /> <p> Courses</p>
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/chart-line.svg" alt="" /> <p> Progress tracker </p>
-              </Link>
-              <Link href="/" className=" gap-2 flex text-nowrap">
-                {" "}
-                <img src="/brain.svg" alt="" /> <p> Quizzes </p>
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/bell.svg" alt="" /> <p> Announcements </p>{" "}
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/message-circle.svg" alt="" />{" "}
-                <p> Discussion Forums </p>{" "}
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/users.svg" alt="" /> <p> Profile & Settings </p>
-              </Link>
-              <Link href="/" className=" gap-2 flex">
-                {" "}
-                <img src="/log-out.svg" alt="" /> <p> Logout </p>
-              </Link> */}
             </li>
           </ul>
         </nav>
