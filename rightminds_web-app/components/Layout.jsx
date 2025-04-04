@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+
 const Layout = ({ children }) => {
   const pathname = usePathname();
   const menuItems = [
@@ -41,7 +42,7 @@ const Layout = ({ children }) => {
         } transition-transform lg:translate-x-0 lg:relative lg:w-64 shadow-lg`}
       >
         <div className="flex justify-between items-center pb-4 border-b">
-          <h2 className="text-xl font-semibold text-black">Dashboard</h2>
+          <h2 className="text-xl font-semibold text-black">Student</h2>
           <button
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             className="lg:hidden bg-slate-700"
@@ -122,8 +123,18 @@ const Layout = ({ children }) => {
           </button>
           <h2 className="text-xl font-semibold text-black">RightMinds</h2>
           <div className="flex items-center space-x-4">
-            <span className="text-gray-700">
-              <img src="/ProfilePic.svg" width={30} height={30} alt="" />
+            <span className="relative">
+              <Link href="/">
+                <img src="bell.svg" alt="" />
+              </Link>
+              <div className="bg-red-600 absolute  bottom-4 left-3 text-sm  h-4 w-4 flex justify-center items-center rounded-full">
+                <p className="text-[10px]"> 3</p>
+              </div>
+            </span>
+            <span>
+              <Link href="/Profile" className="text-gray-700">
+                <img src="/ProfilePic.svg" width={30} height={30} alt="" />
+              </Link>
             </span>
           </div>
         </header>

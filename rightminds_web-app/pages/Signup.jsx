@@ -2,11 +2,13 @@ import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
 import { useRouter } from "next/router";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const payload = { email, password };
   const BACKENDURL = "http://localhost:5000";
   const router = useRouter();
@@ -14,6 +16,13 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     // router.push("/Student_Dashboard");
+    try {
+      if (confirmPassword != password) {
+        alert("passowrd does not match ");
+      }
+    } catch (error) {
+      console.error(error);
+    }
     try {
       const response = await axios.post(
         `${BACKENDURL}/api/auth/signup`,
@@ -92,6 +101,10 @@ const Signup = () => {
                 Confirm password
               </label>
               <input
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
                 className="border-2 text-zinc-800 h-10 rounded-md pl-5  border-slate-100"
                 type="password"
                 placeholder="Confirm password"
