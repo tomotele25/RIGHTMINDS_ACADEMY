@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
-import Reviews from "@/components/Subscription";
+import Reviews from "@/components/Reviews";
 import Features from "@/components/Features";
 import Courses from "@/components/Courses";
 
@@ -41,6 +41,9 @@ export default function Home() {
 
         <div>
           <Subscription />
+        </div>
+        <div>
+          <Reviews />
         </div>
         <div className="">
           <Lp_Footer />

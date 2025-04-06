@@ -4,7 +4,11 @@ import React from "react";
 const Anouncement = () => {
   return (
     <div>
-      <Layout>Anouncement</Layout>
+      <Layout>
+        <span>
+          <h1 className="text-black">Anouncement</h1>
+        </span>
+      </Layout>
     </div>
   );
 };
