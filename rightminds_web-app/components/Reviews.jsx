@@ -53,7 +53,7 @@ const users = [
 
 const Reviews = () => {
   return (
-    <div className=" py-10 bg-white ">
+    <div className=" py-10 bg-white flex flex-col justify-center items-center ">
       <span className="flex flex-col justify-center items-center ">
         <h1 className="text-2xl text-black font-semibold">Reviews</h1>
         <p className="text-sm text-slate-700">What our users are saying</p>
