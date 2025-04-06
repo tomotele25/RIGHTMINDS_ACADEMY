@@ -58,12 +58,12 @@ const Reviews = () => {
         <h1 className="text-2xl text-black font-semibold">Reviews</h1>
         <p className="text-sm text-slate-700">What our users are saying</p>
       </span>
-      <div className=" grid grid-cols-1 sm:grid-cols-4 pt-10 gap-5 px-10">
+      <div className=" grid grid-cols-1 sm:grid-cols-4 pt-10 gap-5 px-5 sm:px-10">
         {users.map((users, index) => {
           return (
             <div
               key={index}
-              className=" text-black grid border-2 gap-5 p-3 w-72 h-60 bg-white rounded-md"
+              className=" text-black grid border-2 gap-5 p-3  h-60 bg-white rounded-md"
             >
               <div className="flex gap-10 items-center  ">
                 <span className="flex gap-2 items-center">
