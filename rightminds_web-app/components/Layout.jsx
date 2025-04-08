@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <aside
-        className={`bg-white w-64 p-4 fixed h-full transform ${
+        className={`bg-white w-64 p-4 z-10 fixed h-full transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-64"
         } transition-transform lg:translate-x-0 lg:relative lg:w-64 shadow-lg`}
       >
@@ -53,69 +53,76 @@ const Layout = ({ children }) => {
         </div>
 
         <nav className="mt-4">
-          <ul className="space-y-2">
+          <ul className=" space-y-3">
             {/* Group 1 */}
             <li className="border-b pb-2">
-              <div className="space-y-2">
+              <div className="space-y-4 md:space-y-4">
                 {menuItems.slice(0, 3).map((link, index) => (
-                  <span
-                    key={index}
-                    className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
-                      isActive === link.id
-                        ? "bg-blue-500 text-white"
-                        : "text-black"
-                    }`}
-                    onClick={() => setIsActive(link.id)}
-                  >
-                    <img src={link.icon} alt="" className="w-5 h-5" />
-                    <Link href={`${link.id}`} className="text-sm font-medium">
-                      {link.name}
-                    </Link>
-                  </span>
+                  <Link href={link.id} className="grid gap-2">
+                    {" "}
+                    <span
+                      key={index}
+                      className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
+                        isActive === link.id
+                          ? "bg-blue-500 text-white"
+                          : "text-black"
+                      }`}
+                      onClick={() => setIsActive(link.id)}
+                    >
+                      <img src={link.icon} alt="" className="w-5 h-5" />
+                      <Link href={`${link.id}`} className="text-sm font-medium">
+                        {link.name}
+                      </Link>
+                    </span>
+                  </Link>
                 ))}
               </div>
             </li>
 
             {/* Group 2 */}
             <li className="border-b pb-2">
-              <div className="space-y-2">
+              <div className="space-y-4 md:space-y-2">
                 {menuItems.slice(3, 6).map((link, index) => (
-                  <span
-                    key={index}
-                    className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
-                      isActive === link.id
-                        ? "bg-blue-500 text-white"
-                        : "text-black"
-                    }`}
-                    onClick={() => setIsActive(link.id)}
-                  >
-                    <img src={link.icon} alt="" className="w-5 h-5" />
-                    <Link href={`${link.id}`} className="text-sm font-medium">
-                      {link.name}
-                    </Link>
-                  </span>
+                  <Link href={link.id} className="grid gap-3">
+                    <span
+                      key={index}
+                      className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
+                        isActive === link.id
+                          ? "bg-blue-500 text-white"
+                          : "text-black"
+                      }`}
+                      onClick={() => setIsActive(link.id)}
+                    >
+                      <img src={link.icon} alt="" className="w-5 h-5" />
+                      <Link href={`${link.id}`} className="text-sm font-medium">
+                        {link.name}
+                      </Link>
+                    </span>
+                  </Link>
                 ))}
               </div>
             </li>
 
             {/* Group 3 */}
             <li className="pb-2">
-              <div className="space-y-2">
+              <div className="space-y-4 md:space-y-2">
                 {menuItems.slice(6, 9).map((link, index) => (
-                  <span
-                    key={index}
-                    className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
-                      isActive === link.id
-                        ? "bg-blue-500 text-white"
-                        : "text-black"
-                    }`}
-                    onClick={() => setIsActive(link.id)}
-                  >
-                    <img src={link.icon} alt="" className="w-5 h-5" />
-                    <Link href={`${link.id}`} className="text-sm font-medium">
-                      {link.name}
-                    </Link>
-                  </span>
+                  <Link href={link.id} className="grid gap-3">
+                    <span
+                      key={index}
+                      className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
+                        isActive === link.id
+                          ? "bg-blue-500 text-white"
+                          : "text-black"
+                      }`}
+                      onClick={() => setIsActive(link.id)}
+                    >
+                      <img src={link.icon} alt="" className="w-5 h-5" />
+                      <Link href={`${link.id}`} className="text-sm font-medium">
+                        {link.name}
+                      </Link>
+                    </span>
+                  </Link>
                 ))}
               </div>
             </li>

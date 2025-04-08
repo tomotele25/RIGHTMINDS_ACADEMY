@@ -49,12 +49,16 @@ const Student_Dashboard = () => {
     <Layout>
       <div>
         <span className="flex items-center gap-5 p-5 bg-slate-100 shadow-sm">
-          <img src="/ProfilePic.svg" alt="" />
-          <h1 className="text-black text-2xl font-semibold">
+          <img
+            src="/ProfilePic.svg"
+            className="w-16 h-16 md:w-20 md:h-20"
+            alt=""
+          />
+          <h1 className="text-black text-lg md:text-nowrap md:text-2xl font-semibold">
             Welcome back, Christopher
           </h1>
         </span>
-        <div className="flex justify-between p-6 items-center mt-20 rounded-lg  border-2">
+        <div className=" grid grid-cols-1 gap-8 md:flex justify-between p-6 items-center mt-20 rounded-lg  border-2">
           <span>
             <h1 className="text-black text-2xl font-bold">Weekly streak</h1>
             <p className="text-black">

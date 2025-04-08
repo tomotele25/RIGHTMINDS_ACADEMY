@@ -9,7 +9,9 @@ const Sidebar = () => {
         {menuItems.map((link, index) => {
           return (
             <div className="flex flex-col justify-center h-full  gap-7 pt-28 ">
-              <Link href={`/${name}`}>{link.name}</Link>
+              <Link key={index} href={`/${{}}`}>
+                {link.name}
+              </Link>
             </div>
           );
         })}

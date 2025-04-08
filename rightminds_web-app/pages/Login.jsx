@@ -1,26 +1,30 @@
 import React from "react";
 import Link from "next/link";
 import axios from "axios";
-
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 const Login = () => {
   const BACKENDURL = "http://localhost:5000";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const payload = { email, password };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${BACKENDURL}/api/auth/login`,
-        payload
-      );
-      response && response?.data?.message && alert(response?.data?.message);
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (response.error) {
+        console.log("invalid credentials");
+      }
+      router.replace("Student_Dashboard");
     } catch (error) {
-      alert(error?.response?.data?.message || "something went wrong!");
     } finally {
       setLoading(false);
     }

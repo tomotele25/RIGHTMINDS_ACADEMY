@@ -5,15 +5,15 @@ import React, { useState, useRef } from "react";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
-  const [image, setImage] = useState(null); // State to hold the image URL
-  const fileInputRef = useRef(null); // Reference for the file input
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   const filePicker = useRef();
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const imageURL = URL.createObjectURL(file); // Create object URL for the selected image
-      setImage(imageURL); // Update state with the new image
+      const imageURL = URL.createObjectURL(file);
+      setImage(imageURL);
     }
   };
   return (
@@ -24,7 +24,7 @@ const Profile = () => {
           <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-6 space-y-4 md:space-y-0 mb-8">
             {/* Avatar */}
             <div
-              className="relative border-2 rounded-full"
+              className=" relative  border-2 rounded-full"
               onClick={() => fileInputRef.current.click()}
             >
               <img

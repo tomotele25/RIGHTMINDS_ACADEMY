@@ -65,7 +65,7 @@ const Reviews = () => {
               key={index}
               className=" text-black grid border-2 gap-5 p-3  h-60 bg-white rounded-md"
             >
-              <div className="flex gap-10 items-center  ">
+              <div className="flex gap-10 justify-between items-center  ">
                 <span className="flex gap-2 items-center">
                   <img height={30} width={30} src="/ProfilePic.svg" alt="" />
                   <h1 className="text-nowrap">{users.name}</h1>

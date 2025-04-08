@@ -9,6 +9,7 @@ import Courses from "@/components/Courses";
 import Lp_Footer from "@/components/Lp_Footer";
 import Contact from "@/components/Contact";
 import Subscription from "@/components/Subscription";
+import Faq from "@/components/Faq";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,6 +45,9 @@ export default function Home() {
         </div>
         <div>
           <Reviews />
+        </div>
+        <div>
+          <Faq />
         </div>
         <div className="">
           <Lp_Footer />
