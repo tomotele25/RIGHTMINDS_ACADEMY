@@ -30,7 +30,7 @@ const Login = () => {
     }
   };
   return (
-    <div className="">
+    <div className="bg-white">
       <div className="h-[100vh] ">
         <div className=" h-full flex flex-col justify-center text-nowrap  px-2 sm:px-0 items-center">
           <form

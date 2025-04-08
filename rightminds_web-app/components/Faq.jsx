@@ -55,7 +55,9 @@ const Faq = () => {
               <span className="text-xl text-black">{isOpen ? "−" : "+"}</span>
             </div>
             {openIndex === index && (
-              <p style={{ marginTop: "0.5rem" }}>{faq.answer}</p>
+              <p style={{ marginTop: "0.5rem" }} className="text-black">
+                {faq.answer}
+              </p>
             )}
           </div>
         ))}
