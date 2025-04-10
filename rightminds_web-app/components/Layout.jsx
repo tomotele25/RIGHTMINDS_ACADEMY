@@ -114,9 +114,7 @@ const Layout = ({ children }) => {
                       onClick={() => setIsActive(link.id)}
                     >
                       <img src={link.icon} alt="" className="w-5 h-5" />
-                      <Link href={`${link.id}`} className="text-sm font-medium">
-                        {link.name}
-                      </Link>
+                      <p className="text-sm font-medium">{link.name}</p>
                     </span>
                   </Link>
                 ))}

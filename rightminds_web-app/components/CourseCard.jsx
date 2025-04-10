@@ -2,7 +2,7 @@ import React from "react";
 
 const CourseCard = ({ image, heading, sub_heading }) => {
   return (
-    <div class="max-w-sm  border border-gray-200 rounded-lg shadow-sm  bg-white">
+    <div className="max-w-sm  border border-gray-200 rounded-lg shadow-sm  bg-white transition-transform duration-300 ease-in-out hover:scale-105">
       <a href="#">
         <img class="rounded-t-lg" src={image} alt="" />
       </a>

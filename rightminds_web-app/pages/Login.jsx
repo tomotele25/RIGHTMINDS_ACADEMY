@@ -74,10 +74,10 @@ const Login = () => {
               {emailTouched && email.length === 0 && (
                 <p className="text-red-700">Email is required</p>
               )}
-
               {emailTouched && email.length > 0 && !isEmailValid(email) && (
                 <p className="text-red-700">Please enter a valid email</p>
               )}
+              ``
             </span>
             <span className="grid gap-4">
               <label htmlFor="" className=" text-black text-sm">
@@ -113,7 +113,7 @@ const Login = () => {
                   Remember me
                 </label>
               </span>
-              <span>Forget password?</span>
+              <span className="text-black">Forget password?</span>
             </span>
             <span>
               <button

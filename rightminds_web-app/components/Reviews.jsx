@@ -1,5 +1,5 @@
 import React from "react";
-
+import Rating from "./Rating";
 const users = [
   {
     name: "Tomotele christopher",
@@ -58,7 +58,7 @@ const Reviews = () => {
         <h1 className="text-2xl text-black font-semibold">Reviews</h1>
         <p className="text-sm text-slate-700">What our users are saying</p>
       </span>
-      <div className=" grid grid-cols-1 sm:grid-cols-4 pt-10 gap-5 px-5 sm:px-10">
+      <div className=" grid grid-cols-1 md:grid-cols-2 sm:grid-cols-4 pt-10 gap-5 px-5 sm:px-10">
         {users.map((users, index) => {
           return (
             <div
@@ -70,7 +70,11 @@ const Reviews = () => {
                   <img height={30} width={30} src="/ProfilePic.svg" alt="" />
                   <h1 className="text-nowrap">{users.name}</h1>
                 </span>
-                <span>{users.rating}</span>
+                <span className="flex">
+                  <Rating />
+                  <Rating />
+                  <Rating />
+                </span>
               </div>
               <div>
                 <p className="text-sm pl-3">{users.comment}</p>

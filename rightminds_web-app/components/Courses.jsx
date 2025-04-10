@@ -1,7 +1,9 @@
 import React from "react";
 import CourseCard from "./CourseCard";
-
+import { useState } from "react";
+// import CourseModal from "./CourseModal";
 const Courses = () => {
+  // const [isModalVisible, setIsModalVisible] = useState(false);
   const courseContent = [
     {
       image: "/course_card.png",
@@ -30,13 +32,25 @@ const Courses = () => {
   ];
   return (
     <div className=" px-6 bg-white sm:px-8 lg:px-10 grid gap-10 p-10 ">
-      <div className="text-black flex justify-center text-3xl sm:text-4xl">
+      <div className="text-black flex-col gap-3 items-center flex justify-center text-3xl sm:text-4xl">
         <h1>Courses</h1>
+        <p className="w-1/2 text-slate-700 text-2xl  text-center">
+          Everything you need to learn, in one place
+        </p>
       </div>
-      <div className="grid sm:grid sm:grid-cols-2 lg:flex gap-9">
+      <div className=" grid sm:grid sm:grid-cols-2 lg:flex gap-9">
         {courseContent.map((content, index) => {
           return (
-            <div className="grid sm:flex gap-5" key={index}>
+            <div
+              // onMouseEnter={() => {
+              //   setIsModalVisible(true);
+              // }}
+              // onMouseLeave={() => {
+              //   setIsModalVisible(false);
+              // }}
+              className="grid sm:flex gap-5"
+              key={index}
+            >
               <CourseCard
                 image={content.image}
                 heading={content.heading}
@@ -46,6 +60,7 @@ const Courses = () => {
           );
         })}
       </div>
+      {/* <div className="absolute">{isModalVisible && <CourseModal />}</div> */}
     </div>
   );
 };

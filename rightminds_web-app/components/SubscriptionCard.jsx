@@ -2,7 +2,7 @@ import React from "react";
 
 const SubscriptionCard = ({ icon, heading, sub_heading, price }) => {
   return (
-    <div class="max-w-sm  border border-gray-200 rounded-lg shadow-sm  bg-white">
+    <div class="max-w-sm transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-200 rounded-lg shadow-sm  bg-white">
       {/* <a href="#">
         <img class=
         "rounded-t-lg" src={image} alt="" />

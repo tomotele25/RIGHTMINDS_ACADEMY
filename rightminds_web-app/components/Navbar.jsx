@@ -4,6 +4,7 @@ import { useState } from "react";
 const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
     const handleScroll = () => {
       // Check if the page is scrolled down
@@ -24,7 +25,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-gray-800 fixed top-0  w-full ">
+    <nav className="bg-gray-800 z-50 fixed top-0  w-full ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -58,14 +59,20 @@ const Navbar = () => {
                   Contact
                 </a>
               </span>
-              <span className="text-white flex gap-3">
-                <span>
-                  <Link href="/Login">login </Link>
-                </span>
-                <div className="border-l-2 border-slate-300"></div>
-                <span>
-                  <Link href="/Signup">Sign Up </Link>
-                </span>
+              <span className="flex  justify-center">
+                {isLoggedIn ? (
+                  <img src="/ProfilePic.svg" width={35} height={35} />
+                ) : (
+                  <span className="text-white flex gap-3">
+                    <span>
+                      <Link href="/Login">login </Link>
+                    </span>
+                    <div className="border-l-2 border-slate-300"></div>
+                    <span>
+                      <Link href="/Signup">Sign Up </Link>
+                    </span>
+                  </span>
+                )}
               </span>
             </div>
           </div>
