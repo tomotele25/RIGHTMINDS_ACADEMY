@@ -1,3 +1,4 @@
+import Lp_Footer from "@/components/Lp_Footer";
 import Navbar from "@/components/Navbar";
 import React from "react";
 
@@ -139,6 +140,9 @@ const PrivacyPolicy = () => {
             </p>
           </div>
         </section>
+      </div>
+      <div>
+        <Lp_Footer />
       </div>
     </div>
   );

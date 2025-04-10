@@ -1,3 +1,4 @@
+import EnrolledCourseCard from "@/components/EnrolledCourseCard";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import React from "react";
@@ -94,10 +95,37 @@ const Student_Dashboard = () => {
         </div>
         <div>
           <span>
-            <h1 className="text-black text-2xl pt-10 font-bold">
+            <h1 className="text-black text-3xl pt-10 font-bold">
               Pick up where you left off
             </h1>
           </span>
+          <div>
+            <span>
+              <h1 className="text-2xl text-black pt-5">Courses</h1>
+            </span>
+            <hr className="py-5" />
+            <div className="flex items-center justify-evenly ">
+              <span>
+                <img
+                  src="/circle-arrow-left.svg"
+                  height={35}
+                  width={35}
+                  alt=""
+                />
+              </span>
+              <span>
+                <EnrolledCourseCard />
+              </span>
+              <span>
+                <img
+                  src="/circle-arrow-right.svg"
+                  height={35}
+                  width={35}
+                  alt=""
+                />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
