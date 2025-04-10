@@ -58,7 +58,7 @@ const Reviews = () => {
         <h1 className="text-2xl text-black font-semibold">Reviews</h1>
         <p className="text-sm text-slate-700">What our users are saying</p>
       </span>
-      <div className=" grid grid-cols-1 md:grid-cols-2 sm:grid-cols-4 pt-10 gap-5 px-5 sm:px-10">
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-10 gap-5 px-5 sm:px-10">
         {users.map((users, index) => {
           return (
             <div
