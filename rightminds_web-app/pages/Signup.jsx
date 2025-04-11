@@ -15,7 +15,7 @@ const Signup = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // router.push("/Student_Dashboard");
+    // router.push("/student_dashboard");
     try {
       if (confirmPassword != password) {
         alert("passowrd does not match ");
@@ -134,7 +134,7 @@ const Signup = () => {
             </span>
             <span className="flex gap-3 text-black  justify-center">
               <p>Already have an account ? </p>
-              <Link href="/Login">Login here</Link>
+              <Link href="/login">Login here</Link>
             </span>
           </form>
         </div>

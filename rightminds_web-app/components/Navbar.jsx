@@ -5,6 +5,7 @@ const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       // Check if the page is scrolled down
@@ -24,6 +25,10 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleProilePicClick = () => {
+    setIsProfilePicModalOpen(!isProfilePicModalOpen);
+  };
+
   return (
     <nav className="bg-gray-800 z-50 fixed top-0  w-full ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,8 +36,8 @@ const Navbar = () => {
           <div className="flex items-center">
             <div className="text-white  font-semibold text-2xl ">RM</div>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex gap-10 items-baseline space-x-4">
+          <div className="hidden md:block  ">
+            <div className="ml-10 flex gap-10 items-center space-x-4">
               <span>
                 <a
                   href="#"
@@ -59,9 +64,14 @@ const Navbar = () => {
                   Contact
                 </a>
               </span>
-              <span className="flex  justify-center">
+              <span className="flex relative  justify-center">
                 {isLoggedIn ? (
-                  <img src="/ProfilePic.svg" width={35} height={35} />
+                  <img
+                    onClick={handleProilePicClick}
+                    src="/ProfilePic.svg"
+                    width={35}
+                    height={35}
+                  />
                 ) : (
                   <span className="text-white flex gap-3">
                     <span>
@@ -70,6 +80,23 @@ const Navbar = () => {
                     <div className="border-l-2 border-slate-300"></div>
                     <span>
                       <Link href="/Signup">Sign Up </Link>
+                    </span>
+                  </span>
+                )}
+                {isProfilePicModalOpen && (
+                  <span className="absolute h-48 flex flex-col justify-evenly  w-60  bg-white shadow-lg top-14 right-10">
+                    <span>
+                      <h1 className="text-black  flex justify-center">
+                        User18763yyh6ey3h
+                      </h1>
+                    </span>
+                    <span className="flex  gap-3 justify-center">
+                      <button className=" rounded-md text-white text-nowrap bg-black px-2  py-2">
+                        check Profile
+                      </button>
+                      <button className="text-white px-4  py-2 ">
+                        <img src="/log-out.svg" alt="" />
+                      </button>
                     </span>
                   </span>
                 )}

@@ -4,7 +4,7 @@ import axios from "axios";
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
   credentials: {
-    username: { type: "text", field: "username" },
+    email: { type: "text", field: "email" },
     password: { type: "password", field: "password" },
   },
   authorize: async (credentials) => {
@@ -13,8 +13,9 @@ const CustomProvider = CredentialsProvider({
     try {
       const url = `http://localhost:5000/api/auth/login`;
       const response = await axios.post(url, credentials);
-      if (response.success && response.data.accessToken)
-        return { access_token: accessToken };
+      console.log("resp: ", response.data);
+      if (response.data.success && response.data.accessToken)
+        return { access_token: response.data.accessToken };
       return null;
     } catch (error) {
       console.error("Error: ", error);

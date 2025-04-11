@@ -1,15 +1,18 @@
 import EnrolledCourseCard from "@/components/EnrolledCourseCard";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
   FaBook,
   FaCalendarAlt,
 } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
-const Student_Dashboard = () => {
+const StudentDashboard = () => {
+  const { data: session } = useSession();
+
   // const stats = [
   //   {
   //     title: "Total Students",
@@ -132,7 +135,7 @@ const Student_Dashboard = () => {
   );
 };
 
-export default Student_Dashboard;
+export default StudentDashboard;
 
 {
   /* <div className="p-6 bg-gray-100 min-h-screen"> */

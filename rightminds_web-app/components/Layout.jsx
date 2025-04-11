@@ -4,11 +4,22 @@ import { useRouter } from "next/router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Layout = ({ children }) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const logout = async (e) => {
+    e.preventDefault();
+    console.log("logging out...");
+    const res = await signOut();
+    console.log("res: ", res);
+    router.push("/login");
+  };
   const menuItems = [
-    { id: "/Student_Dashboard", icon: "list.svg", name: "overview" },
+    { id: "/student_Dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
     { id: "/Quiz", icon: "brain.svg", name: "quiz" },
     { id: "/", icon: "wand-sparkles.svg", name: "AI Assistant" },
@@ -33,7 +44,10 @@ const Layout = ({ children }) => {
   useEffect(() => {
     setIsActive(pathname); // Update active link when pathname changes
   }, [pathname]);
-
+  if (status === "unauthenticated") {
+    router.push("/Login");
+    return;
+  }
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -124,7 +138,7 @@ const Layout = ({ children }) => {
         </nav>
 
         {/* Logout Button at the Bottom */}
-        <div className="mt-auto">
+        <button onClick={logout} className="mt-auto">
           <span
             className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
               isActive === "logout" ? "bg-blue-500 text-white" : "text-black"
@@ -133,7 +147,7 @@ const Layout = ({ children }) => {
             <img src="/log-out.svg" alt="Logout" className="w-5 h-5" />
             <span className="text-sm font-medium">Logout</span>
           </span>
-        </div>
+        </button>
       </aside>
 
       {/* <aside

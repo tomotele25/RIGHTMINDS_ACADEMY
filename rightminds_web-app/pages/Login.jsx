@@ -4,6 +4,7 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 const Login = () => {
   const BACKENDURL = "http://localhost:5000";
   const [email, setEmail] = useState("");
@@ -24,10 +25,12 @@ const Login = () => {
       });
 
       if (response.error) {
-        console.log("invalid credentials");
+        console.log("next auth error: ", response.error);
       }
-      // router.replace("Student_Dashboard");
+      router.push("/student_dashboard");
+      // router.replace("student_dashboard");
     } catch (error) {
+      console.error("error: ", error);
     } finally {
       setLoading(false);
     }
@@ -49,7 +52,7 @@ const Login = () => {
                 Sign in to your account
               </h1>
             </div>
-            <span className="grid gap-4">
+            <span className="grid gap-2 ">
               <label htmlFor="" className="text-black text-sm">
                 Your email
               </label>
@@ -72,14 +75,16 @@ const Login = () => {
                 }}
               />
               {emailTouched && email.length === 0 && (
-                <p className="text-red-700">Email is required</p>
+                <p className="text-red-700 text-sm">Email is required</p>
               )}
               {emailTouched && email.length > 0 && !isEmailValid(email) && (
-                <p className="text-red-700">Please enter a valid email</p>
+                <p className="text-red-700 text-sm">
+                  Please enter a valid email
+                </p>
               )}
               ``
             </span>
-            <span className="grid gap-4">
+            <span className="grid gap-2">
               <label htmlFor="" className=" text-black text-sm">
                 Password
               </label>
