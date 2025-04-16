@@ -75,7 +75,7 @@ const Navbar = () => {
                 ) : (
                   <span className="text-white flex gap-3">
                     <span>
-                      <Link href="/Login">login </Link>
+                      <Link href="/login">login </Link>
                     </span>
                     <div className="border-l-2 border-slate-300"></div>
                     <span>
@@ -85,16 +85,19 @@ const Navbar = () => {
                 )}
                 {isProfilePicModalOpen && (
                   <span className="absolute h-48 flex flex-col justify-evenly  w-60  bg-white shadow-lg top-14 right-10">
-                    <span>
+                    <span className="flex justify-center w-10/12 p-2 items-center ml-5 bg-white shadow-lg">
                       <h1 className="text-black  flex justify-center">
                         User18763yyh6ey3h
                       </h1>
                     </span>
+                    <span className="flex justify-center w-10/12 p-2 items-center ml-5 bg-white shadow-lg ">
+                      <p className="text-black">Messages</p>
+                    </span>
                     <span className="flex  gap-3 justify-center">
-                      <button className=" rounded-md text-white text-nowrap bg-black px-2  py-2">
+                      <button className=" rounded-md text-black text-nowrap bg-white shadow-lg px-2  py-2">
                         check Profile
                       </button>
-                      <button className="text-white px-4  py-2 ">
+                      <button className="text-black px-4  py-2 ">
                         <img src="/log-out.svg" alt="" />
                       </button>
                     </span>

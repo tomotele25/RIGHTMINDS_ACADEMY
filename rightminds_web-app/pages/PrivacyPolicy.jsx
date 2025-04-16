@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
               <li>Name</li>
               <li>Email address</li>
               <li>Profile photo (if applicable)</li>
-              <li>Login credentials (for account creation)</li>
+              <li>login credentials (for account creation)</li>
             </ul>
 
             <h3 class="font-semibold">b. Non-Personal Information</h3>

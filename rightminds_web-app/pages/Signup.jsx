@@ -10,7 +10,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const payload = { email, password };
-  const BACKENDURL = "http://localhost:5000";
+  const BACKENDURL = process.env.NEXT_BACKEND_DOMAIN;
   const router = useRouter();
   const submitForm = async (e) => {
     e.preventDefault();

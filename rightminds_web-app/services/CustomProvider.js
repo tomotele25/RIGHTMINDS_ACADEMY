@@ -1,6 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
+const BACKENDURL = "http://localhost:5000";
+
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
   credentials: {
@@ -10,8 +12,10 @@ const CustomProvider = CredentialsProvider({
   authorize: async (credentials) => {
     //logic to check backend response using client credentials
     console.log("authorize function reached");
+    console.log("Backend :", BACKENDURL);
+
     try {
-      const url = `http://localhost:5000/api/auth/login`;
+      const url = `${BACKENDURL}/api/auth/login`;
       const response = await axios.post(url, credentials);
       console.log("resp: ", response.data);
       if (response.data.success && response.data.accessToken)
@@ -23,8 +27,9 @@ const CustomProvider = CredentialsProvider({
   },
 });
 authorize: async (credentials) => {
+  console.log("Backend", BACKENDURL);
   try {
-    const url = `http://localhost:5000/api/auth/login`;
+    const url = `${BACKENDURL}/api/auth/login`;
     const response = await axios.post(url, credentials);
 
     if (response.data.success && response.data.accessToken) {

@@ -66,8 +66,8 @@ const Layout = ({ children }) => {
           </button>
         </div>
 
-        <nav className="mt-4">
-          <ul className=" space-y-3">
+        <nav className="mt-16 lg:mt-4">
+          <ul className="space-y-12 lg:space-y-3">
             {/* Group 1 */}
             <li className="border-b pb-2">
               <div className="space-y-4 md:space-y-4">
@@ -140,7 +140,7 @@ const Layout = ({ children }) => {
         {/* Logout Button at the Bottom */}
         <button onClick={logout} className="mt-auto">
           <span
-            className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
+            className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:w-52 hover:text-white ${
               isActive === "logout" ? "bg-blue-500 text-white" : "text-black"
             }`}
           >

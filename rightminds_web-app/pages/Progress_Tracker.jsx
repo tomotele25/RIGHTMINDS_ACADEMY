@@ -11,7 +11,9 @@ const Progress_Tracker = () => {
           <div className="bg-slate-400 h-52 w-52 rounded-md"></div>
           <div className="bg-slate-400 h-52 w-52 rounded-md"></div>
         </div>
-        <div>{/* <CourseProgressTable /> */}</div>
+        <div>{/* <CourseProgressTable /> */}
+          
+        </div>
       </Layout>
     </div>
   );
