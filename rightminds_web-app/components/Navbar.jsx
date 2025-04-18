@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
+
 const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,21 +29,21 @@ const Navbar = () => {
   const handleProilePicClick = () => {
     setIsProfilePicModalOpen(!isProfilePicModalOpen);
   };
-  const checkUserName = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:5000/api/auth/signup",
-        (req, res) => {
-          const username = req.query.username;
-          console.log(username);
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const checkUserName = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:5000/api/auth/signup",
+  //       (req, res) => {
+  //         const username = req.query.username;
+  //         console.log(username);
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  checkUserName();
+  // checkUserName();
 
   return (
     <nav className="bg-gray-800 z-50 fixed top-0  w-full ">

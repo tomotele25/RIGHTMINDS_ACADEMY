@@ -13,18 +13,17 @@ const Signup = () => {
   const payload = { email, password, userName };
   const BACKENDURL = "http://localhost:5000";
   const router = useRouter();
-
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    try {
-      if (confirmPassword != password) {
-        alert("passowrd does not match ");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    // router.push("/student_dashboard");
+    // try {
+    //   if (confirmPassword != password) {
+    //     alert("passowrd does not match ");
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
     try {
       console.log("Details:", userName, email, password);
       const response = await axios.post(
@@ -33,6 +32,7 @@ const Signup = () => {
       );
       response && response?.data?.message && alert(response?.data?.message);
       // response && toast.success(response?.data?.message);
+      router.push("/Login");
     } catch (error) {
       console.error(error);
       alert(error?.response?.data?.message || "something went wrong!");
