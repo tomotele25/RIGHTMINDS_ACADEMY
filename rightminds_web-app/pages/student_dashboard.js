@@ -9,7 +9,7 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import { useSession } from "next-auth/react";
-
+import PieChart from "../components/PieChart";
 const StudentDashboard = () => {
   const { data: session } = useSession();
 
@@ -30,9 +30,9 @@ const StudentDashboard = () => {
   return (
     <Layout>
       <div>
-        <span className="flex items-center gap-5 p-5 bg-slate-100 shadow-sm">
+        <span className="flex items-center gap-5 p-3 bg-slate-100 shadow-sm">
           <img
-            src="/ProfilePic.svg"
+            src="/Ellipse 514 (6).svg"
             className="w-16 h-16 md:w-20 md:h-20"
             alt=""
           />
@@ -44,33 +44,43 @@ const StudentDashboard = () => {
           <span>
             <h1 className="text-black text-2xl font-bold">Weekly streak</h1>
             <p className="text-black">
-              Nice work! Routines set you up for success.
+              Nice work! Routines set <br /> you up for success.
             </p>
           </span>
-          <span className="flex gap-3">
-            <img src="/flame.svg" height={40} width={40} alt="" />
-            <span>
-              <h1 className="text-black">1 week</h1>
-              <p className="text-black">Current streak</p>
+          <span className="grid md:flex  md:gap-8">
+            <span className="flex items-center gap-3">
+              <span>
+                <img src="/flame.svg" height={30} width={30} alt="" />
+              </span>
+              <span>
+                {" "}
+                <h1 className="text-black">1 week</h1>
+                <p className="text-black">Current streak</p>
+              </span>
             </span>
+            {/* <span className="max-h-52 w-fit">
+              <PieChart />
+            </span> */}
           </span>
-          <span className="grid gap-4 ">
-            <span>
-              <li className="text-black list-disc marker:text-orange-400 marker:text-lg ">
-                294/30 course min
-              </li>
-              <li className="text-black  list-disc marker:text-green-900-400 marker:text-lg">
-                5/1 visit
-              </li>
-              <p className="text-black">Mar 30 - Apr 12</p>
-            </span>
-            <span>
-              <Link
-                href="/activity"
-                className="text-blue-500 underline text-sm underline-offset-2"
-              >
-                See all activity
-              </Link>
+          <span className="flex gap-10">
+            <span className="grid gap-4 ">
+              <span>
+                <li className="text-black list-disc marker:text-orange-400 marker:text-lg ">
+                  294/30 course min
+                </li>
+                <li className="text-black  list-disc marker:text-green-900-400 marker:text-lg">
+                  5/1 visit
+                </li>
+                <p className="text-black">Mar 30 - Apr 12</p>
+              </span>
+              <span>
+                <Link
+                  href="/activity"
+                  className="text-blue-500 underline text-sm underline-offset-2"
+                >
+                  See all activity
+                </Link>
+              </span>
             </span>
           </span>
         </div>

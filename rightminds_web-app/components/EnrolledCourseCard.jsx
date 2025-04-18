@@ -1,4 +1,5 @@
 import Link from "next/link";
+("../utils/Link");
 import { useState } from "react";
 
 export default function EnrolledCourseCard() {

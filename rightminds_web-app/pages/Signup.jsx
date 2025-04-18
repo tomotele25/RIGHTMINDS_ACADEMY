@@ -8,14 +8,16 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const payload = { email, password };
-  const BACKENDURL = process.env.NEXT_BACKEND_DOMAIN;
+  const payload = { email, password, userName };
+  const BACKENDURL = "http://localhost:5000";
   const router = useRouter();
+
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // router.push("/student_dashboard");
+
     try {
       if (confirmPassword != password) {
         alert("passowrd does not match ");
@@ -24,6 +26,7 @@ const Signup = () => {
       console.error(error);
     }
     try {
+      console.log("Details:", userName, email, password);
       const response = await axios.post(
         `${BACKENDURL}/api/auth/signup`,
         payload
@@ -39,33 +42,36 @@ const Signup = () => {
     }
   };
 
-  // console.log({ email, password });
-
-  // // axios
-  // //   .post(BACKENDURL, { email, password })
-  // //   .then((response) => {
-  // //     console.log("Success:", response.data);
-
-  // //   })
-  // //   .catch((error) => {
-  // //     console.log(error);
-  // //   });
-
   return (
     <div className="bg-white">
-      <div className="h-[100vh] ">
-        <div className=" h-full flex flex-col text-nowrap justify-center px-2 sm:px-0 items-center">
+      <div className="h-[100vh] overflow-scroll ">
+        <div className=" h-full flex flex-col text-nowrap justify-center px-2  sm:px-0 items-center">
           <form
             onSubmit={(e) => {
               submitForm(e);
             }}
-            className="grid gap-5  bg-white shadow-2xl rounded-lg  sm:w-5/12  p-4 py-10 "
+            className="grid gap-3  bg-white shadow-2xl rounded-lg  sm:w-5/12  p-4  "
           >
             <div className="flex justify-center">
               <h1 className=" text-black text-2xl sm:text-3xl font-semibold">
                 Create an account
               </h1>
             </div>
+            <span className="grid gap-4">
+              <label htmlFor="" className="text-black text-sm">
+                Username
+              </label>
+              <input
+                className="border-2 text-zinc-800 h-10 rounded-md pl-5  border-slate-100"
+                type="text"
+                value={userName}
+                required
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+                placeholder="create a username"
+              />
+            </span>
             <span className="grid gap-4">
               <label htmlFor="" className="text-black text-sm">
                 Your email

@@ -20,7 +20,6 @@ export const nextOptions = {
         return session;
       }
       return null;
-      S;
     },
   },
 };
