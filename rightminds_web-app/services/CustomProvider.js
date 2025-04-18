@@ -10,41 +10,30 @@ const CustomProvider = CredentialsProvider({
     password: { type: "password", field: "password" },
   },
   authorize: async (credentials) => {
-    //logic to check backend response using client credentials
     console.log("authorize function reached");
     console.log("Backend :", BACKENDURL);
 
     try {
       const url = `${BACKENDURL}/api/auth/login`;
       const response = await axios.post(url, credentials);
-      console.log("resp: ", response.data);
-      if (response.data.success && response.data.accessToken)
-        return { access_token: response.data.accessToken };
+
+      console.log("response: ", response.data);
+
+      // If the backend response is successful and has the access token, return it along with user data
+      if (response.data.success && response.data.accessToken) {
+        return {
+          access_token: response.data.accessToken,
+          user: response.data.user, // Assuming user data is in the response
+        };
+      }
+
+      // If credentials are invalid or no accessToken, return null
       return null;
     } catch (error) {
       console.error("Error: ", error);
+      return null; // Always return null on error
     }
   },
 });
-authorize: async (credentials) => {
-  console.log("Backend", BACKENDURL);
-  try {
-    const url = `${BACKENDURL}/api/auth/login`;
-    const response = await axios.post(url, credentials);
-
-    if (response.data.success && response.data.accessToken) {
-      // You should make sure you're returning the user data, not just the access token
-      return {
-        access_token: response.data.accessToken,
-        user: response.data.user, // Ensure you have user data in the response
-      };
-    }
-
-    return null; // No user or invalid credentials
-  } catch (error) {
-    console.error("Error: ", error);
-    return null;
-  }
-};
 
 export { CustomProvider };

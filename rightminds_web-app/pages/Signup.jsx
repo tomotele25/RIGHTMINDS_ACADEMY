@@ -140,7 +140,7 @@ const Signup = () => {
             </span>
             <span className="flex gap-3 text-black  justify-center">
               <p>Already have an account ? </p>
-              <Link href="/login">Login here</Link>
+              <Link href="/Login">Login here</Link>
             </span>
           </form>
         </div>

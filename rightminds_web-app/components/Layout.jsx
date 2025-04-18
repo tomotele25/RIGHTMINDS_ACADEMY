@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import Loader from "./Loader";
@@ -22,20 +21,24 @@ const Layout = ({ children }) => {
       console.log("res: ", res);
       router.push("/");
     } catch (error) {
-      console.error("couldnt log out");
+      console.error("couldn't log out");
     } finally {
       setLoading(false);
     }
   };
+
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isActive, setIsActive] = useState(pathname);
+
   useEffect(() => {
     setIsActive(pathname); // Update active link when pathname changes
   }, [pathname]);
+
   if (status === "unauthenticated") {
     router.push("/");
-    return;
+    return <Loader />;
   }
+
   const menuItems = [
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
@@ -50,20 +53,16 @@ const Layout = ({ children }) => {
     {
       id: "/DiscussionPlatform",
       icon: "/earth.svg",
-      name: "Discusion and Forum",
+      name: "Discussion and Forum",
     },
     { id: "/settings", icon: "shield.svg", name: "Settings" },
-
-    { id: "/Profile", icon: "circle-user-round.svg", name: "Profile" },
     { id: "/Profile", icon: "circle-user-round.svg", name: "Profile" },
   ];
 
   return (
     <div>
       {loading ? (
-        <div>
-          <Loader />
-        </div>
+        <Loader />
       ) : (
         <div className="flex h-screen bg-gray-100">
           {/* Sidebar */}
@@ -88,10 +87,8 @@ const Layout = ({ children }) => {
                 <li className="border-b pb-2">
                   <div className="space-y-4 md:space-y-4">
                     {menuItems.slice(0, 3).map((link, index) => (
-                      <Link href={link.id} className="grid gap-2">
-                        {" "}
+                      <Link key={index} href={link.id} className="grid gap-2">
                         <span
-                          key={index}
                           className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
                             isActive === link.id
                               ? "bg-blue-500 text-white"
@@ -99,7 +96,11 @@ const Layout = ({ children }) => {
                           }`}
                           onClick={() => setIsActive(link.id)}
                         >
-                          <img src={link.icon} alt="" className="w-5 h-5" />
+                          <img
+                            src={link.icon}
+                            alt={link.name}
+                            className="w-5 h-5"
+                          />
                           <p className="text-sm font-medium">{link.name}</p>
                         </span>
                       </Link>
@@ -111,9 +112,8 @@ const Layout = ({ children }) => {
                 <li className="border-b pb-2">
                   <div className="space-y-4 md:space-y-2">
                     {menuItems.slice(3, 6).map((link, index) => (
-                      <Link href={link.id} className="grid gap-3">
+                      <Link key={index} href={link.id} className="grid gap-3">
                         <span
-                          key={index}
                           className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
                             isActive === link.id
                               ? "bg-blue-500 text-white"
@@ -121,7 +121,11 @@ const Layout = ({ children }) => {
                           }`}
                           onClick={() => setIsActive(link.id)}
                         >
-                          <img src={link.icon} alt="" className="w-5 h-5" />
+                          <img
+                            src={link.icon}
+                            alt={link.name}
+                            className="w-5 h-5"
+                          />
                           <p className="text-sm font-medium">{link.name}</p>
                         </span>
                       </Link>
@@ -133,9 +137,8 @@ const Layout = ({ children }) => {
                 <li className="pb-2">
                   <div className="space-y-4 md:space-y-2">
                     {menuItems.slice(6, 9).map((link, index) => (
-                      <Link href={link.id} className="grid gap-3">
+                      <Link key={index} href={link.id} className="grid gap-3">
                         <span
-                          key={index}
                           className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:text-white ${
                             isActive === link.id
                               ? "bg-blue-500 text-white"
@@ -143,7 +146,11 @@ const Layout = ({ children }) => {
                           }`}
                           onClick={() => setIsActive(link.id)}
                         >
-                          <img src={link.icon} alt="" className="w-5 h-5" />
+                          <img
+                            src={link.icon}
+                            alt={link.name}
+                            className="w-5 h-5"
+                          />
                           <p className="text-sm font-medium">{link.name}</p>
                         </span>
                       </Link>
@@ -154,7 +161,7 @@ const Layout = ({ children }) => {
             </nav>
 
             {/* Logout Button at the Bottom */}
-            <button onClick={logout} className="mt-auto">
+            <button onClick={logout} className="mt-auto" disabled={loading}>
               <span
                 className={`flex gap-2 p-2 rounded-md hover:bg-blue-500 hover:w-52 hover:text-white ${
                   isActive === "logout"
@@ -167,48 +174,6 @@ const Layout = ({ children }) => {
               </span>
             </button>
           </aside>
-
-          {/* <aside
-        className={`bg-white w-64 p-4 fixed h-full transform ${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-        } transition-transform lg:translate-x-0 lg:relative lg:w-64 shadow-lg`}
-      >
-        <div className="flex justify-between items-center pb-4 border-b">
-          <h2 className="text-xl font-semibold text-black">Student</h2>
-          <button
-            onClick={() => setSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden bg-slate-700"
-          >
-            <FiX color="black" size={30} className="bg-white" />
-          </button>
-        </div>
-        <nav className="mt-4">
-          <ul className="space-y-4">
-            <li className="flex flex-col justify-center h-full  gap-10 pt-12 sm:gap-5 sm:pt-5 ">
-              {menuItems.map((link, index) => {
-                return (
-                  <span
-                    className={`flex gap-3 ${
-                      isActive === link.id
-                        ? "bg-blue-500 p-2 rounded-md text-white font-bold"
-                        : ""
-                    }`}
-                    onClick={() => setIsActive(link.id)}
-                  >
-                    <img src={link.icon} key={index} alt="" />
-                    <Link
-                      href={`${link.id}`}
-                      className="text-base font-medium text-black"
-                    >
-                      {link.name}
-                    </Link>
-                  </span>
-                );
-              })}
-            </li>
-          </ul>
-        </nav>
-      </aside> */}
 
           {/* Main Content */}
           <div className="flex-1 flex flex-col">
@@ -228,7 +193,7 @@ const Layout = ({ children }) => {
                   <Link href="/Anouncement">
                     <img src="bell.svg" alt="" />
                   </Link>
-                  <div className="bg-red-600 absolute  bottom-4 left-3 text-sm  h-4 w-4 flex justify-center items-center rounded-full">
+                  <div className="bg-red-600 absolute bottom-4 left-3 text-sm h-4 w-4 flex justify-center items-center rounded-full">
                     <p className="text-[10px]"> 3</p>
                   </div>
                 </span>
@@ -243,7 +208,7 @@ const Layout = ({ children }) => {
                         className="rounded-full"
                         width={50}
                         height={50}
-                        alt=""
+                        alt="User Profile"
                       />
                     </Link>
                   </span>
