@@ -46,7 +46,7 @@ const Contact = () => {
           </p>
           <p className="text-black">chat with us</p>
           <p className="text-black">whatsapp:send us a message</p>
-          <p className="text-black">Linkedin:send us a message</p>
+          <p className="text-black">linkedin:send us a message</p>
           <p className="text-black">instagram:send us a message</p>
         </div>
       </div>

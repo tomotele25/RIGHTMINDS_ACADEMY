@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-("../utils/Link");
 import { useState } from "react";
 const Header = () => {
   const [isOpened, setIsOpened] = useState(false);

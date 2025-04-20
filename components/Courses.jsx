@@ -34,7 +34,7 @@ const Courses = () => {
     <div className=" px-6 bg-white sm:px-8 lg:px-10 grid gap-10 p-10 ">
       <div className="text-black flex-col gap-3 items-center flex justify-center text-3xl sm:text-4xl">
         <h1>Courses</h1>
-        <p className="w-3/4 text-slate-700 text-lg  text-center">
+        <p className="w-1/2 text-slate-700 text-2xl  text-center">
           Everything you need to learn, in one place
         </p>
       </div>
