@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
-const BACKENDURL = "http://localhost:5000";
+const BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
 
 const CustomProvider = CredentialsProvider({
   name: "customProvider",

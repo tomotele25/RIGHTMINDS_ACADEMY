@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import Loader from "@/components/Loader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
-  const router = useRouter();
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [loading, setLoading] = useState(false);
-  const payload = { email, password };
+  const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -25,114 +24,136 @@ const Login = () => {
 
       if (response.error) {
         console.log("next auth error: ", response.error);
+      } else {
+        router.push("/student_dashboard");
       }
-      router.push("/student_dashboard");
-      // router.replace("student_dashboard");
     } catch (error) {
-      console.error("error: ", error);
+      console.error("Login error: ", error);
     } finally {
       setLoading(false);
     }
   };
-  const isEmailValid = (email) => {
-    // Simple and common pattern for basic email validation
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+
+  const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isPasswordValid = (password) => password.length > 4;
+
   return (
-    <div className="bg-white">
-      <div className="h-[100vh] ">
-        <div className=" h-full flex flex-col justify-center text-nowrap  px-2 sm:px-0 items-center">
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-5  bg-white shadow-2xl rounded-lg sm:w-5/12 pl-5 p-5 py-10 "
+    <div className="min-h-screen flex items-center justify-center bg-white  px-4">
+      {loading ? (
+        <Loader />
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6"
+        >
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              Sign in to your account
+            </h1>
+          </div>
+
+          {/* Email Field */}
+          <div className="space-y-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email address
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={email}
+              onFocus={() => setEmailTouched(true)}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="test@example.com"
+              className={`w-full h-10 px-4 border rounded-md focus:outline-none ${
+                !emailTouched
+                  ? "border-gray-300"
+                  : email.length === 0
+                  ? "border-red-500"
+                  : isEmailValid(email)
+                  ? "border-green-500"
+                  : "border-red-500"
+              }`}
+            />
+            {emailTouched && email.length === 0 && (
+              <p className="text-sm text-red-600">Email is required.</p>
+            )}
+            {emailTouched && email.length > 0 && !isEmailValid(email) && (
+              <p className="text-sm text-red-600">
+                Please enter a valid email.
+              </p>
+            )}
+          </div>
+
+          {/* Password Field */}
+          <div className="space-y-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onFocus={() => setPasswordTouched(true)}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className={`w-full h-10 px-4 border rounded-md focus:outline-none ${
+                !passwordTouched
+                  ? "border-gray-300"
+                  : !isPasswordValid(password)
+                  ? "border-red-500"
+                  : "border-green-500"
+              }`}
+            />
+            {passwordTouched && password.length === 0 && (
+              <p className="text-sm text-red-600">Password is required.</p>
+            )}
+            {passwordTouched && password.length <= 4 && (
+              <p className="text-sm text-red-600">
+                Password must be more than 4 characters.
+              </p>
+            )}
+          </div>
+
+          {/* Options */}
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-gray-700">
+              <input type="checkbox" className="accent-slate-700" />
+              Remember me
+            </label>
+            <span className="text-slate-700 cursor-pointer">
+              Forgot password?
+            </span>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={
+              loading || !isPasswordValid(password) || !isEmailValid(email)
+            }
+            className="w-full h-10 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200"
           >
-            <div className="flex justify-center">
-              <h1 className=" text-black text-2xl  sm:text-3xl font-semibold">
-                Sign in to your account
-              </h1>
-            </div>
-            <span className="grid gap-2 ">
-              <label htmlFor="" className="text-black text-sm">
-                Your email
-              </label>
-              <input
-                className={`border-2 h-10 rounded-md pl-5 text-black  border-slate-100 ${
-                  !emailTouched
-                    ? "border-slate-100"
-                    : email.length === 0
-                    ? "border-red-700"
-                    : isEmailValid(email)
-                    ? "border-green-700"
-                    : "border-red-700"
-                }`}
-                type="text"
-                value={email}
-                onFocus={() => setEmailTouched(true)}
-                placeholder="test@gmail.com"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              {emailTouched && email.length === 0 && (
-                <p className="text-red-700 text-sm">Email is required</p>
-              )}
-              {emailTouched && email.length > 0 && !isEmailValid(email) && (
-                <p className="text-red-700 text-sm">
-                  Please enter a valid email
-                </p>
-              )}
-              ``
-            </span>
-            <span className="grid gap-2">
-              <label htmlFor="" className=" text-black text-sm">
-                Password
-              </label>
-              <input
-                className={`border-2 h-10 rounded-md pl-5 ${
-                  password.length === 0
-                    ? "border-slate-100"
-                    : password.length <= 4
-                    ? "border-red-700"
-                    : "border-green-700"
-                }`}
-                type="text"
-                value={password}
-                placeholder="* * * * * *"
-                onFocus={() => setIsTouched(true)}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              {isTouched && password.length === 0 && (
-                <p className="text-red-700">Must contain password</p>
-              )}
-              {isTouched && password.length > 0 && password.length <= 4 && (
-                <p className="text-red-700">Password has to be more than 4</p>
-              )}
-            </span>
-            <span className="flex justify-between  items-baseline ">
-              <span className="flex items-baseline gap-1 sm:gap-3">
-                <input type="checkbox" name="" id="" />
-                <label htmlFor="" className="text-black">
-                  Remember me
-                </label>
-              </span>
-              <span className="text-black">Forget password?</span>
-            </span>
-            <span>
-              <button
-                disabled={loading || password.length <= 4}
-                className="w-full  bg-slate-800 text-white h-10 rounded-lg outline-none"
-              >
-                {loading ? "loading...." : "Log in to you account"}
-              </button>
-            </span>
-            <span className="flex justify-center text-black">
-              <Link href="/Signup">Dont have an account ?</Link>
-            </span>
-          </form>
-        </div>
-      </div>
+            {loading ? "Loading..." : "Log in"}
+          </button>
+
+          {/* Signup Link */}
+          <div className="text-center text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <Link
+              href="/Signup"
+              className="text-slate-800 font-medium hover:underline"
+            >
+              Sign up
+            </Link>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

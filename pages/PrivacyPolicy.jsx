@@ -114,7 +114,7 @@ const PrivacyPolicy = () => {
               8. Third-Party Links
             </h2>
             <p class="mb-6">
-              Our website may contain links to third-party sites. We are not
+              Our website may contain Links to third-party sites. We are not
               responsible for their privacy practices or content.
             </p>
 

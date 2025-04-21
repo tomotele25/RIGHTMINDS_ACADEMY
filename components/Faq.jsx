@@ -1,63 +1,67 @@
 import { useState } from "react";
+
 const faqs = [
   {
-    question: "How do I get started?",
+    question: "How do I enroll in a course?",
     answer:
-      "Click on “Get Started” and follow the sign-up steps. It’s quick and straightforward.",
+      "Simply click on any course you're interested in and hit the 'Enroll' button. You’ll be added to the course instantly.",
   },
   {
-    question: "Is this platform free?",
+    question: "Do I get a certificate after completing a course?",
     answer:
-      "Yes, there’s a free version available. We also have paid plans for more advanced features.",
+      "Yes! Once you complete all lessons and pass the final quiz, you'll receive a digital certificate of completion.",
   },
   {
-    question: "Can I use this for both B2B and B2C?",
+    question: "Is Rightminds Academy free?",
     answer:
-      "Absolutely. It’s designed to support both business-to-business and business-to-consumer sales.",
+      "Yes, most of our courses and features are completely free. Some premium content may require a subscription.",
+  },
+  {
+    question: "How do badges work?",
+    answer:
+      "Badges are awarded when you complete courses, join discussions, and actively participate in the community. Flaunt them on your profile!",
+  },
+  {
+    question: "Can I interact with other learners?",
+    answer:
+      "Definitely! Our discussion platform lets you connect, share insights, and grow together with other students.",
   },
 ];
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);
-  const [isOpen, setIsopen] = useState(false);
 
   const toggleFAQ = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(null); // close if same question is clicked again
-    } else {
-      setOpenIndex(index); // open the clicked question
-    }
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="bg-white p-8  space-y-4">
-      <span className="flex flex-col gap-3 justify-center items-center">
-        <h1 className="text-black text-2xl text-nowrap">
-          Frequently asked questions
+    <div className="bg-white p-10 space-y-6">
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-semibold text-black">
+          Frequently Asked Questions
         </h1>
-        <p className="md:w-1/2 text-black text-center text-sm">
+        <p className="text-gray-600 max-w-xl mx-auto text-sm">
           We know trying something new comes with questions. Here are the
           details you need to feel confident about using our platform.
         </p>
-      </span>
-      <div className=" flex w-full items-center  flex-col justify-center">
+      </div>
+
+      <div className="flex flex-col items-center">
         {faqs.map((faq, index) => (
-          <div className="border-2  w-full md:w-10/12  rounded-lg border-black p-4 mb-4 cursor-pointer">
-            <div
-              key={index}
-              className=" flex justify-between items-center "
-              onClick={() => {
-                toggleFAQ(index);
-                setIsopen(true);
-              }}
+          <div
+            key={index}
+            className="w-full md:w-10/12 border border-gray-300 rounded-lg p-5 mb-4 transition duration-200 ease-in-out hover:shadow-md"
+          >
+            <button
+              onClick={() => toggleFAQ(index)}
+              className="w-full flex justify-between items-center text-left text-black text-base font-medium focus:outline-none"
             >
-              <h4 className="text-black">{faq.question}</h4>
-              <span className="text-xl text-black">{isOpen ? "−" : "+"}</span>
-            </div>
+              <span>{faq.question}</span>
+              <span className="text-xl">{openIndex === index ? "−" : "+"}</span>
+            </button>
             {openIndex === index && (
-              <p style={{ marginTop: "0.5rem" }} className="text-black">
-                {faq.answer}
-              </p>
+              <p className="mt-3 text-gray-700 text-sm">{faq.answer}</p>
             )}
           </div>
         ))}
@@ -67,71 +71,3 @@ const Faq = () => {
 };
 
 export default Faq;
-
-// import React from "react";
-// import { useState } from "react";
-// const faqs = [
-//   {
-//     question: "How do I get started?",
-//     answer:
-//       "Click on “Get Started” and follow the sign-up steps. It’s quick and straightforward.",
-//   },
-//   {
-//     question: "Is this platform free?",
-//     answer:
-//       "Yes, there’s a free version available. We also have paid plans for more advanced features.",
-//   },
-//   {
-//     question: "Can I use this for both B2B and B2C?",
-//     answer:
-//       "Absolutely. It’s designed to support both business-to-business and business-to-consumer sales.",
-//   },
-// ];
-
-// const Faq = () => {
-//   const [openIndex, setOpenIndex] = useState(null);
-
-//   const toggleFAQ = (index) => {
-//     if (openIndex === index) {
-//       setOpenIndex(null); // close if same question is clicked again
-//     } else {
-//       setOpenIndex(index); // open the clicked question
-//     }
-//   };
-
-//   return (
-//     <div className="grid gap-10">
-//       <span className="flex justify-center  flex-col items-center pt-20">
-//         <h1> Frequently asked questions</h1>
-//         <p>
-//           We know trying something new comes with questions. Here are the
-//           details you need to feel confident about using our platform.
-//         </p>
-//       </span>
-//       <span>
-//         {faqs.map((faq, index) => {
-//           return (
-//             <div
-//               key={index}
-//               style={{
-//                 border: "1px solid #ccc",
-//                 borderRadius: "5px",
-//                 padding: "1rem",
-//                 marginBottom: "1rem",
-//                 cursor: "pointer",
-//               }}
-//               onClick={() => toggleFAQ(index)}
-//             >
-//               <h4>{faq.question}</h4>
-//               {openIndex === index && (
-//                 <p style={{ marginTop: "0.5rem" }}>{faq.answer}</p>
-//               )}
-//             </div>
-//           );
-//         })}
-//       </span>
-//     </div>
-//   );
-// };
-
-// export default Faq;

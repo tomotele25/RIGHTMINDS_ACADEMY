@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
+("../utils/Link");
 import React, { useState, useRef } from "react";
 
 const Profile = () => {
@@ -146,7 +147,7 @@ const Profile = () => {
           <h1 className="text-black text-2xl"> Account Settings </h1>
         </span>{" "}
         <span className="flex justify-center  pt-10 ">
-          <img src="ProfilePic.svg" alt="" />
+          <img src="Ellipse 514 (6).svg" alt="" />
         </span>
         <span className=" flex flex-col justify-center items-center sm:grid sm:grid-cols-2 w-full sm:place-items-center gap-10 sm:px-40 pt-10">
           <span className="grid gap-5">

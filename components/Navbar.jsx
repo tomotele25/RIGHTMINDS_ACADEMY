@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useState } from "react";
+
 const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +29,21 @@ const Navbar = () => {
   const handleProilePicClick = () => {
     setIsProfilePicModalOpen(!isProfilePicModalOpen);
   };
+  // const checkUserName = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:5000/api/auth/signup",
+  //       (req, res) => {
+  //         const username = req.query.username;
+  //         console.log(username);
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // checkUserName();
 
   return (
     <nav className="bg-gray-800 z-50 fixed top-0  w-full ">
@@ -66,12 +82,20 @@ const Navbar = () => {
               </span>
               <span className="flex relative  justify-center">
                 {isLoggedIn ? (
-                  <img
-                    onClick={handleProilePicClick}
-                    src="/ProfilePic.svg"
-                    width={35}
-                    height={35}
-                  />
+                  <div className="flex gap-3">
+                    <span className="text-white text-sm ">
+                      Tomotele <br /> christopher
+                    </span>
+                    <span>
+                      <img
+                        onClick={handleProilePicClick}
+                        src="/Ellipse 514 (6).svg"
+                        width={35}
+                        className="rounded-full"
+                        height={35}
+                      />
+                    </span>
+                  </div>
                 ) : (
                   <span className="text-white flex gap-3">
                     <span>
