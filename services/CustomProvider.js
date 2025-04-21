@@ -1,7 +1,11 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
-const BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
+const BACKENDURL =
+  process.env.NEXT_PUBLIC_BACKEND_DOMAIN ||
+  (process.env.NODE_ENV === "production"
+    ? "https://rightminds-academy-cjmv.vercel.app"
+    : "http://localhost:5000");
 
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
@@ -33,14 +37,13 @@ authorize: async (credentials) => {
     const response = await axios.post(url, credentials);
 
     if (response.data.success && response.data.accessToken) {
-      // You should make sure you're returning the user data, not just the access token
       return {
         access_token: response.data.accessToken,
-        user: response.data.user, // Ensure you have user data in the response
+        user: response.data.user,
       };
     }
 
-    return null; // No user or invalid credentials
+    return null;
   } catch (error) {
     console.error("Error: ", error);
     return null;
