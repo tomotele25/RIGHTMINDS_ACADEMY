@@ -13,6 +13,7 @@ const CustomProvider = CredentialsProvider({
     email: { type: "text", field: "email" },
     password: { type: "password", field: "password" },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   authorize: async (credentials) => {
     console.log("authorize function reached");
     console.log("Backend :", BACKENDURL);
