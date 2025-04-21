@@ -4,7 +4,7 @@ import axios from "axios";
 const BACKENDURL =
   process.env.NEXT_PUBLIC_BACKEND_DOMAIN ||
   (process.env.NODE_ENV === "production"
-    ? "https://rightminds-academy-cjmv.vercel.app"
+    ? "rightmindsbackend.vercel.app"
     : "http://localhost:5000");
 
 const CustomProvider = CredentialsProvider({
@@ -14,10 +14,8 @@ const CustomProvider = CredentialsProvider({
     password: { type: "password", field: "password" },
   },
   authorize: async (credentials) => {
-    //logic to check backend response using client credentials
     console.log("authorize function reached");
     console.log("Backend :", BACKENDURL);
-
     try {
       const url = `${BACKENDURL}/api/auth/login`;
       const response = await axios.post(url, credentials);
