@@ -2,7 +2,6 @@ import Layout from "@/components/Layout";
 import React from "react";
 import { useState } from "react";
 import Link from "next/link";
-("../utils/Link");
 const Course = () => {
   const courses = [
     {
