@@ -82,7 +82,7 @@ export default function EnrolledCourseCard() {
         />
       </span>
 
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:max-w-xs md:max-w-sm lg:max-w-none mx-auto">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-auto">
         {/* Image */}
         <div className="relative mb-4">
           <img
