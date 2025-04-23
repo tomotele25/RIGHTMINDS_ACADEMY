@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-// import Loader from "@/components/Loader";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +16,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // Show loading toast with spinner
+    const toastId = toast.loading(
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        <span>Logging you in...</span>
+      </div>,
+      {
+        position: "top-right",
+        hideProgressBar: true,
+        closeOnClick: false,
+        closeButton: false,
+        autoClose: false,
+      }
+    );
+
     try {
       const response = await signIn("credentials", {
         email,
@@ -24,17 +40,37 @@ const Login = () => {
       });
 
       if (response.error) {
-        console.log("next auth error: ", response.error);
-        toast.error("Invalid email or password");
+        toast.update(toastId, {
+          render: "Invalid email or password",
+          type: "error",
+          isLoading: false,
+          autoClose: 2000,
+          closeOnClick: true,
+          closeButton: true,
+        });
       } else {
-        toast.success("Login successful! Redirecting...");
+        toast.update(toastId, {
+          render: "Login successful! Redirecting...",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500,
+          closeOnClick: true,
+          closeButton: true,
+        });
         setTimeout(() => {
           router.push("/student_dashboard");
         }, 1500);
       }
     } catch (error) {
       console.error("Login error: ", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.update(toastId, {
+        render: "Something went wrong. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+        closeOnClick: true,
+        closeButton: true,
+      });
     } finally {
       setLoading(false);
     }
@@ -44,7 +80,7 @@ const Login = () => {
   const isPasswordValid = (password) => password.length > 4;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white  px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6"
@@ -161,6 +197,7 @@ const Login = () => {
             Sign up
           </Link>
         </div>
+
         <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
       </form>
     </div>

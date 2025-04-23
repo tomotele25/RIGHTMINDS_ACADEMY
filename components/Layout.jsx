@@ -1,4 +1,3 @@
-// layout.jsx
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -9,6 +8,7 @@ import { useSession } from "next-auth/react";
 import Loader from "./Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const Layout = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const pathname = usePathname();
@@ -40,27 +40,50 @@ const Layout = ({ children }) => {
   useEffect(() => {
     setIsActive(pathname);
   }, [pathname]);
-
   const logout = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      await signOut({
-        callbackUrl: "/",
-      });
-      if (signOut) {
-        toast.success("logging out");
+
+    const toastId = toast.loading(
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 border-2 border-t-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        <span>Logging out...</span>
+      </div>,
+      {
+        position: "top-right",
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+        closeButton: false,
+      }
+    );
+
+    // Add a delay before performing signOut
+    setTimeout(async () => {
+      try {
+        await signOut({ redirect: false }); // Prevent NextAuth from automatically redirecting
+
+        // Update the toast to success
+        toast.update(toastId, {
+          render: "Logout successful!",
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
+
+        // Wait before redirecting to allow the success toast to be seen
         setTimeout(() => {
           router.push("/");
-        }, 1500);
-      } else {
-        toast.error("logout failed");
+        }, 2000);
+      } catch (error) {
+        // Handle error and update toast
+        toast.update(toastId, {
+          render: "Logout failed. Please try again.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
-    } catch (error) {
-      console.error("couldn't log out");
-    } finally {
-      setLoading(false);
-    }
+    }, 1000); // Initial delay before signOut
   };
 
   if (status === "unauthenticated") {
@@ -154,7 +177,7 @@ const Layout = ({ children }) => {
                 <Link href="/Anouncement">
                   <img src="/bell.svg" alt="Notifications" />
                 </Link>
-                <div className="bg-red-600 absolute bottom-4 left-3 text-xs h-4 w-4 flex justify-center items-center rounded-full">
+                <div className="bg-red-600 text-white absolute bottom-4 left-3 text-xs h-4 w-4 flex justify-center items-center rounded-full">
                   <p className="text-[10px]">3</p>
                 </div>
               </span>
