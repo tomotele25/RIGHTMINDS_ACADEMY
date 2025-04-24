@@ -11,7 +11,18 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-  const BACKENDURL = "https://rightmindsbackend.vercel.app";
+
+  let BACKENDURL;
+
+  if (process.env.NEXT_PUBLIC_BACKEND_DOMAIN) {
+    BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
+  } else {
+    if (process.env.NODE_ENV === "production") {
+      BACKENDURL = "https://rightmindsbackend.vercel.app";
+    } else {
+      BACKENDURL = "http://localhost:5000";
+    }
+  }
 
   const payload = { email, password, userName };
 
@@ -62,7 +73,7 @@ const Signup = () => {
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               placeholder="Create a username"
-              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full h-10 text-black px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -80,7 +91,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="test@example.com"
-              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -98,7 +109,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -116,7 +127,7 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 

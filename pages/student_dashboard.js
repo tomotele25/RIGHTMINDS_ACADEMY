@@ -9,8 +9,7 @@ import { data } from "autoprefixer";
 const StudentDashboard = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const { data: session, status } = useSession();
-  console.log(session?.user.name);
-  const userName = session?.user?.name || "User";
+
   setTimeout(() => {
     setShowWelcome(false);
   }, 5000);
