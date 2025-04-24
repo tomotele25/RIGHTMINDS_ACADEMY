@@ -11,7 +11,7 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-  const BACKENDURL = "http://localhost:5000";
+  const BACKENDURL = "https://rightmindsbackend.vercel.app";
 
   const payload = { email, password, userName };
 
