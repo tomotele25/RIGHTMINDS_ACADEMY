@@ -34,7 +34,7 @@ const StudentDashboard = () => {
         {showWelcome && (
           <div className="p-4 text-sm md:text-lg font-medium text-gray-800 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 relative">
             👋 Welcome back,{" "}
-            <span className="font-semibold text-black">{userName}</span>
+            <span className="font-semibold text-black">Christopher</span>
             <button
               onClick={() => setShowWelcome(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500"

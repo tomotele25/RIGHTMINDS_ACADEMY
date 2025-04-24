@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import Loader from "@/components/Loader";
 
 const Signup = () => {
@@ -11,34 +12,30 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-
-  let BACKENDURL;
-
-  if (process.env.NEXT_PUBLIC_BACKEND_DOMAIN) {
-    BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
-  } else {
-    if (process.env.NODE_ENV === "production") {
-      BACKENDURL = "https://rightmindsbackend.vercel.app";
-    } else {
-      BACKENDURL = "http://localhost:5000";
-    }
-  }
-
-  const payload = { email, password, userName };
+  const BACKENDURL = "https://rightmindsbackend.vercel.app";
 
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+    const payload = { email, password, userName };
     try {
       const response = await axios.post(
         `${BACKENDURL}/api/auth/signup`,
         payload
       );
-      response && response?.data?.message && alert(response?.data?.message);
+      if (response?.data?.message) {
+        toast.success(response.data.message);
+      }
       router.push("/Login");
     } catch (error) {
       console.error(error);
-      alert(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -73,7 +70,7 @@ const Signup = () => {
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               placeholder="Create a username"
-              className="w-full h-10 text-black px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -91,7 +88,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="test@example.com"
-              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -109,7 +106,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -127,7 +124,7 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full text-black h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+              className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
           </div>
 
@@ -159,6 +156,11 @@ const Signup = () => {
               Login here
             </Link>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar
+          />
         </form>
       )}
     </div>
