@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
 import Loader from "@/components/Loader";
 
 const Signup = () => {
@@ -12,30 +11,22 @@ const Signup = () => {
   const [userName, setUserName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-  const BACKENDURL = "https://rightmindsbackend.vercel.app";
+
+  const payload = { email, password, userName };
 
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      setLoading(false);
-      return;
-    }
-    const payload = { email, password, userName };
     try {
       const response = await axios.post(
-        `${BACKENDURL}/api/auth/signup`,
+        `https://rightmindsbackend.vercel.app/api/auth/signup`,
         payload
       );
-      if (response?.data?.message) {
-        toast.success(response.data.message);
-      }
+      response && response?.data?.message && alert(response?.data?.message);
       router.push("/Login");
     } catch (error) {
       console.error(error);
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      alert(error?.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -156,11 +147,6 @@ const Signup = () => {
               Login here
             </Link>
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar
-          />
         </form>
       )}
     </div>
