@@ -12,7 +12,7 @@ const faqs = [
       "Yes! Once you complete all lessons and pass the final quiz, you'll receive a digital certificate of completion.",
   },
   {
-    question: "Is Rightminds Academy free?",
+    question: "Is Learnova free?",
     answer:
       "Yes, most of our courses and features are completely free. Some premium content may require a subscription.",
   },

@@ -4,7 +4,7 @@ const About = () => {
   const [currentText, setCurrentText] = useState(0);
 
   const textArray = [
-    "Welcome to Rightminds Academy",
+    "Welcome to Learnova",
     "Innovation meets learning",
     // "Crafting exceptional digital experiences",
     // "Empowering you with tech and trading knowledge",

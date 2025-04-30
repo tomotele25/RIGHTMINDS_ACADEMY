@@ -2,31 +2,43 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 import Loader from "@/components/Loader";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-
-  const payload = { email, password, userName };
+  const BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
 
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+    const payload = { email, password, username };
     try {
+      console.log("url: ", BACKENDURL);
       const response = await axios.post(
-        `https://rightmindsbackend.vercel.app/api/auth/signup`,
+        `${BACKENDURL}/api/auth/signup`,
         payload
       );
-      response && response?.data?.message && alert(response?.data?.message);
+      alert(response);
+
+      if (response?.data?.message) {
+        toast.success(response.data.message);
+      }
       router.push("/Login");
     } catch (error) {
       console.error(error);
-      alert(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
@@ -58,8 +70,8 @@ const Signup = () => {
             <input
               id="userName"
               type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Create a username"
               className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
             />
@@ -147,6 +159,11 @@ const Signup = () => {
               Login here
             </Link>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar
+          />
         </form>
       )}
     </div>
