@@ -1,18 +1,8 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
-let BACKENDURL;
-
-if (process.env.NEXT_PUBLIC_BACKEND_DOMAIN) {
-  BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
-} else {
-  if (process.env.NODE_ENV === "production") {
-    BACKENDURL = "https://rightmindsbackend.vercel.app";
-  } else {
-    BACKENDURL = "http://localhost:5001";
-  }
-}
-
+const BACKENDURL =
+  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
   credentials: {
