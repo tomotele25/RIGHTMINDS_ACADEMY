@@ -12,7 +12,8 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-  const BACKENDURL = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -30,7 +31,6 @@ const Signup = () => {
         `${BACKENDURL}/api/auth/signup`,
         payload
       );
-      alert(response);
 
       if (response?.data?.message) {
         toast.success(response.data.message);

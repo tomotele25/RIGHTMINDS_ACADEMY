@@ -9,7 +9,7 @@ if (process.env.NEXT_PUBLIC_BACKEND_DOMAIN) {
   if (process.env.NODE_ENV === "production") {
     BACKENDURL = "https://rightmindsbackend.vercel.app";
   } else {
-    BACKENDURL = "http://localhost:5000";
+    BACKENDURL = "http://localhost:5001";
   }
 }
 
