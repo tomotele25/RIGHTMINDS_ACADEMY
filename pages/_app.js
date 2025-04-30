@@ -3,7 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
-
+import "react-toastify/dist/ReactToastify.css";
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
