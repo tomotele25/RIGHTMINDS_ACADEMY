@@ -11,37 +11,20 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [usernameValid, setUsernameValid] = useState(true);
   const router = useRouter();
+
   const BACKENDURL =
     "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Show loading toast with spinner
-    const toastId = toast.loading(
-      <div className="flex items-center gap-2">
-        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-        <span>Creating your account...</span>
-      </div>,
-      {
-        position: "top-right",
-        hideProgressBar: true,
-        closeOnClick: false,
-        closeButton: false,
-        autoClose: false,
-      }
-    );
-
-    if (password !== confirmPassword) {
-      toast.update(toastId, {
-        render: "Passwords do not match",
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-        closeOnClick: true,
-        closeButton: true,
-      });
+    if (!isPasswordMatch) {
+      toast.error("Passwords do not match!");
       setLoading(false);
       return;
     }
@@ -54,46 +37,60 @@ const Signup = () => {
       );
 
       if (response?.data?.message) {
-        toast.update(toastId, {
-          render: response.data.message,
-          type: "success",
-          isLoading: false,
-          autoClose: 2000,
-          closeOnClick: true,
-          closeButton: true,
-        });
+        toast.success("Signup successful");
         setTimeout(() => {
           router.push("/Login");
         }, 2000);
       }
     } catch (error) {
       console.error(error);
-      toast.update(toastId, {
-        render: error?.response?.data?.message || "Something went wrong!",
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
-        closeOnClick: true,
-        closeButton: true,
-      });
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }
   };
+
+  const handlePasswordChange = (e) => {
+    const pass = e.target.value;
+    setPassword(pass);
+    setIsPasswordMatch(pass === confirmPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPass = e.target.value;
+    setConfirmPassword(confirmPass);
+    setIsPasswordMatch(password === confirmPass);
+  };
+
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    setEmailValid(emailPattern.test(emailValue));
+  };
+
+  const handleUsernameChange = (e) => {
+    const usernameValue = e.target.value;
+    setUsername(usernameValue);
+    setUsernameValid(usernameValue.length >= 3);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+    <div className="flex items-center justify-center bg-white px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={submitForm}
-        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6"
+        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-6"
       >
-        <div className="text-center">
+        <div className="text-center mb-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
             Create an account
           </h1>
+          <p className="text-sm text-slate-800 mt-2">
+            Welcome to Learnova, create your account to get started!
+          </p>
         </div>
 
-        {/* Username Field */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           <label
             htmlFor="userName"
             className="block text-sm font-medium text-gray-700"
@@ -104,14 +101,20 @@ const Signup = () => {
             id="userName"
             type="text"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={handleUsernameChange}
             placeholder="Create a username"
-            className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+            className={`w-full h-12 px-4 border rounded-md focus:outline-none ${
+              usernameValid ? "border-gray-300" : "border-red-500"
+            } text-black`}
           />
+          {!usernameValid && (
+            <p className="text-xs text-red-500">
+              Username must be at least 3 characters long
+            </p>
+          )}
         </div>
 
-        {/* Email Field */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           <label
             htmlFor="email"
             className="block text-sm font-medium text-gray-700"
@@ -122,14 +125,18 @@ const Signup = () => {
             id="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             placeholder="test@example.com"
-            className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+            className={`w-full h-12 px-4 border rounded-md focus:outline-none ${
+              emailValid ? "border-gray-300" : "border-red-500"
+            } text-black`}
           />
+          {!emailValid && (
+            <p className="text-xs text-red-500">Please enter a valid email</p>
+          )}
         </div>
 
-        {/* Password Field */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
@@ -140,14 +147,13 @@ const Signup = () => {
             id="password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             placeholder="••••••••"
-            className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+            className="w-full h-12 text-black px-4 border rounded-md focus:outline-none border-gray-300"
           />
         </div>
 
-        {/* Confirm Password Field */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           <label
             htmlFor="confirmPassword"
             className="block text-sm font-medium text-gray-700"
@@ -158,31 +164,37 @@ const Signup = () => {
             id="confirmPassword"
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={handleConfirmPasswordChange}
             placeholder="••••••••"
-            className="w-full h-10 px-4 border rounded-md focus:outline-none border-gray-300"
+            className="w-full h-12 px-4 text-black border rounded-md focus:outline-none border-gray-300"
           />
+          <p
+            className={`text-xs ${
+              isPasswordMatch ? "text-green-500" : "text-red-500"
+            }`}
+          >
+            {isPasswordMatch ? "Passwords match!" : "Passwords do not match!"}
+          </p>
         </div>
 
-        {/* Terms & Conditions Checkbox */}
         <div className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="accent-slate-700" />
+          <input type="checkbox" className="accent-slate-700 text-black" />
           <label className="text-gray-700">
             I accept the{" "}
             <span className="text-blue-600">Terms and Conditions</span>
           </label>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          disabled={loading || password !== confirmPassword}
-          className="w-full h-10 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200"
+          disabled={
+            loading || !isPasswordMatch || !usernameValid || !emailValid
+          }
+          className="w-full h-12 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200"
         >
           {loading ? "Loading..." : "Create an account"}
         </button>
 
-        {/* Login Link */}
         <div className="text-center text-sm text-gray-600">
           Already have an account?{" "}
           <Link
@@ -193,7 +205,12 @@ const Signup = () => {
           </Link>
         </div>
 
-        <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar
+          style={{ zIndex: 9999 }}
+        />
       </form>
     </div>
   );

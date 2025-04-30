@@ -7,7 +7,11 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-
+input {
+  font-smooth: always; /* Enable font smoothing */
+  -webkit-font-smoothing: antialiased; /* For WebKit browsers */
+  -moz-osx-font-smoothing: grayscale; /* For Firefox on Mac */
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

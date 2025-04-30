@@ -17,7 +17,6 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Show loading toast with spinner
     const toastId = toast.loading(
       <div className="flex items-center gap-2">
         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -83,12 +82,13 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6"
+        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-6"
       >
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
             Sign in to your account
           </h1>
+          <p className="text-sm text-slate-800">Welcome back to Learnova</p>
         </div>
 
         {/* Email Field */}
