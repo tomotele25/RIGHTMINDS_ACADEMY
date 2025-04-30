@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
-import Loader from "@/components/Loader";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -13,22 +12,41 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-
   const BACKENDURL =
     "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
-
   const submitForm = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // Show loading toast with spinner
+    const toastId = toast.loading(
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        <span>Creating your account...</span>
+      </div>,
+      {
+        position: "top-right",
+        hideProgressBar: true,
+        closeOnClick: false,
+        closeButton: false,
+        autoClose: false,
+      }
+    );
+
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.update(toastId, {
+        render: "Passwords do not match",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+        closeOnClick: true,
+        closeButton: true,
+      });
       setLoading(false);
       return;
     }
 
     const payload = { email, password, username };
-
     try {
       const response = await axios.post(
         `${BACKENDURL}/api/auth/signup`,
@@ -36,18 +54,32 @@ const Signup = () => {
       );
 
       if (response?.data?.message) {
-        toast.success(response.data.message);
+        toast.update(toastId, {
+          render: response.data.message,
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+          closeOnClick: true,
+          closeButton: true,
+        });
+        setTimeout(() => {
+          router.push("/Login");
+        }, 2000);
       }
-
-      router.push("/Login");
     } catch (error) {
       console.error(error);
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      toast.update(toastId, {
+        render: error?.response?.data?.message || "Something went wrong!",
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+        closeOnClick: true,
+        closeButton: true,
+      });
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <form
@@ -60,7 +92,7 @@ const Signup = () => {
           </h1>
         </div>
 
-        {/* Username */}
+        {/* Username Field */}
         <div className="space-y-1">
           <label
             htmlFor="userName"
@@ -78,7 +110,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* Email */}
+        {/* Email Field */}
         <div className="space-y-1">
           <label
             htmlFor="email"
@@ -96,7 +128,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* Password */}
+        {/* Password Field */}
         <div className="space-y-1">
           <label
             htmlFor="password"
@@ -114,7 +146,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* Confirm Password */}
+        {/* Confirm Password Field */}
         <div className="space-y-1">
           <label
             htmlFor="confirmPassword"
@@ -132,7 +164,7 @@ const Signup = () => {
           />
         </div>
 
-        {/* Terms */}
+        {/* Terms & Conditions Checkbox */}
         <div className="flex items-center gap-2 text-sm">
           <input type="checkbox" className="accent-slate-700" />
           <label className="text-gray-700">
@@ -141,35 +173,13 @@ const Signup = () => {
           </label>
         </div>
 
-        {/* Submit */}
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading || password !== confirmPassword}
-          className="w-full h-10 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200 flex items-center justify-center gap-2"
+          className="w-full h-10 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200"
         >
-          {loading && (
-            <svg
-              className="animate-spin h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8z"
-              />
-            </svg>
-          )}
-          {loading ? "Creating your account..." : "Create an account"}
+          {loading ? "Loading..." : "Create an account"}
         </button>
 
         {/* Login Link */}
@@ -183,7 +193,6 @@ const Signup = () => {
           </Link>
         </div>
 
-        {/* Toast */}
         <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
       </form>
     </div>
