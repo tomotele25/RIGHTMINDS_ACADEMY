@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { data } from "autoprefixer";
+
 const StudentDashboard = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const { data: session, status } = useSession();

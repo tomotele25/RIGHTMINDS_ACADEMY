@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useState } from "react";
-
+import { useSession } from "next-auth/react";
 const Navbar = () => {
   const [isOpened, setIsOpened] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isProfilePicModalOpen, setIsProfilePicModalOpen] = useState(false);
+  const { data: session } = useSession();
   useEffect(() => {
     const handleScroll = () => {
       // Check if the page is scrolled down
@@ -81,7 +82,7 @@ const Navbar = () => {
                 </a>
               </span>
               <span className="flex relative  justify-center">
-                {isLoggedIn ? (
+                {session ? (
                   <div className="flex gap-3">
                     <span className="text-white text-sm ">
                       Tomotele <br /> christopher
@@ -99,7 +100,7 @@ const Navbar = () => {
                 ) : (
                   <span className="text-white flex gap-3">
                     <span>
-                      <Link href="/login">login </Link>
+                      <Link href="/Login">login </Link>
                     </span>
                     <div className="border-l-2 border-slate-300"></div>
                     <span>

@@ -104,7 +104,7 @@ const Signup = () => {
             onChange={handleUsernameChange}
             placeholder="Create a username"
             className={`w-full h-12 px-4 border rounded-md focus:outline-none ${
-              usernameValid ? "border-gray-300" : "border-red-500"
+              usernameValid ? "border-gray-300" : "border-red-700"
             } text-black`}
           />
           {!usernameValid && (

@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
       name: "Progress Tracker",
     },
     {
-      id: "/DiscussionPlatform.jsx",
+      id: "/DiscussionPlatform",
       icon: "/earth.svg",
       name: "Discusion and Forum",
     },
@@ -40,6 +40,7 @@ const Layout = ({ children }) => {
   useEffect(() => {
     setIsActive(pathname);
   }, [pathname]);
+
   const logout = async (e) => {
     e.preventDefault();
 
@@ -98,7 +99,7 @@ const Layout = ({ children }) => {
         <aside
           className={`bg-white w-64 p-4 z-10 fixed h-full transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-          } transition-transform lg:translate-x-0 lg:relative shadow-lg flex flex-col`}
+          } transition-transform lg:translate-x-0 lg:relative shadow-lg flex flex-col overflow-y-auto`}
         >
           {/* Sidebar header */}
           <div className="flex justify-between items-center pb-4 border-b">
@@ -112,7 +113,7 @@ const Layout = ({ children }) => {
           </div>
 
           {/* Sidebar nav */}
-          <nav className="flex-1 overflow-y-auto mt-8">
+          <nav className="flex-1 mt-8">
             <ul className="space-y-10">
               {[0, 3, 6].map((groupStart, i) => (
                 <li key={i} className="border-b pb-2">
@@ -213,6 +214,26 @@ const Layout = ({ children }) => {
           />
         </div>
       </div>
+
+      {/* Custom scrollbar */}
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          width: 2px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background-color: #4a90e2;
+          border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background-color: #0062cc;
+        }
+      `}</style>
     </div>
   );
 };
