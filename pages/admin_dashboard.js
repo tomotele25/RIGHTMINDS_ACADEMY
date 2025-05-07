@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const admin_dashboard = () => {
+const Admin_dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -176,4 +176,4 @@ const admin_dashboard = () => {
   );
 };
 
-export default admin_dashboard;
+export default Admin_dashboard;
