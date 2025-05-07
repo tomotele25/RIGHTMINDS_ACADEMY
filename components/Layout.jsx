@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
   const menuItems = [
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
-    { id: "/Client", icon: "brain.svg", name: "quiz" },
+    { id: "/admin_dashboard", icon: "brain.svg", name: "quiz" },
     { id: "/", icon: "wand-sparkles.svg", name: "AI Assistant" },
     { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
     {
@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
       icon: "/earth.svg",
       name: "Discusion and Forum",
     },
-    { id: "/settings", icon: "shield.svg", name: "Settings" },
+    { id: "/Settings", icon: "shield.svg", name: "Settings" },
     { id: "/Profile", icon: "circle-user-round.svg", name: "Profile" },
   ];
 
@@ -59,32 +59,34 @@ const Layout = ({ children }) => {
     );
 
     // Add a delay before performing signOut
-    setTimeout(async () => {
-      try {
-        await signOut({ redirect: false }); // Prevent NextAuth from automatically redirecting
+    if (session?.user?.role === "student") {
+      setTimeout(async () => {
+        try {
+          await signOut({ redirect: false }); // Prevent automatic redirection
 
-        // Update the toast to success
-        toast.update(toastId, {
-          render: "Logout successful!",
-          type: "success",
-          isLoading: false,
-          autoClose: 2000,
-        });
+          // Update the toast to success
+          toast.update(toastId, {
+            render: "Logout successful!",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          });
 
-        // Wait before redirecting to allow the success toast to be seen
-        setTimeout(() => {
-          router.push("/");
-        }, 2000);
-      } catch (error) {
-        // Handle error and update toast
-        toast.update(toastId, {
-          render: "Logout failed. Please try again.",
-          type: "error",
-          isLoading: false,
-          autoClose: 3000,
-        });
-      }
-    }, 1000); // Initial delay before signOut
+          // Wait before redirecting to allow the success toast to be seen
+          setTimeout(() => {
+            router.push("/"); // Redirect after logout
+          }, 2000);
+        } catch (error) {
+          // Handle error and update toast
+          toast.update(toastId, {
+            render: "Logout failed. Please try again.",
+            type: "error",
+            isLoading: false,
+            autoClose: 3000,
+          });
+        }
+      }, 1000);
+    }
   };
 
   if (status === "unauthenticated") {

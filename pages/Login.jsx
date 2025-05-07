@@ -1,6 +1,7 @@
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +13,9 @@ const Login = () => {
   const [passwordTouched, setPasswordTouched] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isPasswordValid = (password) => password.length > 4;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +42,7 @@ const Login = () => {
         redirect: false,
       });
 
-      if (response.error) {
+      if (response?.error) {
         toast.update(toastId, {
           render: "Invalid email or password",
           type: "error",
@@ -56,9 +60,18 @@ const Login = () => {
           closeOnClick: true,
           closeButton: true,
         });
-        setTimeout(() => {
+
+        // ✅ Wait for latest session
+        const updatedSession = await getSession();
+        const role = updatedSession?.user?.role;
+
+        console.log("USER ROLE:", role);
+
+        if (role === "admin") {
+          router.push("/admin_dashboard");
+        } else {
           router.push("/student_dashboard");
-        }, 1500);
+        }
       }
     } catch (error) {
       console.error("Login error: ", error);
@@ -74,9 +87,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
-  const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isPasswordValid = (password) => password.length > 4;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">

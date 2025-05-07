@@ -82,32 +82,16 @@ const Navbar = () => {
                 </a>
               </span>
               <span className="flex relative  justify-center">
-                {session ? (
-                  <div className="flex gap-3">
-                    <span className="text-white text-sm ">
-                      Tomotele <br /> christopher
-                    </span>
-                    <span>
-                      <img
-                        onClick={handleProilePicClick}
-                        src="/Ellipse 514 (6).svg"
-                        width={35}
-                        className="rounded-full"
-                        height={35}
-                      />
-                    </span>
-                  </div>
-                ) : (
-                  <span className="text-white flex gap-3">
-                    <span>
-                      <Link href="/Login">login </Link>
-                    </span>
-                    <div className="border-l-2 border-slate-300"></div>
-                    <span>
-                      <Link href="/Signup">Sign Up </Link>
-                    </span>
+                <span className="text-white flex gap-3">
+                  <span>
+                    <Link href="/Login">login </Link>
                   </span>
-                )}
+                  <div className="border-l-2 border-slate-300"></div>
+                  <span>
+                    <Link href="/Signup">Sign Up </Link>
+                  </span>
+                </span>
+
                 {isProfilePicModalOpen && (
                   <span className="absolute h-48 flex flex-col justify-evenly  w-60  bg-white shadow-lg top-14 right-10">
                     <span className="flex justify-center w-10/12 p-2 items-center ml-5 bg-white shadow-lg">

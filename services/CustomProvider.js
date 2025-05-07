@@ -17,8 +17,16 @@ const CustomProvider = CredentialsProvider({
       const url = `${BACKENDURL}/api/auth/login`;
       const response = await axios.post(url, credentials);
       console.log("resp: ", response.data);
-      if (response.data.success && response.data.accessToken)
-        return { access_token: response.data.accessToken };
+
+      if (
+        response.data.success &&
+        response.data.accessToken &&
+        response.data.user
+      )
+        return {
+          access_token: response.data.accessToken,
+          USER: response.data.user,
+        };
       return null;
     } catch (error) {
       console.error("Error: ", error);

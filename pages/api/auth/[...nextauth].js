@@ -6,28 +6,24 @@ export const nextOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async jwt({ token, user, account }) {
+    // jwt callback to store additional info in JWT token
+    async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
+        token.id = user.USER._id;
+        token.email = user.USER.email;
+        token.role = user.USER.role;
+        token.accessToken = user.access_token; // Corrected this to use user.access_token
       }
-
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-
       return token;
     },
 
+    // session callback to return the correct session data
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-        session.user.email = token.email;
-      }
-
-      session.accessToken = token.accessToken;
+      // Now you properly attach the role and accessToken to session.user
+      session.user.role = token.role;
+      session.user.accessToken = token.accessToken;
+      session.user.email = token.email;
+      session.user.id = token.id;
       return session;
     },
   },
