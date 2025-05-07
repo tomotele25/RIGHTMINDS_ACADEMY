@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const admin_dashboard = () => {
+const AdminDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -37,13 +37,11 @@ const admin_dashboard = () => {
       }
     );
 
-    // Only log out admin if they are an admin
     if (session?.user?.role === "admin") {
       setTimeout(async () => {
         try {
-          await signOut({ redirect: false }); // Prevent automatic redirection
+          await signOut({ redirect: false });
 
-          // Update the toast to success
           toast.update(toastId, {
             render: "Logout successful!",
             type: "success",
@@ -51,12 +49,10 @@ const admin_dashboard = () => {
             autoClose: 2000,
           });
 
-          // Wait before redirecting to allow the success toast to be seen
           setTimeout(() => {
-            router.push("/"); // Redirect after logout
+            router.push("/");
           }, 2000);
         } catch (error) {
-          // Handle error and update toast
           toast.update(toastId, {
             render: "Logout failed. Please try again.",
             type: "error",
@@ -176,4 +172,4 @@ const admin_dashboard = () => {
   );
 };
 
-export default admin_dashboard;
+export default AdminDashboard;
