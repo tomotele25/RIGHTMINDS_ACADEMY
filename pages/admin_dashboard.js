@@ -1,174 +1,167 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import AdminLayout from "@/components/AdminLayout";
 import {
-  FaBars,
   FaUserGraduate,
   FaChalkboardTeacher,
-  FaBook,
-  FaChartBar,
-  FaCogs,
-  FaMedal,
+  FaBookOpen,
   FaBullhorn,
+  FaFileAlt,
+  FaChartLine,
+  FaCalendarAlt,
 } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
 
 const AdminDashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const [totalstudents, setTotalstudents] = useState(null);
+  const [totalTeachers, setTotalTeachers] = useState(null);
+  const [error, setError] = useState("");
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
-  // Handle logout
-  const logout = async (e) => {
-    e.preventDefault();
-
-    const toastId = toast.loading(
-      <div className="flex items-center gap-2">
-        <div className="w-4 h-4 border-2 border-t-2 border-white border-t-transparent rounded-full animate-spin"></div>
-        <span>Logging out...</span>
-      </div>,
-      {
-        position: "top-right",
-        autoClose: false,
-        closeOnClick: false,
-        draggable: false,
-        closeButton: false,
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get(`${BACKENDURL}/api/students`);
+        setTotalstudents(response.data.totalStudents);
+      } catch (err) {
+        setError("Failed to fetch student count.");
       }
-    );
+    };
 
-    if (session?.user?.role === "admin") {
-      setTimeout(async () => {
-        try {
-          await signOut({ redirect: false });
+    const fetchTeachers = async () => {
+      try {
+        const response = await axios.get(`${BACKENDURL}/api/totalteachers`);
+        setTotalTeachers(response.data.totalTeachers);
+      } catch (err) {
+        setError("Failed to fetch teacher count.");
+      }
+    };
 
-          toast.update(toastId, {
-            render: "Logout successful!",
-            type: "success",
-            isLoading: false,
-            autoClose: 2000,
-          });
-
-          setTimeout(() => {
-            router.push("/");
-          }, 2000);
-        } catch (error) {
-          toast.update(toastId, {
-            render: "Logout failed. Please try again.",
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-          });
-        }
-      }, 1000);
-    }
-  };
-
-  // Redirect to homepage if not authenticated
-  if (status === "unauthenticated") {
-    router.push("/");
-    return null;
-  }
+    fetchStudents();
+    fetchTeachers();
+  }, []);
 
   return (
-    <div className="h-screen w-full text-black flex bg-white">
-      {/* Sidebar */}
-      <aside
-        className={`h-full bg-white text-black shadow-xl transition-all duration-300 ${
-          isSidebarOpen ? "w-64" : "w-16"
-        } flex flex-col fixed z-10`}
-      >
-        {/* Logo & Toggle */}
-        <div className="flex items-center justify-between p-4 ">
-          <span
-            className={`font-bold text-xl text-black ${
-              isSidebarOpen ? "block" : "hidden"
-            }`}
-          >
-            Learnova
-          </span>
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="ml-auto text-white text-sm p-2 rounded "
-          >
-            <FaBars color="black" size={20} />
-          </button>
-        </div>
+    <AdminLayout>
+      <div className="p-2  min-h-screen text-gray-800">
+        <h1 className="text-2xl font-semibold mb-6">Admin Dashboard</h1>
 
-        {/* Admin Profile */}
-        <div className="flex items-center gap-2 p-4 border-b border-black">
-          <img
-            src="https://i.pravatar.cc/40"
-            alt="Admin"
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          {isSidebarOpen && (
-            <div>
-              <p className="font-medium text-sm text-black">
-                Tomotele Christopher
-              </p>
-              <p className="text-xs text-indigo-200">Administrator</p>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaUserGraduate />
             </div>
-          )}
+            <h2 className="text-sm text-gray-600">Total Students</h2>
+            <p className="text-2xl font-semibold text-gray-800">
+              {totalstudents ?? "Loading..."}
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaChalkboardTeacher />
+            </div>
+            <h2 className="text-sm text-gray-600">Total Teachers</h2>
+            <p className="text-2xl font-semibold text-gray-800">
+              {totalTeachers ?? "Loading..."}
+            </p>
+          </div>
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaBookOpen />
+            </div>
+            <h2 className="text-sm text-gray-600">Courses</h2>
+            <p className="text-2xl font-semibold text-gray-800">14</p>
+          </div>
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaFileAlt />
+            </div>
+            <h2 className="text-sm text-gray-600">Reports</h2>
+            <p className="text-2xl font-semibold text-gray-800">5</p>
+          </div>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 p-2 space-y-3">
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaChartBar className="mr-3" />
-            {isSidebarOpen && <span>Dashboard</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaUserGraduate className="mr-3" />
-            {isSidebarOpen && <span>Students</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaChalkboardTeacher className="mr-3" />
-            {isSidebarOpen && <span>Teachers</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaBook className="mr-3" />
-            {isSidebarOpen && <span>Courses</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaBullhorn className="mr-3" />
-            {isSidebarOpen && <span>Announcements</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaMedal className="mr-3" />
-            {isSidebarOpen && <span>Certificates & Badges</span>}
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaCogs className="mr-3" />
-            {isSidebarOpen && <span>Settings</span>}
-          </div>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <div
-        className={`flex-1 transition-all duration-300 ${
-          isSidebarOpen ? "ml-64" : "ml-14"
-        }`}
-      >
-        <header className="bg-white p-6 shadow-md flex justify-between items-center">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Admin Dashboard
-          </h2>
-          <button
-            onClick={logout}
-            className="text-sm bg-indigo-600 text-white px-4 py-2 rounded-md"
+        {/* Quick Links */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <a
+            href="/admin/students"
+            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
           >
-            Logout
-          </button>
-        </header>
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaUserGraduate />
+            </div>
+            <span className="text-gray-800 font-medium">Manage Students</span>
+          </a>
+          <a
+            href="/admin/teachers"
+            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
+          >
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaChalkboardTeacher />
+            </div>
+            <span className="text-gray-800 font-medium">Manage Teachers</span>
+          </a>
+          <a
+            href="/admin/announcements"
+            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
+          >
+            <div className="text-2xl text-blue-600 mb-2">
+              <FaBullhorn />
+            </div>
+            <span className="text-gray-800 font-medium">Announcements</span>
+          </a>
+        </div>
 
-        <main className="p-6">{/* Content Section */}</main>
+        {/* Bottom Grid: Activity, Analytics, Calendar */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Activity Feed */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
+            <ul className="text-sm space-y-3">
+              <li>✅ New student registered (John Doe)</li>
+              <li>📝 Teacher updated course (Math 101)</li>
+              <li>📢 Announcement posted (Orientation)</li>
+              <li>📥 Report uploaded by Admin</li>
+            </ul>
+          </div>
+
+          {/* Mini Analytics */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Quick Analytics</h2>
+            <div className="flex items-center gap-4">
+              <FaChartLine className="text-4xl text-blue-500" />
+              <div>
+                <p className="text-sm text-gray-500">Growth Rate</p>
+                <p className="text-xl font-semibold">+8.4% this month</p>
+              </div>
+            </div>
+            <div className="mt-6 h-24 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm">
+              Chart placeholder
+            </div>
+          </div>
+
+          {/* Upcoming Events */}
+          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Upcoming Events</h2>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />
+                PTA Meeting – May 15
+              </li>
+              <li className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />
+                Exam Week – May 22
+              </li>
+              <li className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />
+                Workshop – June 5
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-
-      {/* Toast Notifications */}
-      <ToastContainer />
-    </div>
+    </AdminLayout>
   );
 };
 

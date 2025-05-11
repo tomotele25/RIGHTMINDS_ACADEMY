@@ -6,211 +6,247 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+  const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [emailValid, setEmailValid] = useState(true);
-  const [usernameValid, setUsernameValid] = useState(true);
+  const [firstname, setFirstname] = useState(""); // new state for first name
+  const [lastname, setLastname] = useState(""); // new state for last name
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const BACKENDURL =
-    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+  const BACKENDURL = "http://localhost:5001";
 
-  const submitForm = async (e) => {
+  const isPasswordMatch = password === confirmPassword;
+  const isEmailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(
+    email
+  );
+  const isUsernameValid = username.length >= 3;
+
+  const handleNext = () => {
+    if (step === 1 && (!isEmailValid || !isUsernameValid)) {
+      toast.error("Please enter a valid email and username");
+      return;
+    }
+    if (step === 2 && !isPasswordMatch) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    setStep(step + 1);
+  };
+
+  const handleBack = () => setStep(step - 1);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    if (!isPasswordMatch) {
-      toast.error("Passwords do not match!");
-      setLoading(false);
+    if (!termsAccepted) {
+      toast.error("Please accept the terms and conditions");
       return;
     }
 
-    const payload = { email, password, username };
+    setLoading(true);
     try {
-      const response = await axios.post(
-        `${BACKENDURL}/api/auth/signup`,
-        payload
-      );
+      const response = await axios.post(`${BACKENDURL}/api/auth/signup`, {
+        email,
+        username,
+        password,
+        firstname, // sending firstname to the backend
+        lastname, // sending lastname to the backend
+        role: "student",
+      });
 
-      if (response?.data?.message) {
-        toast.success("Signup successful");
-        setTimeout(() => {
-          router.push("/Login");
-        }, 2000);
-      }
+      toast.success("Signup successful!");
+      setTimeout(() => {
+        router.push("/Login");
+      }, 2000);
     } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message || "Something went wrong!");
+      toast.error(error?.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
     }
   };
 
-  const handlePasswordChange = (e) => {
-    const pass = e.target.value;
-    setPassword(pass);
-    setIsPasswordMatch(pass === confirmPassword);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const confirmPass = e.target.value;
-    setConfirmPassword(confirmPass);
-    setIsPasswordMatch(password === confirmPass);
-  };
-
-  const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    setEmailValid(emailPattern.test(emailValue));
-  };
-
-  const handleUsernameChange = (e) => {
-    const usernameValue = e.target.value;
-    setUsername(usernameValue);
-    setUsernameValid(usernameValue.length >= 3);
-  };
-
   return (
-    <div className="flex items-center justify-center bg-white px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center min-h-screen bg-white px-4">
       <form
-        onSubmit={submitForm}
-        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 sm:p-8 space-y-6"
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6 space-y-6"
       >
-        <div className="text-center mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800">
             Create an account
           </h1>
-          <p className="text-sm text-slate-800 mt-2">
-            Welcome to Learnova, create your account to get started!
-          </p>
+          <p className="text-sm text-slate-600 mt-2">Step {step} of 3</p>
         </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="userName"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Username
-          </label>
-          <input
-            id="userName"
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Create a username"
-            className={`w-full h-12 px-4 border rounded-md focus:outline-none ${
-              usernameValid ? "border-gray-300" : "border-red-700"
-            } text-black`}
-          />
-          {!usernameValid && (
-            <p className="text-xs text-red-500">
-              Username must be at least 3 characters long
-            </p>
+        {/* STEP 1 */}
+        {step === 1 && (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
+              <input
+                type="text"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md text-black"
+                placeholder="First Name"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+              <input
+                type="text"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md text-black"
+                placeholder="Last Name"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className={`w-full px-4 py-2 border rounded-md text-black ${
+                  isUsernameValid ? "border-gray-300" : "border-red-500"
+                }`}
+                placeholder="Create a username"
+              />
+              {!isUsernameValid && (
+                <p className="text-xs text-red-500">
+                  Username must be at least 3 characters
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`w-full px-4 py-2 border rounded-md text-black ${
+                  isEmailValid ? "border-gray-300" : "border-red-500"
+                }`}
+                placeholder="you@example.com"
+              />
+              {!isEmailValid && (
+                <p className="text-xs text-red-500">Invalid email format</p>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* STEP 2 */}
+        {step === 2 && (
+          <>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"
+                placeholder="••••••••"
+              />
+              {confirmPassword.length > 0 && (
+                <p
+                  className={`text-xs ${
+                    isPasswordMatch ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {isPasswordMatch
+                    ? "Passwords match"
+                    : "Passwords do not match"}
+                </p>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* STEP 3 */}
+        {step === 3 && (
+          <>
+            <div className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="accent-slate-700 text-black"
+              />
+              <label className="text-gray-700">
+                I accept the{" "}
+                <span className="text-blue-600">Terms and Conditions</span>
+              </label>
+            </div>
+            <button
+              type="submit"
+              disabled={loading || !termsAccepted}
+              className="w-full py-2 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition"
+            >
+              {loading ? "Creating..." : "Create Account"}
+            </button>
+          </>
+        )}
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center pt-4">
+          {step > 1 && (
+            <button
+              type="button"
+              onClick={handleBack}
+              className="text-sm text-slate-600 hover:underline"
+            >
+              ← Back
+            </button>
+          )}
+          {step < 3 && (
+            <button
+              type="button"
+              onClick={handleNext}
+              className="ml-auto bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-700"
+            >
+              Next →
+            </button>
           )}
         </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-            placeholder="test@example.com"
-            className={`w-full h-12 px-4 border rounded-md focus:outline-none ${
-              emailValid ? "border-gray-300" : "border-red-500"
-            } text-black`}
-          />
-          {!emailValid && (
-            <p className="text-xs text-red-500">Please enter a valid email</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="••••••••"
-            className="w-full h-12 text-black px-4 border rounded-md focus:outline-none border-gray-300"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Confirm Password
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            placeholder="••••••••"
-            className="w-full h-12 px-4 text-black border rounded-md focus:outline-none border-gray-300"
-          />
-          <p
-            className={`text-xs ${
-              isPasswordMatch ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {isPasswordMatch ? "Passwords match!" : "Passwords do not match!"}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="accent-slate-700 text-black" />
-          <label className="text-gray-700">
-            I accept the{" "}
-            <span className="text-blue-600">Terms and Conditions</span>
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          disabled={
-            loading || !isPasswordMatch || !usernameValid || !emailValid
-          }
-          className="w-full h-12 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition duration-200"
-        >
-          {loading ? "Loading..." : "Create an account"}
-        </button>
-
-        <div className="text-center text-sm text-gray-600">
+        <div className="text-center text-sm text-gray-600 pt-2">
           Already have an account?{" "}
-          <Link
-            href="/Login"
-            className="text-slate-800 font-medium hover:underline"
-          >
-            Login here
+          <Link href="/Login" className="text-slate-800 hover:underline">
+            Login
           </Link>
         </div>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={2000}
-          hideProgressBar
-          style={{ zIndex: 9999 }}
-        />
+        <ToastContainer position="top-right" autoClose={2000} />
       </form>
     </div>
   );
