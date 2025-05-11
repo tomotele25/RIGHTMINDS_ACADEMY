@@ -17,7 +17,8 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const BACKENDURL = "http://localhost:5001";
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   const isPasswordMatch = password === confirmPassword;
   const isEmailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(

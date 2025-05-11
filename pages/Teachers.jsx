@@ -35,20 +35,20 @@ const Teachers = () => {
     }
   };
 
-  const handleDelete = async () => {
-    if (!teacherToDelete) return;
-    setIsLoading(true);
-    try {
-      await axios.delete(
-        `${BACKENDURL}/api/deleteteacher/${teacherToDelete._id}`
-      );
-      fetchTeachers();
-      closeDeleteModal();
-    } catch (error) {
-      console.error("Delete failed", error);
-    }
-    setIsLoading(false);
-  };
+  //   const handleDelete = async () => {
+  //     if (!teacherToDelete) return;
+  //     setIsLoading(true);
+  //     try {
+  //       await axios.delete(
+  //         `${BACKENDURL}/api/deleteteacher/${teacherToDelete._id}`
+  //       );
+  //       fetchTeachers();
+  //       closeDeleteModal();
+  //     } catch (error) {
+  //       console.error("Delete failed", error);
+  //     }
+  //     setIsLoading(false);
+  //   };
 
   useEffect(() => {
     fetchTeachers();
@@ -190,7 +190,7 @@ const Teachers = () => {
                   Cancel
                 </button>
                 <button
-                  onClick={handleDelete}
+                  //   onClick={handleDelete}
                   className="bg-red-500 text-white px-4 py-2 rounded"
                 >
                   Delete
