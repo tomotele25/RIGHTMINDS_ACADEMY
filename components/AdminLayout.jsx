@@ -74,11 +74,13 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="flex  bg-white">
+    <div className="flex h-screen  bg-white">
       {/* Mobile Toggle Button (Top Left) */}
       <button
         onClick={() => setIsSidebarOpen(true)}
-        className="fixed top-4 left-4 z-50 p-2 bg-white rounded shadow md:hidden"
+        className={`fixed top-4 right-4  z-50 p-2 ${
+          isSidebarOpen ? "hidden" : "block"
+        } bg-white rounded shadow md:hidden`}
       >
         <FaBars size={24} />
       </button>
@@ -93,11 +95,9 @@ export default function AdminLayout({ children }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen  bg-white text-black shadow-xl transition-transform duration-300 z-50
-          w-64 transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } 
-          md:translate-x-0 md:static md:w-64 h-screen`}
+        className={`fixed top-0 left-0 h-screen bg-white text-black shadow-xl transition-transform duration-300 z-50
+    w-64 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+    md:translate-x-0 md:static md:w-64 flex flex-col`}
       >
         {/* Logo & Close Button */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -122,17 +122,20 @@ export default function AdminLayout({ children }) {
           </div>
           <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
             <FaChalkboardTeacher className="mr-3" />
-            <Link href="/Teachers" className="hover:underline">
-              Teachers
+            <Link href="/Teachers">Teachers</Link>
+          </div>
+          <div className="">
+            <Link
+              href="/ManageCourse"
+              className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer"
+            >
+              <FaBook className="mr-3" />
+              <span>Courses</span>
             </Link>
           </div>
           <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
-            <FaBook className="mr-3" />
-            <span>Courses</span>
-          </div>
-          <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
             <FaBullhorn className="mr-3" />
-            <span>Announcements</span>
+            <Link href="/ManageAnnouncement">Announcements</Link>
           </div>
           <div className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer">
             <FaMedal className="mr-3" />
@@ -142,18 +145,22 @@ export default function AdminLayout({ children }) {
             <FaCogs className="mr-3" />
             <span>Settings</span>
           </div>
-          <div
-            onClick={logout}
-            className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer"
-          >
-            <img src="/log-out.svg" alt="Logout" className="w-5 h-5 mr-3" />
-            <span className="text-sm font-medium">Logout</span>
-          </div>
         </nav>
+
+        {/* Logout Button */}
+        <div
+          onClick={logout}
+          className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer mt-auto"
+        >
+          <img src="/log-out.svg" alt="Logout" className="w-5 h-5 mr-3" />
+          <span className="text-sm font-medium">Logout</span>
+        </div>
       </aside>
 
       {/* Main Content Placeholder */}
-      <main className="flex-1 ml-0 bg-white p-4">{children}</main>
+      <main className="flex-1 ml-0 bg-white p-4 overflow-y-scroll">
+        {children}
+      </main>
       <ToastContainer
         position="top-right"
         autoClose={2000}
