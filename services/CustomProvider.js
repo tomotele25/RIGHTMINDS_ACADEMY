@@ -27,6 +27,7 @@ const CustomProvider = CredentialsProvider({
         return {
           access_token: response.data.accessToken,
           USER: response.data.user,
+          username: response.data.user.username,
         };
       return null;
     } catch (error) {

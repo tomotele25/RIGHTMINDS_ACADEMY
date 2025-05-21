@@ -13,6 +13,7 @@ export const nextOptions = {
         token.email = user.USER.email;
         token.role = user.USER.role;
         token.firstname = user.USER.firstname;
+        token.username = user.username;
         token.lastname = user.USER.lastname;
         token.accessToken = user.access_token; // Corrected this to use user.access_token
       }
@@ -28,6 +29,7 @@ export const nextOptions = {
       session.user.id = token.id;
       session.user.firstname = token.firstname;
       session.user.lastname = token.lastname;
+      session.user.username = token.username;
       return session;
     },
   },

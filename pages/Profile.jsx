@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
+import { useSession } from "next-auth/react";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
@@ -8,13 +9,14 @@ const Profile = () => {
   const [username, setUsername] = useState("0whhwyjnana99w7nns");
   const [phone, setPhone] = useState("123-456-7890");
   const [bio, setBio] = useState("I know my thing.");
-
+  const { data: session } = useSession();
   const handleImageChange = () => {
     console.log("Open image uploader...");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     console.log("Submitted values:", {
       firstname,
       lastname,
@@ -44,10 +46,10 @@ const Profile = () => {
             </button>
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">
-              {firstname} {lastname}
+            <h1 className="text-xl capitalize font-semibold text-gray-900">
+              {session?.user?.firstname} {session?.user?.lastname}
             </h1>
-            <p className="text-sm text-gray-500">{username}</p>
+            <p className="text-sm text-gray-500">{session?.user?.username}</p>
           </div>
           <button
             onClick={() => setEditing((prev) => !prev)}
@@ -78,7 +80,7 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{firstname}</p>
+              <p className="text-gray-800">{session?.user?.firstname}</p>
             )}
           </div>
 
@@ -94,7 +96,7 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{lastname}</p>
+              <p className="text-gray-800">{session?.user?.lastname}</p>
             )}
           </div>
 
@@ -110,7 +112,7 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{username}</p>
+              <p className="text-gray-800">{session?.user?.username}</p>
             )}
           </div>
 

@@ -185,8 +185,9 @@ const Layout = ({ children }) => {
                 </div>
               </span>
               <Link href="/Profile" className="flex items-center gap-3">
-                <span className="text-black hidden md:block text-sm text-right">
-                  Tomotele <br /> Christopher
+                <span className="text-black capitalize hidden md:block text-sm text-right">
+                  {session?.user?.firstname}
+                  <br /> {session?.user?.lastname}
                 </span>
                 <img
                   src="/Ellipse 514 (6).svg"
