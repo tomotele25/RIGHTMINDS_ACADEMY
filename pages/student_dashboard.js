@@ -38,7 +38,7 @@ const StudentDashboard = () => {
         {showWelcome && (
           <div className="p-4 text-sm md:text-lg font-medium text-gray-800 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 relative rounded-md shadow-sm">
             👋 Welcome back,{" "}
-            <span className="font-semibold text-black">
+            <span className="font-semibold capitalize text-black">
               {session?.user?.firstname || session?.user?.name || "User"}
             </span>
             <button
@@ -58,9 +58,11 @@ const StudentDashboard = () => {
             alt="User Avatar"
             className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-slate-300"
           />
-          <h1 className="text-black text-wrap text-xl md:text-2xl font-semibold">
+          <h1 className=" flex gap-2 text-black text-wrap text-xl md:text-2xl font-semibold">
             <span className="font-semibold capitalize text-black">
               {session?.user?.firstname || session?.user?.name || "User"}
+            </span>
+            <span className="font-semibold capitalize text-black">
               {session?.user?.lastname}
             </span>
           </h1>
