@@ -59,7 +59,10 @@ const StudentDashboard = () => {
             className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-slate-300"
           />
           <h1 className="text-black text-wrap text-xl md:text-2xl font-semibold">
-            Tomotele Christopher
+            <span className="font-semibold capitalize text-black">
+              {session?.user?.firstname || session?.user?.name || "User"}
+              {session?.user?.lastname}
+            </span>
           </h1>
         </div>
 
