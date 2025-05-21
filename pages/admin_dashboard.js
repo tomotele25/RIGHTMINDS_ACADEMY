@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "@/components/AdminLayout";
+import Link from "next/link";
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="p-2  min-h-screen text-gray-800">
+      <div className="p-2 min-h-screen text-gray-800">
         <h1 className="text-2xl font-semibold mb-6">Admin Dashboard</h1>
 
         {/* Stats Cards */}
@@ -84,33 +85,32 @@ const AdminDashboard = () => {
 
         {/* Quick Links */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          <a
-            href="/admin/students"
-            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
-          >
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaUserGraduate />
+          <Link href="/admin/students">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
+              <div className="text-2xl text-blue-600 mb-2">
+                <FaUserGraduate />
+              </div>
+              <span className="text-gray-800 font-medium">Manage Students</span>
             </div>
-            <span className="text-gray-800 font-medium">Manage Students</span>
-          </a>
-          <a
-            href="/admin/teachers"
-            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
-          >
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaChalkboardTeacher />
+          </Link>
+
+          <Link href="/admin/teachers">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
+              <div className="text-2xl text-blue-600 mb-2">
+                <FaChalkboardTeacher />
+              </div>
+              <span className="text-gray-800 font-medium">Manage Teachers</span>
             </div>
-            <span className="text-gray-800 font-medium">Manage Teachers</span>
-          </a>
-          <a
-            href="/admin/announcements"
-            className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition"
-          >
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaBullhorn />
+          </Link>
+
+          <Link href="/admin/announcements">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
+              <div className="text-2xl text-blue-600 mb-2">
+                <FaBullhorn />
+              </div>
+              <span className="text-gray-800 font-medium">Announcements</span>
             </div>
-            <span className="text-gray-800 font-medium">Announcements</span>
-          </a>
+          </Link>
         </div>
 
         {/* Bottom Grid: Activity, Analytics, Calendar */}

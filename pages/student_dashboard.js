@@ -1,19 +1,21 @@
 import EnrolledCourseCard from "@/components/EnrolledCourseCard";
 import Layout from "@/components/Layout";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { data } from "autoprefixer";
 
 const StudentDashboard = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const { data: session, status } = useSession();
 
-  setTimeout(() => {
-    setShowWelcome(false);
-  }, 5000);
+  // Hide welcome after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWelcome(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const announcements = [
     {
@@ -31,25 +33,30 @@ const StudentDashboard = () => {
 
   return (
     <Layout>
-      <div className="space-y-12">
+      <div className="space-y-12  min-h-screen p-4 md:p-6">
+        {/* Welcome Banner */}
         {showWelcome && (
-          <div className="p-4 text-sm md:text-lg font-medium text-gray-800 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 relative">
+          <div className="p-4 text-sm md:text-lg font-medium text-gray-800 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200 relative rounded-md shadow-sm">
             👋 Welcome back,{" "}
-            <span className="font-semibold text-black">Christopher</span>
+            <span className="font-semibold text-black">
+              {session?.user?.firstname || session?.user?.name || "User"}
+            </span>
             <button
               onClick={() => setShowWelcome(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
+              aria-label="Close welcome banner"
             >
               <FaTimes className="w-4 h-4" />
             </button>
           </div>
         )}
-        {/* Welcome Banner */}
-        <div className="flex items-center gap-4 bg-gradient-to-r from-slate-100 to-slate-50 p-4 md:p-6 rounded-xl border border-gray-200">
+
+        {/* User Info */}
+        <div className="flex items-center gap-4 bg-gradient-to-r from-slate-100 to-slate-50 p-4 md:p-6 rounded-xl border border-gray-200 shadow-sm">
           <img
             src="/Ellipse 514 (6).svg"
-            className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-slate-300"
             alt="User Avatar"
+            className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-slate-300"
           />
           <h1 className="text-black text-wrap text-xl md:text-2xl font-semibold">
             Tomotele Christopher
@@ -58,7 +65,7 @@ const StudentDashboard = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col justify-between">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 flex flex-col justify-between">
             <h2 className="text-xl font-semibold text-black mb-2">
               Weekly Streak
             </h2>
@@ -67,7 +74,7 @@ const StudentDashboard = () => {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-6 flex items-center gap-4">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 flex items-center gap-4">
             <img src="/flame.svg" alt="Flame" className="w-10 h-10" />
             <div>
               <h2 className="text-xl font-semibold text-black">1 week</h2>
@@ -75,7 +82,7 @@ const StudentDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col justify-between">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 flex flex-col justify-between">
             <ul className="space-y-3 text-sm text-gray-700">
               <li className="flex items-center gap-2">
                 <span className="text-orange-400">📚</span>
@@ -90,12 +97,19 @@ const StudentDashboard = () => {
               <p className="text-gray-500 text-xs">Mar 30 - Apr 12</p>
               <Link
                 href="/activity"
-                className="text-blue-500 underline text-sm hover:text-blue-600"
+                className="inline-block text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-md transition"
               >
                 See all activity
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Call to Action Button */}
+        <div className="flex justify-end">
+          <button className="bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-medium px-4 py-2 rounded-md transition">
+            + Enroll in a new course
+          </button>
         </div>
 
         {/* Course Progress Section */}
@@ -107,7 +121,7 @@ const StudentDashboard = () => {
           <div className="pt-2">
             <h2 className="text-lg font-medium text-gray-700">Courses</h2>
             <hr className="my-4" />
-            <div className="">
+            <div>
               <EnrolledCourseCard />
             </div>
           </div>

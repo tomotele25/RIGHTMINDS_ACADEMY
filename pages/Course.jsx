@@ -152,6 +152,9 @@ const Course = () => {
                   <p className="text-slate-700 text-sm font-medium">
                     {course.department} / {course.level} Level
                   </p>
+                  <Link href="/PDFReader" className="text-black">
+                    CLick this
+                  </Link>
                   <p className="text-gray-500 text-sm">
                     Instructor: {course.instructor}
                   </p>
@@ -164,6 +167,7 @@ const Course = () => {
                   >
                     View Course
                   </Link>
+
                   <button
                     onClick={() => setSelectedCourse(course)}
                     className="bg-gray-200 p-2 text-nowrap text-gray-800 text-sm rounded-lg hover:bg-gray-300 transition"

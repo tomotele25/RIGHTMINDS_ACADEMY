@@ -12,6 +12,8 @@ export const nextOptions = {
         token.id = user.USER._id;
         token.email = user.USER.email;
         token.role = user.USER.role;
+        token.firstname = user.USER.firstname;
+        token.lastname = user.USER.lastname;
         token.accessToken = user.access_token; // Corrected this to use user.access_token
       }
       return token;
@@ -24,6 +26,8 @@ export const nextOptions = {
       session.user.accessToken = token.accessToken;
       session.user.email = token.email;
       session.user.id = token.id;
+      session.user.firstname = token.firstname;
+      session.user.lastname = token.lastname;
       return session;
     },
   },

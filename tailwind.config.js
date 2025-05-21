@@ -7,6 +7,9 @@ module.exports = {
   theme: {
     extend: {
       screens: {},
+      fontFamily: {
+        sans: ["var(--font-poppins)"],
+      },
     },
   },
   plugins: [],
