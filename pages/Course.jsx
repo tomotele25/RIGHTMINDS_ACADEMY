@@ -138,7 +138,7 @@ const Course = () => {
                 className="bg-white hover:shadow-2xl transition duration-300 shadow p-5 rounded-lg flex flex-col justify-between"
               >
                 <img
-                  src={`${BACKENDURL}/uploads/${course.image}`}
+                  src={course.image}
                   alt={course.title}
                   className="w-full h-40 object-cover rounded-md mb-4"
                 />
