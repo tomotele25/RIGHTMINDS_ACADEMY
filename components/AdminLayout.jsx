@@ -108,7 +108,7 @@ export default function AdminLayout({ children }) {
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
+          className="fixed inset-0  bg-opacity-30 z-40 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -116,72 +116,71 @@ export default function AdminLayout({ children }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen bg-white text-gray-800 shadow-lg transition-transform duration-300 z-50
-          w-64 transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 md:static md:w-64 flex flex-col`}
+        className={`bg-white w-64 p-4 z-10 fixed h-full transform ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-64"
+        } transition-transform lg:translate-x-0 lg:relative shadow-lg flex flex-col overflow-y-auto`}
       >
-        {/* Logo & Close */}
-        <div className="flex items-center justify-between p-5 border-b border-gray-200">
-          <h1 className="text-2xl font-extrabold text-indigo-700 select-none">
+        {/* Sidebar header */}
+        <div className="flex justify-between items-center pb-4 border-b">
+          <h1 className="text-xl font-extrabold text-indigo-700 select-none">
             Learnova
           </h1>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="block md:hidden p-2 rounded hover:bg-gray-100 transition"
-            aria-label="Close sidebar"
+            className="lg:hidden p-2"
           >
             <FaBars size={20} />
           </button>
         </div>
 
-        {/* Navigation & Logout */}
-        <div className=" flex flex-col space-y-20   justify-between overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
-          <nav className="px-4 py-6 space-y-2" aria-label="Main navigation">
-            {navItems.map(({ href, icon: Icon, label }) =>
-              href ? (
-                <Link key={label} href={href} passHref>
-                  <span
-                    onClick={handleNavClick}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors select-none cursor-pointer ${
-                      isActive(href)
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
-                    }`}
-                    aria-current={isActive(href) ? "page" : undefined}
-                  >
-                    <Icon className="text-lg" />
-                    <span>{label}</span>
-                  </span>
-                </Link>
-              ) : (
-                <div
-                  key={label}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-500 cursor-default select-none"
-                >
-                  <Icon className="text-lg" />
-                  <span>{label}</span>
+        {/* Navigation */}
+        <nav className="flex-1 mt-8">
+          <ul className="space-y-8">
+            {[0, 3, 6].map((groupStart, i) => (
+              <li key={i} className="border-b pb-2">
+                <div className="space-y-3">
+                  {navItems
+                    .slice(groupStart, groupStart + 3)
+                    .map(({ href, icon: Icon, label }) =>
+                      href ? (
+                        <Link key={label} href={href} passHref>
+                          <span
+                            onClick={handleNavClick}
+                            className={`flex items-center gap-3 p-2 rounded-md text-sm font-medium transition-all cursor-pointer ${
+                              isActive(href)
+                                ? "bg-indigo-600 text-white shadow-md"
+                                : "text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
+                            }`}
+                            aria-current={isActive(href) ? "page" : undefined}
+                          >
+                            <Icon className="text-lg" />
+                            <span>{label}</span>
+                          </span>
+                        </Link>
+                      ) : (
+                        <div
+                          key={label}
+                          className="flex items-center gap-3 p-2 rounded-md text-sm text-gray-400 select-none"
+                        >
+                          <Icon className="text-lg" />
+                          <span>{label}</span>
+                        </div>
+                      )
+                    )}
                 </div>
-              )
-            )}
-          </nav>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          {/* Logout Button */}
-          <div className="p-4">
-            <button
-              onClick={logout}
-              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition select-none"
-              aria-label="Logout"
-            >
-              <img
-                src="/log-out.svg"
-                alt="Logout Icon"
-                className="w-5 h-5 invert"
-                aria-hidden="true"
-              />
-              <span>Logout</span>
-            </button>
-          </div>
+        {/* Logout */}
+        <div className="mt-auto pt-4 border-t">
+          <button onClick={logout} className="w-full text-left">
+            <span className="flex items-center gap-2 p-2 rounded-md transition-all hover:bg-red-500 hover:text-white text-black">
+              <img src="/log-out.svg" alt="Logout" className="w-5 h-5" />
+              <span className="text-sm font-medium">Logout</span>
+            </span>
+          </button>
         </div>
       </aside>
 
