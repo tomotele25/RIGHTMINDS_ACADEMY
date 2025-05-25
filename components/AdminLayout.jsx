@@ -29,7 +29,6 @@ export default function AdminLayout({ children }) {
 
   const logout = async (e) => {
     e.preventDefault();
-
     const toastId = toast.loading(
       <div className="flex items-center gap-2">
         <div className="w-4 h-4 border-2 border-t-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -48,14 +47,12 @@ export default function AdminLayout({ children }) {
       setTimeout(async () => {
         try {
           await signOut({ redirect: false });
-
           toast.update(toastId, {
             render: "Logout successful!",
             type: "success",
             isLoading: false,
             autoClose: 2000,
           });
-
           setTimeout(() => {
             router.push("/Login");
           }, 2000);
@@ -138,57 +135,58 @@ export default function AdminLayout({ children }) {
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav
-          className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100"
-          aria-label="Main navigation"
-        >
-          {navItems.map(({ href, icon: Icon, label }) =>
-            href ? (
-              <Link key={label} href={href} passHref>
-                <span
-                  onClick={handleNavClick}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors select-none ${
-                    isActive(href)
-                      ? "bg-indigo-600 text-white shadow-md"
-                      : "text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
-                  }`}
-                  aria-current={isActive(href) ? "page" : undefined}
+        {/* Navigation & Logout */}
+        <div className="flex-1 flex flex-col justify-between overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
+          <nav className="px-4 py-6 space-y-2" aria-label="Main navigation">
+            {navItems.map(({ href, icon: Icon, label }) =>
+              href ? (
+                <Link key={label} href={href} passHref>
+                  <span
+                    onClick={handleNavClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors select-none cursor-pointer ${
+                      isActive(href)
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
+                    }`}
+                    aria-current={isActive(href) ? "page" : undefined}
+                  >
+                    <Icon className="text-lg" />
+                    <span>{label}</span>
+                  </span>
+                </Link>
+              ) : (
+                <div
+                  key={label}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-500 cursor-default select-none"
                 >
                   <Icon className="text-lg" />
                   <span>{label}</span>
-                </span>
-              </Link>
-            ) : (
-              <div
-                key={label}
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-500 cursor-default select-none"
-              >
-                <Icon className="text-lg" />
-                <span>{label}</span>
-              </div>
-            )
-          )}
-        </nav>
+                </div>
+              )
+            )}
+          </nav>
 
-        {/* Logout */}
-        <button
-          onClick={logout}
-          className="flex items-center gap-3 px-5 py-3 mb-6 mx-4 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition select-none"
-          aria-label="Logout"
-        >
-          <img
-            src="/log-out.svg"
-            alt="Logout Icon"
-            className="w-5 h-5 invert"
-            aria-hidden="true"
-          />
-          <span>Logout</span>
-        </button>
+          {/* Logout Button */}
+          <div className="p-4">
+            <button
+              onClick={logout}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition select-none"
+              aria-label="Logout"
+            >
+              <img
+                src="/log-out.svg"
+                alt="Logout Icon"
+                className="w-5 h-5 invert"
+                aria-hidden="true"
+              />
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-0  bg-gray-50 p-6 overflow-y-auto">
+      <main className="flex-1 ml-0 bg-gray-50 p-6 overflow-y-auto">
         {children}
       </main>
 

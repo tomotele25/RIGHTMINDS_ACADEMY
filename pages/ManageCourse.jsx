@@ -17,7 +17,6 @@ const initialForm = {
 const BACKENDURL =
   "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
-// Your Cloudinary config (replace with your actual cloud name and preset)
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dayafwzz7/upload";
 const CLOUDINARY_UPLOAD_PRESET = "image-preset";
 
@@ -42,7 +41,6 @@ const ManageCourse = () => {
     fetchCourses();
   }, []);
 
-  // Upload image to Cloudinary
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -54,12 +52,7 @@ const ManageCourse = () => {
         body: formData,
       });
       const data = await response.json();
-      if (data.secure_url) {
-        // Return the full URL to the uploaded image
-        return data.secure_url;
-      } else {
-        throw new Error("Cloudinary upload failed");
-      }
+      return data.secure_url || null;
     } catch (error) {
       console.error("Cloudinary upload error:", error);
       return null;
@@ -109,6 +102,14 @@ const ManageCourse = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -116,13 +117,11 @@ const ManageCourse = () => {
 
     if (selectedImageFile) {
       const uploadedUrl = await uploadImageToCloudinary(selectedImageFile);
-      if (uploadedUrl) {
-        imageUrl = uploadedUrl;
-        setFormData((prev) => ({ ...prev, image: uploadedUrl }));
-      } else {
+      if (!uploadedUrl) {
         alert("Image upload failed. Please try again.");
         return;
       }
+      imageUrl = uploadedUrl;
     }
 
     const payload = {
@@ -139,7 +138,6 @@ const ManageCourse = () => {
 
     if (isEditing) {
       await fetchUpdateCourse(formData.id, payload);
-      setIsEditing(false);
     } else {
       await fetchCreateCourse(payload);
     }
@@ -147,11 +145,12 @@ const ManageCourse = () => {
     setFormData(initialForm);
     setSelectedImageFile(null);
     setImagePreview(null);
+    setIsEditing(false);
   };
 
   const handleEdit = (course) => {
     setFormData({
-      id: course._id || course.id,
+      id: course._id,
       title: course.title,
       department: course.department,
       level: course.level,
@@ -164,14 +163,6 @@ const ManageCourse = () => {
     setSelectedImageFile(null);
     setImagePreview(course.image || null);
     setIsEditing(true);
-  };
-
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
   };
 
   return (
@@ -279,7 +270,7 @@ const ManageCourse = () => {
         <ul>
           {courses.map((course) => (
             <li
-              key={course._id || course.id}
+              key={course._id}
               className="mb-3 cursor-pointer border p-4 rounded hover:bg-gray-100"
               onClick={() => handleEdit(course)}
             >
