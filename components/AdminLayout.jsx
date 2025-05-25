@@ -21,7 +21,6 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Redirect unauthenticated users to login
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/Login");
@@ -74,7 +73,6 @@ export default function AdminLayout({ children }) {
 
   const isActive = (path) => router.pathname === path;
 
-  // Nav items array
   const navItems = [
     { href: "/Dashboard", icon: FaChartBar, label: "Dashboard" },
     { href: "/Students", icon: FaUserGraduate, label: "Students" },
@@ -90,28 +88,27 @@ export default function AdminLayout({ children }) {
   };
 
   if (status === "loading") {
-    // Optionally, show loading spinner or blank screen while session loads
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex items-center justify-center h-screen text-gray-600 text-lg font-semibold">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-white">
-      {/* Mobile Toggle Button (Top Right) */}
+    <div className="flex h-screen bg-gray-50">
+      {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(true)}
         className={`fixed top-4 right-4 z-50 p-2 ${
           isSidebarOpen ? "hidden" : "block"
-        } bg-white rounded shadow md:hidden`}
+        } bg-white rounded-lg shadow-md md:hidden transition-shadow hover:shadow-lg`}
         aria-label="Open sidebar"
       >
         <FaBars size={24} />
       </button>
 
-      {/* Sidebar Overlay (mobile only) */}
+      {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
@@ -122,67 +119,76 @@ export default function AdminLayout({ children }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-screen bg-white text-black shadow-xl transition-transform duration-300 z-50
+        className={`fixed top-0 left-0 h-screen bg-white text-gray-800 shadow-lg transition-transform duration-300 z-50
           w-64 transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }
-          md:translate-x-0 md:static md:w-64 flex flex-col`}
+          } md:translate-x-0 md:static md:w-64 flex flex-col`}
       >
-        {/* Logo & Close Button */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <span className="font-bold text-xl text-black">Learnova</span>
+        {/* Logo & Close */}
+        <div className="flex items-center justify-between p-5 border-b border-gray-200">
+          <h1 className="text-2xl font-extrabold text-indigo-700 select-none">
+            Learnova
+          </h1>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="block md:hidden p-2"
+            className="block md:hidden p-2 rounded hover:bg-gray-100 transition"
             aria-label="Close sidebar"
           >
-            <FaBars color="black" size={20} />
+            <FaBars size={20} />
           </button>
         </div>
 
-        {/* Navigation Links */}
-        <nav className="flex-1 p-2 space-y-3" aria-label="Main navigation">
+        {/* Navigation */}
+        <nav
+          className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100"
+          aria-label="Main navigation"
+        >
           {navItems.map(({ href, icon: Icon, label }) =>
             href ? (
-              <Link key={label} href={href}>
+              <Link key={label} href={href} passHref>
                 <span
                   onClick={handleNavClick}
-                  className={`flex items-center p-2 rounded cursor-pointer select-none ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors select-none ${
                     isActive(href)
-                      ? "bg-indigo-700 text-white"
-                      : "hover:bg-indigo-600 text-black"
+                      ? "bg-indigo-600 text-white shadow-md"
+                      : "text-gray-700 hover:bg-indigo-100 hover:text-indigo-700"
                   }`}
                   aria-current={isActive(href) ? "page" : undefined}
                 >
-                  <Icon className="mr-3" />
+                  <Icon className="text-lg" />
                   <span>{label}</span>
                 </span>
               </Link>
             ) : (
               <div
                 key={label}
-                className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-default text-gray-700 select-none"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-500 cursor-default select-none"
               >
-                <Icon className="mr-3" />
+                <Icon className="text-lg" />
                 <span>{label}</span>
               </div>
             )
           )}
         </nav>
 
-        {/* Logout Button */}
+        {/* Logout */}
         <button
           onClick={logout}
-          className="flex items-center p-2 hover:bg-indigo-600 rounded cursor-pointer mt-auto text-black w-full"
+          className="flex items-center gap-3 px-5 py-3 mb-6 mx-4 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition select-none"
           aria-label="Logout"
         >
-          <img src="/log-out.svg" alt="Logout Icon" className="w-5 h-5 mr-3" />
-          <span className="text-sm font-medium">Logout</span>
+          <img
+            src="/log-out.svg"
+            alt="Logout Icon"
+            className="w-5 h-5 invert"
+            aria-hidden="true"
+          />
+          <span>Logout</span>
         </button>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-0 bg-white p-4 overflow-y-auto">
+      <main className="flex-1 ml-0  bg-gray-50 p-6 overflow-y-auto">
         {children}
       </main>
 
