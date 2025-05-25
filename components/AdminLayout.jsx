@@ -136,7 +136,7 @@ export default function AdminLayout({ children }) {
         </div>
 
         {/* Navigation & Logout */}
-        <div className="flex-1 flex flex-col justify-between overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
+        <div className=" flex flex-col justify-between overflow-y-auto scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-gray-100">
           <nav className="px-4 py-6 space-y-2" aria-label="Main navigation">
             {navItems.map(({ href, icon: Icon, label }) =>
               href ? (
