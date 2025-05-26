@@ -74,6 +74,7 @@ export default function AdminLayout({ children }) {
     { href: "/Dashboard", icon: FaChartBar, label: "Dashboard" },
     { href: "/Students", icon: FaUserGraduate, label: "Students" },
     { href: "/Teachers", icon: FaChalkboardTeacher, label: "Teachers" },
+    { href: "/ManageQuiz", icon: FaChalkboardTeacher, label: "Teachers" },
     { href: "/ManageCourse", icon: FaBook, label: "Courses" },
     { href: "/ManageAnnouncement", icon: FaBullhorn, label: "Announcements" },
     { href: null, icon: FaMedal, label: "Certificates & Badges" },

@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
     { id: "/admin_dashboard", icon: "brain.svg", name: "quiz" },
-    { id: "/", icon: "wand-sparkles.svg", name: "AI Assistant" },
+    { id: "/Ai_Assistant", icon: "wand-sparkles.svg", name: "AI Assistant" },
     { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
     {
       id: "/Progress_Tracker",
@@ -229,7 +229,7 @@ const Layout = ({ children }) => {
         }
 
         ::-webkit-scrollbar-thumb {
-          background-color: #4a90e2;
+          background-color: #1e293b;
           border-radius: 10px;
         }
 

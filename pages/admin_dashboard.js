@@ -1,124 +1,94 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminLayout from "@/components/AdminLayout";
-import Link from "next/link";
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
   FaBookOpen,
-  FaBullhorn,
   FaFileAlt,
   FaChartLine,
   FaCalendarAlt,
 } from "react-icons/fa";
 
 const AdminDashboard = () => {
-  const [totalstudents, setTotalstudents] = useState(null);
+  const [totalStudents, setTotalStudents] = useState(null);
   const [totalTeachers, setTotalTeachers] = useState(null);
-  const [error, setError] = useState("");
   const BACKENDURL =
     "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   useEffect(() => {
-    const fetchStudents = async () => {
+    const fetchCounts = async () => {
       try {
-        const response = await axios.get(`${BACKENDURL}/api/students`);
-        setTotalstudents(response.data.totalStudents);
-      } catch (err) {
-        setError("Failed to fetch student count.");
+        const [{ data: s }, { data: t }] = await Promise.all([
+          axios.get(`${BACKENDURL}/api/students`),
+          axios.get(`${BACKENDURL}/api/totalteachers`),
+        ]);
+        setTotalStudents(s.totalStudents);
+        setTotalTeachers(t.totalTeachers);
+      } catch {
+        // simplify error handling
       }
     };
-
-    const fetchTeachers = async () => {
-      try {
-        const response = await axios.get(`${BACKENDURL}/api/totalteachers`);
-        setTotalTeachers(response.data.totalTeachers);
-      } catch (err) {
-        setError("Failed to fetch teacher count.");
-      }
-    };
-
-    fetchStudents();
-    fetchTeachers();
+    fetchCounts();
   }, []);
 
   return (
     <AdminLayout>
-      <div className="p-2 min-h-screen text-gray-800">
+      <div className="p-4 min-h-screen text-gray-800">
         <h1 className="text-2xl font-semibold mb-6">Admin Dashboard</h1>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaUserGraduate />
+        {/* ───────────────  TOP STATS  ─────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="sm:col-span-2 bg-blue-100 rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition hover:scale-[1.02]">
+            <div className="flex items-center gap-4">
+              <FaUserGraduate className="text-3xl text-blue-600" />
+              <div>
+                <h2 className="text-sm text-gray-600">Total Students</h2>
+                <p className="text-3xl font-semibold">
+                  {totalStudents ?? "Loading..."}
+                </p>
+              </div>
             </div>
-            <h2 className="text-sm text-gray-600">Total Students</h2>
-            <p className="text-2xl font-semibold text-gray-800">
-              {totalstudents ?? "Loading..."}
-            </p>
           </div>
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaChalkboardTeacher />
+
+          <div className="bg-green-100 rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition hover:scale-[1.02]">
+            <div className="flex items-center gap-4">
+              <FaChalkboardTeacher className="text-2xl text-green-600" />
+              <div>
+                <h2 className="text-sm text-gray-600">Total Teachers</h2>
+                <p className="text-2xl font-semibold">
+                  {totalTeachers ?? "Loading..."}
+                </p>
+              </div>
             </div>
-            <h2 className="text-sm text-gray-600">Total Teachers</h2>
-            <p className="text-2xl font-semibold text-gray-800">
-              {totalTeachers ?? "Loading..."}
-            </p>
           </div>
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaBookOpen />
+
+          <div className="bg-yellow-100 rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition hover:scale-[1.02]">
+            <div className="flex items-center gap-4">
+              <FaBookOpen className="text-2xl text-yellow-600" />
+              <div>
+                <h2 className="text-sm text-gray-600">Courses</h2>
+                <p className="text-2xl font-semibold">14</p>
+              </div>
             </div>
-            <h2 className="text-sm text-gray-600">Courses</h2>
-            <p className="text-2xl font-semibold text-gray-800">14</p>
           </div>
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm transition hover:shadow-md hover:scale-[1.02]">
-            <div className="text-2xl text-blue-600 mb-2">
-              <FaFileAlt />
+
+          <div className="bg-purple-100 rounded-xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition hover:scale-[1.02]">
+            <div className="flex items-center gap-4">
+              <FaFileAlt className="text-2xl text-purple-600" />
+              <div>
+                <h2 className="text-sm text-gray-600">Reports</h2>
+                <p className="text-2xl font-semibold">5</p>
+              </div>
             </div>
-            <h2 className="text-sm text-gray-600">Reports</h2>
-            <p className="text-2xl font-semibold text-gray-800">5</p>
           </div>
         </div>
 
-        {/* Quick Links */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          <Link href="/admin/students">
-            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
-              <div className="text-2xl text-blue-600 mb-2">
-                <FaUserGraduate />
-              </div>
-              <span className="text-gray-800 font-medium">Manage Students</span>
-            </div>
-          </Link>
-
-          <Link href="/admin/teachers">
-            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
-              <div className="text-2xl text-blue-600 mb-2">
-                <FaChalkboardTeacher />
-              </div>
-              <span className="text-gray-800 font-medium">Manage Teachers</span>
-            </div>
-          </Link>
-
-          <Link href="/admin/announcements">
-            <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:scale-[1.02] transition cursor-pointer">
-              <div className="text-2xl text-blue-600 mb-2">
-                <FaBullhorn />
-              </div>
-              <span className="text-gray-800 font-medium">Announcements</span>
-            </div>
-          </Link>
-        </div>
-
-        {/* Bottom Grid: Activity, Analytics, Calendar */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Activity Feed */}
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+        {/* ───────────────  BOTTOM MASONRY  ─────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-6">
+          <div className="lg:col-span-2 bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-            <ul className="text-sm space-y-3">
+            <ul className="space-y-3 text-sm">
               <li>✅ New student registered (John Doe)</li>
               <li>📝 Teacher updated course (Math 101)</li>
               <li>📢 Announcement posted (Orientation)</li>
@@ -126,8 +96,7 @@ const AdminDashboard = () => {
             </ul>
           </div>
 
-          {/* Mini Analytics */}
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Quick Analytics</h2>
             <div className="flex items-center gap-4">
               <FaChartLine className="text-4xl text-blue-500" />
@@ -136,15 +105,14 @@ const AdminDashboard = () => {
                 <p className="text-xl font-semibold">+8.4% this month</p>
               </div>
             </div>
-            <div className="mt-6 h-24 bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-sm">
+            <div className="mt-6 h-24 bg-gray-100 rounded flex items-center justify-center text-gray-400 text-sm">
               Chart placeholder
             </div>
           </div>
 
-          {/* Upcoming Events */}
-          <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="lg:row-span-2 bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Upcoming Events</h2>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-4 text-sm">
               <li className="flex items-center gap-2">
                 <FaCalendarAlt className="text-blue-500" />
                 PTA Meeting – May 15
@@ -156,6 +124,10 @@ const AdminDashboard = () => {
               <li className="flex items-center gap-2">
                 <FaCalendarAlt className="text-blue-500" />
                 Workshop – June 5
+              </li>
+              <li className="flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-500" />
+                Graduation – July 10
               </li>
             </ul>
           </div>

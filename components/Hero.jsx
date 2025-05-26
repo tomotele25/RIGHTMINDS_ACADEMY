@@ -4,7 +4,7 @@ import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
 const Hero = () => {
   return (
-    <div className=" py-12 lg:py-0 px-6 sm:px-8 bg-white lg:px-10 pt-20  sm:pt-0 lg:pt-20">
+    <div className=" py-12 lg:py-0 px-6 sm:px-8 bg-white lg:px-10 pt-32  sm:pt-0 lg:pt-14">
       <div></div>
       <div className="sm:flex  h-full items-center  sm:justify-between  sm:py-28">
         <div className="grid gap-6 sm:gap-8  ">
@@ -54,12 +54,12 @@ const Hero = () => {
             </Link>
           </span>
         </div>
-        <div className=" pt-6 sm:pt-0 lg:pt-0">
+        <div className="  flex justify-center pt-6 sm:pt-0 lg:pt-0">
           <Image
             className="rounded-md"
             src="/Hero.png"
-            width={350}
-            height={350}
+            width={550}
+            height={250}
           />
         </div>
       </div>

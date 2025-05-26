@@ -6,7 +6,7 @@ import Reviews from "@/components/Reviews";
 import Features from "@/components/Features";
 import Courses from "@/components/Courses";
 import Lp_Footer from "@/components/Lp_Footer";
-
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import Subscription from "@/components/Subscription";
 import Faq from "@/components/Faq";
 
@@ -29,6 +29,7 @@ export default function Home() {
         <Reviews />
         <Faq />
         <Lp_Footer />
+        <ScrollToTopButton />
       </main>
     </div>
   );

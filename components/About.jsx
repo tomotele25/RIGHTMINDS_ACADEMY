@@ -24,7 +24,15 @@ const About = () => {
         <h1 className="text-black">About us</h1>
       </div>
       <div className="grid px-6 py-10 lg:gap-16 sm:px-8 lg:px-10 sm:flex sm:justify-between lg:justify-between lg:flex w-full">
-        <div className="w-full lg:w-8/12 sm:w-8/12">
+        <div className="w-full h-fit flex l justify-center pt-10 sm:pt-0 sm:w-2/3 lg:w-2/3">
+          <img
+            src="/About (2).png"
+            height={500}
+            width={500}
+            className="h-full "
+          />
+        </div>
+        <div className="w-full h-fit lg:w-8/12 sm:w-8/12">
           <p className="text-black leading-relaxed text-lg">
             <span className="text-center sm:text-right text-2xl sm:text-4xl">
               {textArray[currentText]}
@@ -42,9 +50,6 @@ const About = () => {
             build something great together! --- Would you like to add more
             details about your services or company vision?
           </p>
-        </div>
-        <div className="w-full flex justify-center pt-10 sm:pt-0 sm:w-2/3 lg:w-2/3">
-          <img src="/About (2).png" className="h-full sm:w-10/12 lg:w-2/3" />
         </div>
       </div>
 
