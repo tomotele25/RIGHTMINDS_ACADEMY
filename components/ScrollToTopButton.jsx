@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,7 +29,7 @@ const ScrollToTopButton = () => {
       }`}
       aria-label="Scroll to top"
     >
-      <ArrowUp size={20} />
+      <FaArrowUp size={20} />
     </button>
   );
 };
