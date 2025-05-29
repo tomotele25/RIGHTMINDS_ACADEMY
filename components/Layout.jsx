@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import Loader from "./Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const Layout = ({ children }) => {
   const [loading, setLoading] = useState(false);
@@ -16,11 +17,15 @@ const Layout = ({ children }) => {
   const { data: session, status } = useSession();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isActive, setIsActive] = useState(pathname);
+  const [anouncementNo, setAnouncementNo] = useState([]);
+
+  // Use environment variable or fallback
+  const BACKENDURL = "http://localhost:5001";
 
   const menuItems = [
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
-    { id: "/admin_dashboard", icon: "brain.svg", name: "quiz" },
+    { id: "/quiz/Quiz", icon: "brain.svg", name: "quiz" },
     { id: "/Ai_Assistant", icon: "wand-sparkles.svg", name: "AI Assistant" },
     { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
     {
@@ -41,6 +46,13 @@ const Layout = ({ children }) => {
     setIsActive(pathname);
   }, [pathname]);
 
+  // Redirect unauthenticated users
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
+
   const logout = async (e) => {
     e.preventDefault();
 
@@ -58,13 +70,11 @@ const Layout = ({ children }) => {
       }
     );
 
-    // Add a delay before performing signOut
     if (session?.user?.role === "student") {
       setTimeout(async () => {
         try {
-          await signOut({ redirect: false }); // Prevent automatic redirection
+          await signOut({ redirect: false }); // Prevent automatic redirect
 
-          // Update the toast to success
           toast.update(toastId, {
             render: "Logout successful!",
             type: "success",
@@ -72,12 +82,10 @@ const Layout = ({ children }) => {
             autoClose: 2000,
           });
 
-          // Wait before redirecting to allow the success toast to be seen
           setTimeout(() => {
-            router.push("/"); // Redirect after logout
+            router.push("/");
           }, 2000);
         } catch (error) {
-          // Handle error and update toast
           toast.update(toastId, {
             render: "Logout failed. Please try again.",
             type: "error",
@@ -89,9 +97,28 @@ const Layout = ({ children }) => {
     }
   };
 
+  // Fetch announcements inside useEffect properly
+  useEffect(() => {
+    const getNumberOfAnouncement = async () => {
+      try {
+        const response = await axios.get(`${BACKENDURL}/api/getAnnouncements`);
+        if (response?.data?.success) {
+          setAnouncementNo(response.data.announcements);
+          console.log(
+            "number of anouncements fetched successfully",
+            response.data.announcements
+          );
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getNumberOfAnouncement();
+  }, [BACKENDURL]);
+
+  // While redirecting, show nothing or loader
   if (status === "unauthenticated") {
-    router.push("/");
-    return;
+    return null;
   }
 
   return (
@@ -181,7 +208,7 @@ const Layout = ({ children }) => {
                   <img src="/bell.svg" alt="Notifications" />
                 </Link>
                 <div className="bg-red-600 text-white absolute bottom-4 left-3 text-xs h-4 w-4 flex justify-center items-center rounded-full">
-                  <p className="text-[10px]">3</p>
+                  <p className="text-[10px]">{anouncementNo.length}</p>
                 </div>
               </span>
               <Link href="/Profile" className="flex items-center gap-3">

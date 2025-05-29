@@ -140,6 +140,7 @@ const Course = () => {
                 <img
                   src={course.image}
                   alt={course.title}
+                  loading="lazy"
                   className="w-full h-40 object-cover rounded-md mb-4"
                 />
                 <div className="space-y-2">

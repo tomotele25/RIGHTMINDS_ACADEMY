@@ -1,85 +1,90 @@
 "use client";
+
 import React, { useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+import { useRouter } from "next/navigation";
 
-const PDFReader = () => {
-  const [notes, setNotes] = useState("");
+// Fix pdf.js worker error
+pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
+export default function PDFReader() {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [doneReading, setDoneReading] = useState(false);
+  const router = useRouter();
 
-  const handleDone = () => {
-    alert("Done reading! Proceed to the quiz.");
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
   };
 
-  const handleBack = () => {
-    if (typeof window !== "undefined") {
-      window.history.back();
-    }
+  const goBack = () => {
+    router.back();
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white grid grid-cols-1 lg:grid-cols-3 gap-8 p-6">
-      {/* Back Button */}
-      <button
-        onClick={handleBack}
-        className="absolute top-6 left-6 z-50 bg-slate-800 hover:bg-slate-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
-      >
-        &larr; Back
-      </button>
+    <div className="min-h-screen bg-gray-900 text-white grid grid-cols-1 lg:grid-cols-3">
+      {/* PDF Section */}
+      <div className="lg:col-span-2 p-4">
+        <div className="bg-white rounded-lg shadow-lg p-4 max-h-[90vh] overflow-auto">
+          <Document
+            file="/sample-report.pdf"
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            {Array.from(new Array(numPages), (_, index) => (
+              <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+            ))}
+          </Document>
+        </div>
 
-      {/* PDF Viewer Section */}
-      <div
-        className="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden"
-        style={{ height: "90vh" }}
-      >
-        <embed
-          src="/sample-report.pdf"
-          type="application/pdf"
-          width="100%"
-          height="100%"
-          className="block"
-          title="PDF Viewer"
-        />
+        {/* Done Button & Back */}
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row justify-between items-center">
+          <button
+            onClick={goBack}
+            className="bg-slate-800 px-4 py-2 rounded text-white hover:bg-slate-700"
+          >
+            ← Go Back
+          </button>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={doneReading}
+              onChange={() => setDoneReading(!doneReading)}
+              className="accent-green-500 w-4 h-4"
+            />
+            Done Reading
+          </label>
+        </div>
       </div>
 
       {/* Sidebar */}
-      <div className="flex flex-col space-y-6">
+      <div className="p-4 space-y-6">
         {/* Notes Section */}
-        <div className="bg-slate-800 rounded-lg p-4 flex flex-col flex-grow">
-          <h2 className="font-semibold mb-2 text-white">Your Notes</h2>
+        <div className="bg-slate-800 rounded-lg p-4">
+          <h2 className="font-semibold mb-2">Your Notes</h2>
           <textarea
-            rows={10}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Write your thoughts here..."
-            className="w-full p-3 rounded-md bg-gray-700 text-white resize-none focus:outline-none focus:ring-2 focus:ring-slate-500 transition"
+            rows={6}
+            placeholder="Write your thoughts..."
+            className="w-full p-2 rounded bg-gray-700 text-white resize-none outline-none"
           />
         </div>
 
         {/* Creator Comments */}
         <div className="bg-slate-800 rounded-lg p-4">
-          <h2 className="font-semibold mb-2 text-white">Creator's Notes</h2>
-          <p className="text-gray-300 text-sm">
-            📌 Remember to focus on the core principles in this section. You’ll
-            need them for the quiz.
+          <h2 className="font-semibold mb-2">Creator's Notes</h2>
+          <p className="text-sm text-gray-300">
+            📌 Focus on the key ideas here. They’ll come up in your quiz.
           </p>
         </div>
 
         {/* AI Assistant Placeholder */}
         <div className="bg-slate-800 rounded-lg p-4">
-          <h2 className="font-semibold mb-2 text-white">AI Assistant</h2>
-          <p className="text-gray-400 text-sm italic">
-            Coming soon: Ask questions about this PDF and get instant help!
+          <h2 className="font-semibold mb-2">AI Assistant</h2>
+          <p className="text-sm text-gray-400">
+            Coming soon: Ask questions and get instant answers from AI!
           </p>
         </div>
-
-        {/* Done Button */}
-        <button
-          onClick={handleDone}
-          className="mt-auto bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-md transition duration-300"
-        >
-          Done Reading
-        </button>
       </div>
     </div>
   );
-};
-
-export default PDFReader;
+}
