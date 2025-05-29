@@ -109,9 +109,8 @@ export default function AdminLayout({ children }) {
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-opacity-30 z-40 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
-          aria-hidden="true"
         />
       )}
 
@@ -121,7 +120,7 @@ export default function AdminLayout({ children }) {
           isSidebarOpen ? "translate-x-0" : "-translate-x-64"
         } transition-transform lg:translate-x-0 lg:relative shadow-lg flex flex-col overflow-y-auto`}
       >
-        {/* Sidebar header */}
+        {/* Sidebar Header */}
         <div className="flex justify-between items-center pb-4 border-b">
           <h1 className="text-xl font-extrabold text-indigo-700 select-none">
             Learnova
@@ -144,8 +143,8 @@ export default function AdminLayout({ children }) {
                     .slice(groupStart, groupStart + 3)
                     .map(({ href, icon: Icon, label }) =>
                       href ? (
-                        <Link key={label} href={href} legacyBehavior={false}>
-                          <span
+                        <Link key={label} href={href}>
+                          <div
                             onClick={handleNavClick}
                             className={`flex items-center gap-3 p-2 rounded-md text-sm font-medium transition-all cursor-pointer ${
                               isActive(href)
@@ -156,7 +155,7 @@ export default function AdminLayout({ children }) {
                           >
                             <Icon className="text-lg" />
                             <span>{label}</span>
-                          </span>
+                          </div>
                         </Link>
                       ) : (
                         <div
@@ -190,7 +189,7 @@ export default function AdminLayout({ children }) {
         {children}
       </main>
 
-      {/* Toast notifications */}
+      {/* Toast Notifications */}
       <ToastContainer
         position="top-right"
         autoClose={2000}
