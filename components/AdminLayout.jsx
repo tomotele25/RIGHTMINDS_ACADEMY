@@ -117,7 +117,7 @@ export default function AdminLayout({ children }) {
 
       {/* Sidebar */}
       <aside
-        className={`bg-white w-64 p-4 z-10 fixed h-full transform ${
+        className={`bg-white w-64 p-4 z-50 fixed h-full transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-64"
         } transition-transform lg:translate-x-0 lg:relative shadow-lg flex flex-col overflow-y-auto`}
       >
