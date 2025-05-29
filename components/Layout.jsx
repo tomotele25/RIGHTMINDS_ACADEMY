@@ -10,6 +10,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
+// Import FontAwesome icons from react-icons/fa
+import {
+  FaList,
+  FaBookOpen,
+  FaBrain,
+  FaMagic,
+  FaBell,
+  FaChartLine,
+  FaGlobeAmericas,
+  FaShieldAlt,
+  FaUserCircle,
+  FaSignOutAlt,
+} from "react-icons/fa";
+
 const Layout = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const pathname = usePathname();
@@ -23,24 +37,25 @@ const Layout = ({ children }) => {
   const BACKENDURL =
     "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
+  // Map menu items with React icons instead of image strings
   const menuItems = [
-    { id: "/student_dashboard", icon: "list.svg", name: "overview" },
-    { id: "/Course", icon: "book-open.svg", name: "Courses" },
-    { id: "/Quiz", icon: "brain.svg", name: "quiz" },
-    { id: "/Ai_Assistant", icon: "wand-sparkles.svg", name: "AI Assistant" },
-    { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
+    { id: "/student_dashboard", icon: <FaList />, name: "overview" },
+    { id: "/Course", icon: <FaBookOpen />, name: "Courses" },
+    { id: "/Quiz", icon: <FaBrain />, name: "quiz" },
+    { id: "/Ai_Assistant", icon: <FaMagic />, name: "AI Assistant" },
+    { id: "/Anouncement", icon: <FaBell />, name: "Anouncement" },
     {
       id: "/Progress_Tracker",
-      icon: "/chart-line.svg",
+      icon: <FaChartLine />,
       name: "Progress Tracker",
     },
     {
       id: "/DiscussionPlatform",
-      icon: "/earth.svg",
+      icon: <FaGlobeAmericas />,
       name: "Discusion and Forum",
     },
-    { id: "/Settings", icon: "shield.svg", name: "Settings" },
-    { id: "/Profile", icon: "circle-user-round.svg", name: "Profile" },
+    { id: "/Settings", icon: <FaShieldAlt />, name: "Settings" },
+    { id: "/Profile", icon: <FaUserCircle />, name: "Profile" },
   ];
 
   useEffect(() => {
@@ -137,6 +152,7 @@ const Layout = ({ children }) => {
             <button
               onClick={() => setSidebarOpen(!isSidebarOpen)}
               className="lg:hidden"
+              aria-label="Close sidebar"
             >
               <FiX color="black" size={30} />
             </button>
@@ -151,8 +167,13 @@ const Layout = ({ children }) => {
                     {menuItems
                       .slice(groupStart, groupStart + 3)
                       .map((link, index) => (
-                        <Link key={index} href={link.id} className="block">
-                          <span
+                        <Link
+                          key={index}
+                          href={link.id}
+                          passHref
+                          legacyBehavior
+                        >
+                          <a
                             className={`flex items-center gap-2 p-2 rounded-md transition-all ${
                               isActive === link.id
                                 ? "bg-blue-500 text-white"
@@ -160,13 +181,9 @@ const Layout = ({ children }) => {
                             }`}
                             onClick={() => setIsActive(link.id)}
                           >
-                            <img
-                              src={link.icon}
-                              alt={link.name}
-                              className="w-5 h-5"
-                            />
+                            <span className="w-5 h-5">{link.icon}</span>
                             <p className="text-sm font-medium">{link.name}</p>
-                          </span>
+                          </a>
                         </Link>
                       ))}
                   </div>
@@ -177,13 +194,17 @@ const Layout = ({ children }) => {
 
           {/* Logout */}
           <div className="mt-auto pt-4 border-t">
-            <button onClick={logout} className="w-full text-left">
+            <button
+              onClick={logout}
+              className="w-full text-left"
+              aria-label="Logout"
+            >
               <span
                 className={`flex items-center gap-2 p-2 rounded-md transition-all hover:bg-red-500 hover:text-white ${
                   isActive === "logout" ? "bg-red-500 text-white" : "text-black"
                 }`}
               >
-                <img src="/log-out.svg" alt="Logout" className="w-5 h-5" />
+                <FaSignOutAlt className="w-5 h-5" />
                 <span className="text-sm font-medium">Logout</span>
               </span>
             </button>
@@ -197,6 +218,7 @@ const Layout = ({ children }) => {
             <button
               onClick={() => setSidebarOpen(!isSidebarOpen)}
               className="lg:hidden"
+              aria-label="Open sidebar"
             >
               <FiMenu size={30} color="black" />
             </button>
@@ -205,25 +227,29 @@ const Layout = ({ children }) => {
             </h2>
             <div className="flex items-center space-x-6">
               <span className="relative">
-                <Link href="/Anouncement">
-                  <img src="/bell.svg" alt="Notifications" />
+                <Link href="/Anouncement" passHref legacyBehavior>
+                  <a aria-label="Notifications">
+                    <FaBell size={24} color="black" />
+                  </a>
                 </Link>
                 <div className="bg-red-600 text-white absolute bottom-4 left-3 text-xs h-4 w-4 flex justify-center items-center rounded-full">
                   <p className="text-[10px]">{anouncementNo.length}</p>
                 </div>
               </span>
-              <Link href="/Profile" className="flex items-center gap-3">
-                <span className="text-black capitalize hidden md:block text-sm text-right">
-                  {session?.user?.firstname}
-                  <br /> {session?.user?.lastname}
-                </span>
-                <img
-                  src="/Ellipse 514 (6).svg"
-                  className="rounded-full"
-                  width={40}
-                  height={40}
-                  alt="User"
-                />
+              <Link href="/Profile" passHref legacyBehavior>
+                <a className="flex items-center gap-3">
+                  <span className="text-black capitalize hidden md:block text-sm text-right">
+                    {session?.user?.firstname}
+                    <br /> {session?.user?.lastname}
+                  </span>
+                  <img
+                    src="/Ellipse 514 (6).svg"
+                    className="rounded-full"
+                    width={40}
+                    height={40}
+                    alt="User"
+                  />
+                </a>
               </Link>
             </div>
           </header>

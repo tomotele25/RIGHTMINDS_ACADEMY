@@ -109,7 +109,7 @@ export default function AdminLayout({ children }) {
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0  bg-opacity-30 z-40 md:hidden"
+          className="fixed inset-0 bg-opacity-30 z-40 md:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         />
@@ -144,7 +144,7 @@ export default function AdminLayout({ children }) {
                     .slice(groupStart, groupStart + 3)
                     .map(({ href, icon: Icon, label }) =>
                       href ? (
-                        <Link key={label} href={href} passHref>
+                        <Link key={label} href={href} legacyBehavior={false}>
                           <span
                             onClick={handleNavClick}
                             className={`flex items-center gap-3 p-2 rounded-md text-sm font-medium transition-all cursor-pointer ${
