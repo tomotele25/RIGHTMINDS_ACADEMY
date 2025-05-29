@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const BACKENDURL = "http://localhost:5001";
+import axios from "axios";
 
 const Quiz = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -13,16 +13,19 @@ const Quiz = () => {
   const [levelFilter, setLevelFilter] = useState("");
   const router = useRouter();
 
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch(`${BACKENDURL}/api/getAllQuiz`);
-        if (!response.ok) throw new Error("Failed to fetch quizzes");
-        const data = await response.json();
-        setQuizzes(data);
-        setFilteredQuizzes(data);
+        const response = await axios.get(`${BACKENDURL}/api/getAllQuiz`);
+        setQuizzes(response.data);
+        setFilteredQuizzes(response.data);
       } catch (err) {
-        setError(err.message || "Something went wrong");
+        setError(
+          err.response?.data?.message || err.message || "Something went wrong"
+        );
       } finally {
         setLoading(false);
       }

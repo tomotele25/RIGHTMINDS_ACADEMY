@@ -26,7 +26,7 @@ const Layout = ({ children }) => {
   const menuItems = [
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },
     { id: "/Course", icon: "book-open.svg", name: "Courses" },
-    { id: "/quiz/Quiz", icon: "brain.svg", name: "quiz" },
+    { id: "/Quiz", icon: "brain.svg", name: "quiz" },
     { id: "/Ai_Assistant", icon: "wand-sparkles.svg", name: "AI Assistant" },
     { id: "/Anouncement", icon: "bell.svg", name: "Anouncement" },
     {
