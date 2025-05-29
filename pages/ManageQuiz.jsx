@@ -5,7 +5,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const BACKENDURL = "http://localhost:5001";
+const BACKENDURL =
+  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
 export default function ManageQuiz() {
   const [quizzes, setQuizzes] = useState([]);

@@ -20,7 +20,8 @@ const Layout = ({ children }) => {
   const [anouncementNo, setAnouncementNo] = useState([]);
 
   // Use environment variable or fallback
-  const BACKENDURL = "http://localhost:5001";
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   const menuItems = [
     { id: "/student_dashboard", icon: "list.svg", name: "overview" },

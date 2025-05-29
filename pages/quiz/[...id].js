@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import axios from "axios";
 
-const BACKENDURL = "http://localhost:5001";
+const BACKENDURL =
+  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
 const QuizPage = () => {
   const router = useRouter();
