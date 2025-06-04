@@ -1,36 +1,59 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const Profile = () => {
   const [editing, setEditing] = useState(false);
-  const [firstname, setFirstname] = useState("Tomotele");
-  const [lastname, setLastname] = useState("Christopher");
-  const [username, setUsername] = useState("0whhwyjnana99w7nns");
-  const [phone, setPhone] = useState("123-456-7890");
-  const [bio, setBio] = useState("I know my thing.");
   const { data: session } = useSession();
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+
+  const [firstname, setFirstname] = useState(session?.user?.firstname || "");
+  const [lastname, setLastname] = useState(session?.user?.lastname || "");
+  const [username, setUsername] = useState(session?.user?.username || "");
+  const [phone, setPhone] = useState("");
+  const [bio, setBio] = useState("");
+
   const handleImageChange = () => {
     console.log("Open image uploader...");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Submitted values:", {
+    const updatedData = {
       firstname,
       lastname,
       username,
-      phone,
+      contact: phone, // backend expects 'contact'
       bio,
-    });
-    setEditing(false); // turn off edit mode after saving
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.patch(
+        `${BACKENDURL}/users/me`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Profile updated:", response.data);
+      setEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("There was an error updating your profile.");
+    }
   };
 
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-10">
-        {/* Profile Card */}
         <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center text-center space-y-4">
           <div className="relative w-28 h-28">
             <img
@@ -47,9 +70,9 @@ const Profile = () => {
           </div>
           <div>
             <h1 className="text-xl capitalize font-semibold text-gray-900">
-              {session?.user?.firstname} {session?.user?.lastname}
+              {firstname} {lastname}
             </h1>
-            <p className="text-sm text-gray-500">{session?.user?.username}</p>
+            <p className="text-sm text-gray-500">{username}</p>
           </div>
           <button
             onClick={() => setEditing((prev) => !prev)}
@@ -59,7 +82,6 @@ const Profile = () => {
           </button>
         </div>
 
-        {/* Info Section */}
         <form
           onSubmit={handleSubmit}
           className="bg-white shadow rounded-xl p-6 space-y-6"
@@ -68,7 +90,6 @@ const Profile = () => {
             Personal Info
           </h2>
 
-          {/* First Name */}
           <div className="flex flex-col space-y-1">
             <label className="text-sm font-medium text-gray-600">
               First Name
@@ -80,11 +101,10 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{session?.user?.firstname}</p>
+              <p className="text-gray-800">{firstname}</p>
             )}
           </div>
 
-          {/* Last Name */}
           <div className="flex flex-col space-y-1">
             <label className="text-sm font-medium text-gray-600">
               Last Name
@@ -96,11 +116,10 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{session?.user?.lastname}</p>
+              <p className="text-gray-800">{lastname}</p>
             )}
           </div>
 
-          {/* Email */}
           <div className="flex flex-col space-y-1">
             <label className="text-sm font-medium text-gray-600">
               Username
@@ -112,11 +131,10 @@ const Profile = () => {
                 className="border rounded px-3 py-2 text-sm"
               />
             ) : (
-              <p className="text-gray-800">{session?.user?.username}</p>
+              <p className="text-gray-800">{username}</p>
             )}
           </div>
 
-          {/* Phone */}
           <div className="flex flex-col space-y-1">
             <label className="text-sm font-medium text-gray-600">Phone</label>
             {editing ? (
@@ -130,7 +148,6 @@ const Profile = () => {
             )}
           </div>
 
-          {/* Bio */}
           <div className="flex flex-col space-y-1">
             <label className="text-sm font-medium text-gray-600">Bio</label>
             {editing ? (
@@ -144,7 +161,6 @@ const Profile = () => {
             )}
           </div>
 
-          {/* Save Button */}
           {editing && (
             <button
               type="submit"
@@ -155,7 +171,6 @@ const Profile = () => {
           )}
         </form>
 
-        {/* Social Links */}
         <div className="bg-white shadow rounded-xl p-6 space-y-4">
           <h2 className="text-lg font-bold text-gray-800 border-b pb-2">
             Social Links

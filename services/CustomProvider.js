@@ -7,31 +7,35 @@ const BACKENDURL =
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
   credentials: {
-    email: { type: "text", field: "email" },
-    password: { type: "password", field: "password" },
+    email: { type: "text", label: "Email" },
+    password: { type: "password", label: "Password" },
   },
-  secret: process.env.NEXTAUTH_SECRET,
-  authorize: async (credentials) => {
-    console.log("authorize function reached");
-    console.log("Backend :", BACKENDURL);
+  async authorize(credentials) {
+    console.log("Authorize function reached");
     try {
-      const url = `${BACKENDURL}/api/auth/login`;
-      const response = await axios.post(url, credentials);
-      console.log("resp: ", response.data);
+      const response = await axios.post(
+        `${BACKENDURL}/api/auth/login`,
+        credentials
+      );
+      const data = response.data;
 
-      if (
-        response.data.success &&
-        response.data.accessToken &&
-        response.data.user
-      )
+      if (data.success && data.accessToken && data.refreshToken && data.user) {
         return {
-          access_token: response.data.accessToken,
-          USER: response.data.user,
-          username: response.data.user.username,
+          access_token: data.accessToken,
+          refresh_token: data.refreshToken,
+          expires_in: data.expiresIn,
+          USER: data.user,
+          username: data.user.username,
         };
+      }
+
       return null;
     } catch (error) {
-      console.error("Error: ", error);
+      console.error(
+        "Authorization error:",
+        error.response?.data || error.message
+      );
+      throw new Error("Invalid credentials");
     }
   },
 });

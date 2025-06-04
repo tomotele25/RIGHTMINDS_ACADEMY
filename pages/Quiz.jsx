@@ -65,7 +65,7 @@ const Quiz = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen max-w-4xl mx-auto p-6">
+      <div className="min-h-screen text-black max-w-4xl mx-auto p-6">
         <h1 className="text-3xl font-semibold mb-8 text-center text-gray-900">
           Available Quizzes
         </h1>
@@ -161,7 +161,7 @@ const Quiz = () => {
               </div>
 
               <button
-                onClick={() => router.push(`/quiz/${quiz._id}`)}
+                onClick={() => router.push(`/Quiz/${quiz._id}`)}
                 className="mt-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md px-5 py-2 shadow-sm transition duration-300"
                 aria-label={`Start quiz ${quiz.title}`}
               >

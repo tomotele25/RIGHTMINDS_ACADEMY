@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "@/components/AdminLayout";
 import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
 
+// Initialize Supabase client
+const supabase = createClient(
+  "https://dygdwwlixswawfovcreh.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5Z2R3d2xpeHN3YXdmb3ZjcmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNjg5NzQsImV4cCI6MjA2NDY0NDk3NH0.cxgMSH3HbK28jE3JdZPHDVIbbybOUc2sUkxyG8Nnqfc"
+);
+
+// Initial form state
 const initialForm = {
   id: null,
   title: "",
@@ -17,22 +25,22 @@ const initialForm = {
 const BACKENDURL =
   "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dayafwzz7/upload";
-const CLOUDINARY_UPLOAD_PRESET = "image-preset";
-
 const ManageCourse = () => {
   const [courses, setCourses] = useState([]);
   const [formData, setFormData] = useState(initialForm);
   const [isEditing, setIsEditing] = useState(false);
+
   const [selectedImageFile, setSelectedImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedCourseFile, setSelectedCourseFile] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingCourseFile, setUploadingCourseFile] = useState(false);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(`${BACKENDURL}/api/getCourses`);
-        if (response.data?.success) {
-          setCourses(response.data.courses);
+        const res = await axios.get(`${BACKENDURL}/api/getCourses`);
+        if (res.data?.success) {
+          setCourses(res.data.courses);
         }
       } catch (error) {
         console.error("Error fetching courses:", error.message);
@@ -41,22 +49,25 @@ const ManageCourse = () => {
     fetchCourses();
   }, []);
 
-  const uploadImageToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+  const uploadToSupabase = async (file, folder) => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `${folder}/${fileName}`;
 
-    try {
-      const response = await fetch(CLOUDINARY_URL, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      return data.secure_url || null;
-    } catch (error) {
-      console.error("Cloudinary upload error:", error);
+    const { error } = await supabase.storage
+      .from("uploads")
+      .upload(filePath, file, { cacheControl: "3600", upsert: false });
+
+    if (error) {
+      console.error("Supabase upload error:", error.message);
       return null;
     }
+
+    const { data: publicData } = supabase.storage
+      .from("uploads")
+      .getPublicUrl(filePath);
+
+    return publicData.publicUrl;
   };
 
   const fetchCreateCourse = async (payload) => {
@@ -69,10 +80,7 @@ const ManageCourse = () => {
         setCourses((prev) => [...prev, response.data.course]);
       }
     } catch (error) {
-      console.error(
-        "Error creating course:",
-        error.response?.data || error.message
-      );
+      console.error("Create error:", error.response?.data || error.message);
     }
   };
 
@@ -84,16 +92,11 @@ const ManageCourse = () => {
       );
       if (response.data?.success) {
         setCourses((prev) =>
-          prev.map((course) =>
-            course._id === id ? response.data.course : course
-          )
+          prev.map((c) => (c._id === id ? response.data.course : c))
         );
       }
     } catch (error) {
-      console.error(
-        "Error updating course:",
-        error.response?.data || error.message
-      );
+      console.error("Update error:", error.response?.data || error.message);
     }
   };
 
@@ -102,26 +105,37 @@ const ManageCourse = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
+  const handleImageSelect = (e) => setSelectedImageFile(e.target.files[0]);
+  const handleCourseFileSelect = (e) =>
+    setSelectedCourseFile(e.target.files[0]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let imageUrl = formData.image;
+    let courseFileUrl = formData.url;
 
     if (selectedImageFile) {
-      const uploadedUrl = await uploadImageToCloudinary(selectedImageFile);
-      if (!uploadedUrl) {
-        alert("Image upload failed. Please try again.");
-        return;
-      }
-      imageUrl = uploadedUrl;
+      setUploadingImage(true);
+      const uploadedImageUrl = await uploadToSupabase(
+        selectedImageFile,
+        "images"
+      );
+      setUploadingImage(false);
+      if (!uploadedImageUrl) return alert("Image upload failed.");
+      imageUrl = uploadedImageUrl;
+    }
+
+    if (selectedCourseFile) {
+      setUploadingCourseFile(true);
+      const folder = formData.type === "pdf" ? "pdfs" : "videos";
+      const uploadedCourseUrl = await uploadToSupabase(
+        selectedCourseFile,
+        folder
+      );
+      setUploadingCourseFile(false);
+      if (!uploadedCourseUrl) return alert("Course file upload failed.");
+      courseFileUrl = uploadedCourseUrl;
     }
 
     const payload = {
@@ -132,8 +146,8 @@ const ManageCourse = () => {
       description: formData.description,
       type: formData.type,
       image: imageUrl,
-      pdfUrl: formData.type === "pdf" ? formData.url : null,
-      videoUrl: formData.type === "video" ? formData.url : null,
+      pdfUrl: formData.type === "pdf" ? courseFileUrl : null,
+      videoUrl: formData.type === "video" ? courseFileUrl : null,
     };
 
     if (isEditing) {
@@ -144,7 +158,7 @@ const ManageCourse = () => {
 
     setFormData(initialForm);
     setSelectedImageFile(null);
-    setImagePreview(null);
+    setSelectedCourseFile(null);
     setIsEditing(false);
   };
 
@@ -157,11 +171,11 @@ const ManageCourse = () => {
       instructor: course.instructor,
       description: course.description,
       type: course.type,
-      url: course.pdfUrl || course.videoUrl || "",
       image: course.image || "",
+      url: course.pdfUrl || course.videoUrl || "",
     });
     setSelectedImageFile(null);
-    setImagePreview(course.image || null);
+    setSelectedCourseFile(null);
     setIsEditing(true);
   };
 
@@ -174,7 +188,7 @@ const ManageCourse = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-6 rounded shadow max-w-full grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
+          className="bg-white p-6 rounded shadow grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"
         >
           <input
             type="text"
@@ -183,7 +197,7 @@ const ManageCourse = () => {
             onChange={handleChange}
             placeholder="Course Title"
             required
-            className="border p-2 rounded text-black w-full col-span-1 sm:col-span-2 md:col-span-3"
+            className="border p-2 rounded col-span-full"
           />
           <input
             type="text"
@@ -192,7 +206,7 @@ const ManageCourse = () => {
             onChange={handleChange}
             placeholder="Department"
             required
-            className="border p-2 rounded text-black w-full"
+            className="border p-2 rounded"
           />
           <input
             type="number"
@@ -201,7 +215,7 @@ const ManageCourse = () => {
             onChange={handleChange}
             placeholder="Level (e.g. 100)"
             required
-            className="border p-2 rounded text-black w-full"
+            className="border p-2 rounded"
           />
           <input
             type="text"
@@ -210,7 +224,7 @@ const ManageCourse = () => {
             onChange={handleChange}
             placeholder="Instructor"
             required
-            className="border p-2 rounded text-black w-full"
+            className="border p-2 rounded"
           />
           <textarea
             name="description"
@@ -218,80 +232,99 @@ const ManageCourse = () => {
             onChange={handleChange}
             placeholder="Description"
             required
-            className="border p-2 rounded text-black w-full col-span-1 sm:col-span-2 md:col-span-3"
-            rows={3}
+            className="border p-2 rounded col-span-full"
           />
           <select
             name="type"
             value={formData.type}
             onChange={handleChange}
-            className="border p-2 rounded text-black w-full"
+            className="border p-2 rounded"
           >
             <option value="pdf">PDF</option>
             <option value="video">Video</option>
           </select>
-          <input
-            type="url"
-            name="url"
-            value={formData.url}
-            onChange={handleChange}
-            placeholder={formData.type === "pdf" ? "PDF URL" : "Video URL"}
-            required
-            className="border p-2 rounded text-black w-full col-span-1 sm:col-span-2"
-          />
 
-          <div className="col-span-1 flex flex-col">
-            <label className="mb-1 text-sm font-medium text-gray-700">
-              Upload Course Image
-            </label>
-            <input type="file" accept="image/*" onChange={handleFileSelect} />
-            {imagePreview && (
+          <div className="flex flex-col">
+            <label>Upload {formData.type === "pdf" ? "PDF" : "Video"}</label>
+            <input
+              type="file"
+              accept={formData.type === "pdf" ? ".pdf" : "video/*"}
+              onChange={handleCourseFileSelect}
+              required={!isEditing}
+            />
+            {uploadingCourseFile && (
+              <p className="text-blue-600 text-sm">Uploading...</p>
+            )}
+            {formData.url && !selectedCourseFile && (
+              <a
+                href={formData.url}
+                target="_blank"
+                className="text-blue-700 underline"
+              >
+                View current file
+              </a>
+            )}
+          </div>
+
+          <div className="flex flex-col">
+            <label>Upload Course Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageSelect}
+              required={!isEditing}
+            />
+            {uploadingImage && (
+              <p className="text-blue-600 text-sm">Uploading...</p>
+            )}
+            {formData.image && !selectedImageFile && (
               <img
-                src={imagePreview}
+                src={formData.image}
                 alt="Preview"
-                className="mt-2 max-h-40 object-contain rounded"
+                className="w-24 h-16 object-cover mt-2"
               />
             )}
           </div>
 
           <button
             type="submit"
-            className="bg-blue-600 text-white font-bold py-2 px-4 rounded col-span-1 sm:col-span-2 md:col-span-3 hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white py-2 px-4 rounded mt-4 col-span-full"
           >
             {isEditing ? "Update Course" : "Create Course"}
           </button>
         </form>
 
-        <hr className="my-6" />
-
-        <h3 className="text-xl font-semibold mb-4 text-black">
-          Existing Courses
-        </h3>
-        <ul>
-          {courses.map((course) => (
-            <li
-              key={course._id}
-              className="mb-3 cursor-pointer border p-4 rounded hover:bg-gray-100"
-              onClick={() => handleEdit(course)}
-            >
-              <div className="flex items-center space-x-4">
-                {course.image && (
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                )}
-                <div>
-                  <p className="font-semibold text-black">{course.title}</p>
-                  <p className="text-gray-600 text-sm">
-                    Dept: {course.department} | Level: {course.level}
-                  </p>
-                </div>
+        {/* Course List */}
+        <div className="mt-10">
+          <h3 className="text-xl font-semibold mb-4">Existing Courses</h3>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {courses.map((course) => (
+              <div
+                key={course._id}
+                className="border rounded p-4 bg-white shadow"
+              >
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-32 object-cover mb-2 rounded"
+                />
+                <h4 className="font-bold">{course.title}</h4>
+                <p className="text-sm">
+                  {course.department} - {course.level} Level
+                </p>
+                <p className="text-xs text-gray-600 mt-1">
+                  {course.instructor}
+                </p>
+                <button
+                  onClick={() => handleEdit(course)}
+                  className="mt-3 text-blue-600 hover:underline text-sm"
+                >
+                  Edit
+                </button>
               </div>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+        </div>
       </div>
     </AdminLayout>
   );

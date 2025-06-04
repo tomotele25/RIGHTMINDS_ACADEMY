@@ -28,8 +28,7 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      {loading && <Loader />}
-      <Component {...pageProps} />
+      {loading ? <Loader /> : <Component {...pageProps} />}
     </SessionProvider>
   );
 }

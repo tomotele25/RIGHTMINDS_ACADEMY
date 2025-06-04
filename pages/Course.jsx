@@ -132,9 +132,9 @@ const Course = () => {
 
           {/* Course Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-10 px-4 md:px-10">
-            {filteredCourses.map((course) => (
+            {filteredCourses.map((course, index) => (
               <div
-                key={course.id}
+                key={index}
                 className="bg-white hover:shadow-2xl transition duration-300 shadow p-5 rounded-lg flex flex-col justify-between"
               >
                 <img
@@ -153,9 +153,7 @@ const Course = () => {
                   <p className="text-slate-700 text-sm font-medium">
                     {course.department} / {course.level} Level
                   </p>
-                  <Link href="/PDFReader" className="text-black">
-                    CLick this
-                  </Link>
+
                   <p className="text-gray-500 text-sm">
                     Instructor: {course.instructor}
                   </p>
@@ -163,7 +161,13 @@ const Course = () => {
 
                 <div className="flex gap-2 mt-4">
                   <Link
-                    href={showVideos ? course.videoUrl : course.pdfUrl}
+                    href={
+                      showVideos
+                        ? course.videoUrl
+                        : `/PDFReader?pdfUrl=${encodeURIComponent(
+                            course.pdfUrl
+                          )}`
+                    }
                     className="bg-blue-700 p-3 justify-center text-white flex items-center text-sm text-center rounded-lg w-full hover:bg-blue-800 transition"
                   >
                     View Course
