@@ -155,7 +155,7 @@ const Quiz = () => {
                 <p className="text-gray-700 text-sm mb-4">
                   <strong>Questions:</strong>{" "}
                   {quiz.questionsCount ?? quiz.questions?.length ?? "?"}{" "}
-                  &nbsp;|&nbsp; <strong>Duration:</strong>{" "}
+                  &nbsp;|&nbsp; <strong>Duration:{quiz.duration}</strong>{" "}
                   {quiz.duration || "N/A"}
                 </p>
               </div>

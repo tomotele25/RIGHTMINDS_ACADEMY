@@ -3,7 +3,6 @@ import axios from "axios";
 
 const BACKENDURL =
   "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
-
 const CustomProvider = CredentialsProvider({
   name: "customProvider",
   credentials: {
@@ -21,6 +20,7 @@ const CustomProvider = CredentialsProvider({
 
       if (data.success && data.accessToken && data.refreshToken && data.user) {
         return {
+          id: data.user.id,
           access_token: data.accessToken,
           refresh_token: data.refreshToken,
           expires_in: data.expiresIn,

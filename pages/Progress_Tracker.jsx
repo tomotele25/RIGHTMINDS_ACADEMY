@@ -1,10 +1,8 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-// Badge Component
 function StatusBadge({ status }) {
   const colorMap = {
     Completed: "bg-green-100 text-green-800",
@@ -12,14 +10,15 @@ function StatusBadge({ status }) {
   };
   return (
     <span
-      className={`text-xs font-medium px-2 py-1 rounded-full ${colorMap[status]}`}
+      className={`text-xs font-medium px-2 py-1 rounded-full ${
+        colorMap[status] || "bg-gray-100 text-gray-800"
+      }`}
     >
       {status}
     </span>
   );
 }
 
-// Progress Bar Component
 function ProgressBar({ value }) {
   return (
     <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -31,7 +30,6 @@ function ProgressBar({ value }) {
   );
 }
 
-// Card Component
 function Card({ course }) {
   return (
     <div className="bg-white rounded-2xl shadow-md border border-neutral-200 p-6 space-y-4">
@@ -44,7 +42,7 @@ function Card({ course }) {
       <p className="text-sm text-gray-500">{course.progress}% completed</p>
 
       {course.status !== "Completed" && (
-        <Link href={`/courses/${course.id}`}>
+        <Link href={`/courses/${course.quizId}`}>
           <span className="inline-block px-4 mt-5 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             Continue
           </span>
@@ -56,17 +54,49 @@ function Card({ course }) {
 
 export default function ProgressPage() {
   const [filter, setFilter] = useState("All");
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
 
-  const courses = [
-    { id: 1, title: "JavaScript Basics", status: "In Progress", progress: 45 },
-    { id: 2, title: "HTML & CSS", status: "Completed", progress: 100 },
-    { id: 3, title: "React Essentials", status: "In Progress", progress: 70 },
-  ];
+  const BACKENDURL =
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+  useEffect(() => {
+    const fetchProgress = async () => {
+      if (status !== "authenticated" || !session) return;
+
+      console.log("Fetching for studentId:", session.user.id);
+
+      try {
+        const res = await fetch(
+          `${BACKENDURL}/api/progress/${session.user.id}`
+        );
+        const data = await res.json();
+        console.log("Progress data:", data);
+        setCourses(data);
+      } catch (err) {
+        console.error("Failed to fetch progress:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProgress();
+  }, [status, session]);
 
   const filteredCourses =
     filter === "All"
       ? courses
       : courses.filter((course) => course.status === filter);
+
+  if (status === "loading") {
+    return (
+      <Layout>
+        <div className="text-center py-10 text-gray-500">
+          Loading session...
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -74,7 +104,6 @@ export default function ProgressPage() {
         <div className="max-w-7xl mx-auto space-y-6">
           <h1 className="text-2xl font-bold text-gray-800">Course Progress</h1>
 
-          {/* Filter Buttons */}
           <div className="flex gap-3 flex-wrap">
             {["All", "In Progress", "Completed"].map((status) => (
               <button
@@ -91,18 +120,21 @@ export default function ProgressPage() {
             ))}
           </div>
 
-          {/* Filtered Courses */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            {filteredCourses.map((course) => (
-              <Card key={course.id} course={course} />
-            ))}
+          {loading ? (
+            <p className="text-gray-500">Loading progress...</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+              {filteredCourses.map((course) => (
+                <Card key={course.quizId} course={course} />
+              ))}
 
-            {filteredCourses.length === 0 && (
-              <p className="text-gray-500 text-sm col-span-full">
-                No courses found.
-              </p>
-            )}
-          </div>
+              {filteredCourses.length === 0 && (
+                <p className="text-gray-500 text-sm col-span-full">
+                  No courses found.
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </Layout>

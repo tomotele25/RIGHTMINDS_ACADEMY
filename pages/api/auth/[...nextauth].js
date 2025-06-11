@@ -4,7 +4,6 @@ import { CustomProvider } from "@/services/CustomProvider";
 
 const BACKENDURL =
   "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
-
 async function refreshAccessToken(token) {
   try {
     console.log("Refreshing with refresh token:", token.refreshToken);
@@ -47,7 +46,7 @@ export const nextOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.USER._id;
+        token.id = user.id;
         token.email = user.USER.email;
         token.role = user.USER.role;
         token.firstname = user.USER.firstname;
