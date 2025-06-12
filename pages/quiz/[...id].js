@@ -4,8 +4,8 @@ import Layout from "@/components/Layout";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-const BACKENDURL = "http://localhost:5001";
-
+const BACKENDURL =
+  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 const QuizPage = () => {
   const router = useRouter();
   const { id } = router.query;
