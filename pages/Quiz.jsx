@@ -136,7 +136,7 @@ const Quiz = () => {
         <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2">
           {filteredQuizzes.map((quiz) => (
             <div
-              key={quiz._id}
+              key={quiz.id}
               className="bg-white rounded-lg shadow-md p-5 flex flex-col justify-between hover:shadow-lg transition-shadow duration-300"
             >
               <div>
@@ -161,7 +161,7 @@ const Quiz = () => {
               </div>
 
               <button
-                onClick={() => router.push(`/Quiz/${quiz._id}`)}
+                onClick={() => router.push(`/Quiz/${quiz.id}`)}
                 className="mt-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md px-5 py-2 shadow-sm transition duration-300"
                 aria-label={`Start quiz ${quiz.title}`}
               >
