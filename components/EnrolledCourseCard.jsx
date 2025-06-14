@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function EnrolledCourseCard() {
   const BACKENDURL =
-    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+    "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   const [courses, setCourses] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
