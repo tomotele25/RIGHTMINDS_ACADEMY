@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const Course = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -11,6 +11,7 @@ const Course = () => {
   const [levels, setLevels] = useState([]);
   const [selectedDepartment, setSelectedDepartment] =
     useState("All Departments");
+  const { data: session } = useSession();
   const [selectedLevel, setSelectedLevel] = useState("All Levels");
 
   const BACKENDURL =
@@ -55,7 +56,7 @@ const Course = () => {
     fetchLevels();
   }, []);
 
-  // Filter courses based on selections and type
+  // Filter courses
   const filteredCourses = courses.filter((course) => {
     if (showVideos && course.type !== "video") return false;
     if (!showVideos && course.type !== "pdf") return false;
@@ -73,6 +74,29 @@ const Course = () => {
 
     return true;
   });
+
+  // Handle activity and open course
+  const handleViewCourse = async (course) => {
+    try {
+      const today = new Date().toISOString().split("T")[0];
+
+      if (session.user.id) {
+        await axios.post(`${BACKENDURL}/api/activity/${session.user.id}`, {
+          date: today,
+        });
+      }
+
+      if (showVideos) {
+        window.open(course.videoUrl, "_blank");
+      } else {
+        window.location.href = `/PDFReader?pdfUrl=${encodeURIComponent(
+          course.pdfUrl
+        )}`;
+      }
+    } catch (error) {
+      console.error("Failed to record activity:", error);
+    }
+  };
 
   return (
     <Layout>
@@ -124,7 +148,7 @@ const Course = () => {
               </select>
             </div>
 
-            {/* Search input (still static, you can add search logic later) */}
+            {/* Search (not functional yet) */}
             <div className="flex-1 grid gap-2">
               <label className="text-sm font-medium text-black">Search</label>
               <input
@@ -185,16 +209,12 @@ const Course = () => {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <Link
-                  href={
-                    showVideos
-                      ? course.videoUrl
-                      : `/PDFReader?pdfUrl=${encodeURIComponent(course.pdfUrl)}`
-                  }
+                <button
+                  onClick={() => handleViewCourse(course)}
                   className="bg-blue-700 p-3 justify-center text-white flex items-center text-sm text-center rounded-lg w-full hover:bg-blue-800 transition"
                 >
                   View Course
-                </Link>
+                </button>
 
                 <button
                   onClick={() => setSelectedCourse(course)}

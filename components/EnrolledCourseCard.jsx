@@ -1,125 +1,84 @@
+import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function EnrolledCourseCard() {
-  const enrolledCourseContents = [
-    {
-      image: "course_card.png",
-      status: "Completed",
-      title: "Human Anatomy",
-      details:
-        "Explore the structure of the human body, understand major systems, and build a strong foundation in anatomy.",
-      progress: "100%",
-    },
-    {
-      image: "course_card.png",
-      status: "In progress",
-      title: "Physiology",
-      details:
-        "Dive into the functions of body systems and learn how different organs work together to maintain life.",
-      progress: "65%",
-    },
-    {
-      image: "course_card1.png",
-      status: "Not started",
-      title: "Microbiology",
-      details:
-        "Discover the microscopic world of bacteria, viruses, and fungi, and their roles in health and disease.",
-      progress: "0%",
-    },
-    {
-      image: "course_card2.png",
-      status: "In progress",
-      title: "Pharmacology",
-      details:
-        "Understand drug actions, therapeutic uses, and how medications affect different body systems.",
-      progress: "40%",
-    },
-    {
-      image: "course_card3.png",
-      status: "Completed",
-      title: "Pathology",
-      details:
-        "Learn about the nature of diseases, their causes, and the changes they bring to tissues and organs.",
-      progress: "100%",
-    },
-    {
-      image: "course_card.png",
-      status: "In progress",
-      title: "Medical Ethics",
-      details:
-        "Examine the principles guiding healthcare decisions, patient rights, and professional responsibilities.",
-      progress: "20%",
-    },
-  ];
+  const BACKENDURL =
+    process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+
+  const [courses, setCourses] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const content = enrolledCourseContents[currentIndex];
-  const progressPercent = parseInt(content.progress);
+  const content = courses[currentIndex];
 
   const handleNextClick = () => {
-    if (currentIndex < enrolledCourseContents.length - 1) {
+    if (currentIndex < courses.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
+
   const handlePrevClick = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
   };
 
+  useEffect(() => {
+    const getCourses = async () => {
+      try {
+        const res = await axios.get(`${BACKENDURL}/api/getCourses`);
+        setCourses(res.data.courses || []);
+      } catch (error) {
+        console.error("Failed to fetch courses:", error);
+      }
+    };
+    getCourses();
+  }, []);
+
+  if (!content) {
+    return (
+      <p className="text-center text-gray-500">
+        You haven't enrolled in any courses yet.
+      </p>
+    );
+  }
+
   return (
     <div className="flex justify-between items-center gap-4 w-full">
-      <span
+      {/* Prev Button */}
+      <button
         onClick={handlePrevClick}
-        className="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition"
+        disabled={currentIndex === 0}
+        className={`p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition ${
+          currentIndex === 0
+            ? "opacity-50 cursor-not-allowed"
+            : "cursor-pointer"
+        }`}
       >
-        <img
-          src="/circle-arrow-left.svg"
-          height={35}
-          width={35}
-          alt="Previous"
-        />
-      </span>
+        <img src="/move-left.svg" height={35} width={35} alt="Previous" />
+      </button>
 
-      <div className="bg-white p-6 rounded-lg shadow-lg w-auto">
+      {/* Course Card */}
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         {/* Image */}
         <div className="relative mb-4">
           <img
-            src={content.image}
-            alt="Course Image"
+            src={content.image || "/default-course.jpg"}
+            alt="Course"
             className="rounded-lg w-full h-40 object-cover"
           />
-          <div className="absolute top-2 right-2 bg-green-500 text-white text-xs font-semibold py-1 px-3 rounded-lg">
-            {content.progress}
-          </div>
         </div>
 
-        {/* Course Title */}
+        {/* Title & Description */}
         <h3 className="text-lg font-semibold text-gray-800 mb-2">
           {content.title}
         </h3>
-
-        {/* Course Description */}
         <p className="text-sm text-gray-600 mb-4">{content.details}</p>
-
-        {/* Progress Bar */}
-        <div className="mb-4">
-          <div className="text-xs font-semibold text-gray-600 mb-1">
-            {content.status}
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div
-              className="bg-blue-500 h-2.5 rounded-full"
-              style={{ width: `${progressPercent}% ` }}
-            ></div>
-          </div>
-        </div>
 
         {/* Buttons */}
         <div className="flex justify-between items-center">
           <Link
-            href="/Course"
+            href={`/Course?id=${content._id}`} // or `/Course/${content._id}` if that's your routing style
             className="bg-blue-500 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-600 transition duration-300"
           >
             Continue
@@ -130,12 +89,18 @@ export default function EnrolledCourseCard() {
         </div>
       </div>
 
-      <span
+      {/* Next Button */}
+      <button
         onClick={handleNextClick}
-        className="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition"
+        disabled={currentIndex === courses.length - 1}
+        className={`p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition ${
+          currentIndex === courses.length - 1
+            ? "opacity-50 cursor-not-allowed"
+            : "cursor-pointer"
+        }`}
       >
-        <img src="/circle-arrow-right.svg" height={35} width={35} alt="Next" />
-      </span>
+        <img src="/move-right.svg" height={35} width={35} alt="Next" />
+      </button>
     </div>
   );
 }

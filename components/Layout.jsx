@@ -10,20 +10,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-// Icons
-import {
-  FaList,
-  FaBookOpen,
-  FaBrain,
-  FaMagic,
-  FaBell,
-  FaChartLine,
-  FaGlobeAmericas,
-  FaShieldAlt,
-  FaUserCircle,
-  FaSignOutAlt,
-} from "react-icons/fa";
-
 const Layout = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const pathname = usePathname();
@@ -37,23 +23,27 @@ const Layout = ({ children }) => {
     "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
   const menuItems = [
-    { id: "/student_dashboard", icon: <FaList />, name: "Overview" },
-    { id: "/Course", icon: <FaBookOpen />, name: "Courses" },
-    { id: "/Quiz", icon: <FaBrain />, name: "Quiz" },
-    { id: "/Ai_Assistant", icon: <FaMagic />, name: "AI Assistant" },
-    { id: "/Anouncement", icon: <FaBell />, name: "Announcement" },
+    {
+      id: "/student_dashboard",
+      icon: "/table-of-contents.svg",
+      name: "Overview",
+    },
+    { id: "/Course", icon: "/book.svg", name: "Courses" },
+    { id: "/Quiz", icon: "/brain (1).svg", name: "Quiz" },
+    { id: "/Ai_Assistant", icon: "/bot.svg", name: "AI Assistant" },
+    { id: "/Anouncement", icon: "/bell-ring.svg", name: "Announcement" },
     {
       id: "/Progress_Tracker",
-      icon: <FaChartLine />,
+      icon: "/trending-up.svg",
       name: "Progress Tracker",
     },
     {
       id: "/DiscussionPlatform",
-      icon: <FaGlobeAmericas />,
+      icon: "/message-circle (1).svg",
       name: "Discussion & Forum",
     },
-    { id: "/Settings", icon: <FaShieldAlt />, name: "Settings" },
-    { id: "/Profile", icon: <FaUserCircle />, name: "Profile" },
+    { id: "/Settings", icon: "/settings.svg", name: "Settings" },
+    { id: "/Profile", icon: "/user-round-pen.svg", name: "Profile" },
   ];
 
   useEffect(() => {
@@ -173,7 +163,7 @@ const Layout = ({ children }) => {
                                 : "text-slate-700 group-hover:text-blue-700"
                             }`}
                           >
-                            {link.icon}
+                            {<img src={link.icon} />}
                           </span>
                           <p className="text-sm font-medium">{link.name}</p>
                           {link.id === "/Anouncement" &&
@@ -195,7 +185,7 @@ const Layout = ({ children }) => {
         <div className="mt-auto pt-4 border-t">
           <button onClick={logout} className="w-full text-left">
             <span className="group flex items-center gap-2 p-2 rounded-md transition-all hover:bg-red-500 hover:text-white text-black">
-              <FaSignOutAlt className="w-5 h-5 group-hover:text-white text-red-500" />
+              <img src="/log-out (1).svg" alt="" />
               <span className="text-sm font-medium">Logout</span>
             </span>
           </button>
@@ -219,11 +209,11 @@ const Layout = ({ children }) => {
             <span className="relative">
               <Link href="/Anouncement" passHref legacyBehavior>
                 <a>
-                  <FaBell className="text-black" size={24} />
+                  <img src="/bell-ring.svg" alt="" />
                 </a>
               </Link>
               {announcementCount > 0 && (
-                <div className="bg-red-600 text-white absolute -bottom-1 -left-1 text-xs h-5 w-5 flex justify-center items-center rounded-full">
+                <div className="bg-red-600 text-white absolute -bottom-1 -left-1 text-xs h-4 w-4 flex justify-center items-center rounded-full">
                   <p className="text-[12px]">{announcementCount}</p>
                 </div>
               )}
@@ -235,7 +225,7 @@ const Layout = ({ children }) => {
                   <br /> {session?.user?.lastname}
                 </span>
                 <img
-                  src="/Ellipse 514 (6).svg"
+                  src="/user.svg"
                   className="rounded-full"
                   width={40}
                   height={40}

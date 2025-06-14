@@ -11,10 +11,15 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [firstname, setFirstname] = useState(""); // new state for first name
-  const [lastname, setLastname] = useState(""); // new state for last name
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // New touched states
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [usernameTouched, setUsernameTouched] = useState(false);
+
   const router = useRouter();
 
   const BACKENDURL =
@@ -53,8 +58,8 @@ const Signup = () => {
         email,
         username,
         password,
-        firstname, // sending firstname to the backend
-        lastname, // sending lastname to the backend
+        firstname,
+        lastname,
         role: "student",
       });
 
@@ -118,13 +123,18 @@ const Signup = () => {
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setUsernameTouched(true);
+                }}
                 className={`w-full px-4 py-2 border rounded-md text-black ${
-                  isUsernameValid ? "border-gray-300" : "border-red-500"
+                  usernameTouched && !isUsernameValid
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
                 placeholder="Create a username"
               />
-              {!isUsernameValid && (
+              {usernameTouched && !isUsernameValid && (
                 <p className="text-xs text-red-500">
                   Username must be at least 3 characters
                 </p>
@@ -138,13 +148,18 @@ const Signup = () => {
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setEmailTouched(true);
+                }}
                 className={`w-full px-4 py-2 border rounded-md text-black ${
-                  isEmailValid ? "border-gray-300" : "border-red-500"
+                  emailTouched && !isEmailValid
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
                 placeholder="you@example.com"
               />
-              {!isEmailValid && (
+              {emailTouched && !isEmailValid && (
                 <p className="text-xs text-red-500">Invalid email format</p>
               )}
             </div>

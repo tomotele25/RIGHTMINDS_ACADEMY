@@ -153,7 +153,7 @@ export default function AdminLayout({ children }) {
                             }`}
                             aria-current={isActive(href) ? "page" : undefined}
                           >
-                            <Icon className="text-lg" />
+                            <Icon className="text-base" />
                             <span>{label}</span>
                           </div>
                         </Link>
