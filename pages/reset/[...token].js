@@ -14,6 +14,7 @@ const ResetPasswordPage = () => {
   const resetToken = Array.isArray(token) ? token[0] : token;
 
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -22,10 +23,19 @@ const ResetPasswordPage = () => {
     }
   }, [resetToken]);
 
-  if (!resetToken) return <p>Invalid or missing token</p>;
+  if (!resetToken)
+    return <p style={{ color: "black" }}>Invalid or missing token</p>;
+
+  const passwordsMatch = password === confirmPassword;
 
   const handleReset = async (e) => {
     e.preventDefault();
+
+    if (!passwordsMatch) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -47,15 +57,46 @@ const ResetPasswordPage = () => {
         onSubmit={handleReset}
         className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full"
       >
-        <h2 className="text-xl font-bold text-gray-800 mb-4">Reset Password</h2>
+        <h2 className="text-xl font-bold mb-4" style={{ color: "black" }}>
+          Reset Password
+        </h2>
         <input
           type="password"
           placeholder="New password"
-          className="w-full h-10 px-4 mb-3 border border-gray-300 rounded"
+          className="w-full h-10 px-4 mb-3 border rounded"
+          style={{
+            color: "black",
+            borderColor: password
+              ? passwordsMatch
+                ? "green"
+                : "red"
+              : "#d1d5db", // gray if empty
+          }}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <input
+          type="password"
+          placeholder="Confirm new password"
+          className="w-full h-10 px-4 mb-3 border rounded"
+          style={{
+            color: "black",
+            borderColor: confirmPassword
+              ? passwordsMatch
+                ? "green"
+                : "red"
+              : "#d1d5db",
+          }}
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+        {!passwordsMatch && confirmPassword && (
+          <p style={{ color: "red", marginTop: "-12px", marginBottom: "12px" }}>
+            Passwords do not match
+          </p>
+        )}
         <button
           type="submit"
           disabled={loading}
