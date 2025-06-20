@@ -4,8 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const BACKENDURL =
-  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+const BACKENDURL = "http://localhost:5001";
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -43,7 +42,7 @@ const ResetPasswordPage = () => {
         password,
       });
       toast.success("Password reset successfully");
-      setTimeout(() => router.push("/login"), 2000);
+      setTimeout(() => router.push("/Login"), 2000);
     } catch (err) {
       toast.error(err.response?.data?.message || "Error resetting password");
     } finally {

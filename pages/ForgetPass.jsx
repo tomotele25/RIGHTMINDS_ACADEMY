@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const BACKENDURL =
-  "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
+const BACKENDURL = "http://localhost:5001";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
