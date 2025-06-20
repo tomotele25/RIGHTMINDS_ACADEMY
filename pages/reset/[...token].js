@@ -1,35 +1,37 @@
-"use client";
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const BACKENDURL =
   "https://rightmindsbackend.vercel.app" || "http://localhost:5001";
 
 const ResetPasswordPage = () => {
-  const { token } = useParams();
-  useEffect(() => {
-    console.log("Token from URL:", token);
-  }, [token]);
-
-  if (!token) return <p>Invalid or missing token</p>;
   const router = useRouter();
+  const { token } = router.query;
+
+  const resetToken = Array.isArray(token) ? token[0] : token;
+
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (resetToken) {
+      console.log("Token from URL:", resetToken);
+    }
+  }, [resetToken]);
+
+  if (!resetToken) return <p>Invalid or missing token</p>;
 
   const handleReset = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `${BACKENDURL}/api/auth/reset-password/${token}`,
-        {
-          password,
-        }
-      );
-
+      await axios.post(`${BACKENDURL}/api/auth/reset-password/${resetToken}`, {
+        password,
+      });
       toast.success("Password reset successfully");
       setTimeout(() => router.push("/login"), 2000);
     } catch (err) {
