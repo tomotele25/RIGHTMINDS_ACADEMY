@@ -173,9 +173,12 @@ const Login = () => {
             <input type="checkbox" className="accent-slate-700" />
             Remember me
           </label>
-          <span className="text-slate-700 cursor-pointer">
+          <Link
+            href="/ForgetPass"
+            className="text-slate-700 underline cursor-pointer"
+          >
             Forgot password?
-          </span>
+          </Link>
         </div>
 
         {/* Submit Button */}
