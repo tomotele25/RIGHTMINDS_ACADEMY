@@ -9,6 +9,11 @@ const BACKENDURL =
 
 const ResetPasswordPage = () => {
   const { token } = useParams();
+  useEffect(() => {
+    console.log("Token from URL:", token);
+  }, [token]);
+
+  if (!token) return <p>Invalid or missing token</p>;
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
